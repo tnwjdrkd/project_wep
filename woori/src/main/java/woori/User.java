@@ -4,6 +4,7 @@ public class User {
 	private String userID;
 	private String userPassword;
 	private String userName;
+	private String userBirth;
 	private String userPhone;
 	private String userAddress;
 	private String userNickname;
@@ -25,6 +26,12 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public String getUserBirth() {
+		return userBirth;
+	}
+	public void setUserBirth(String userBirth) {
+		this.userBirth = userBirth;
+	}
 	public String getUserPhone() {
 		return userPhone;
 	}
@@ -43,6 +50,7 @@ public class User {
 	public void setUserNickname(String userNickname) {
 		this.userNickname = userNickname;
 	}
+
 	
 	
 }

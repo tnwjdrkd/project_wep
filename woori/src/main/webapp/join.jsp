@@ -25,35 +25,35 @@
         <h1>우리 동네 커뮤니케이션</h1>
         <fieldset>
             <legend>회원가입</legend>
-            <form action='project_userinfo.js' method='post'>
+            <form method="post" action="joinAction.jsp">
                 <table>
                     <tr>
                         <td><label for="id">아이디 </label></td>
-                        <td><input id="id" type="text" name="id"></td>
+                        <td><input id="id" type="text" name="userID"></td>
                     </tr>
                     <tr>
                         <td><label for="password">비밀번호</label></td>
-                        <td><input id="password" type="password" name="pw"></td>
+                        <td><input id="password" type="password" name="userPassword"></td>
                     </tr>
                     <tr>
                         <td><label for="name">이름</label></td>
-                        <td><input id="name" type="text" name="name"></td>
+                        <td><input id="name" type="text" name="userName"></td>
                     </tr>
                     <tr>
                         <td><label for="birth">생년월일</label></td>
-                        <td><input id="birth" type="text" name="birth"></td>
+                        <td><input id="birth" type="text" name="userBirth"></td>
                     </tr>
                     <tr>
                         <td><label for="phonenum">휴대전화번호</label></td>
-                        <td><input id="phonenum" type="text" name="phonenum"></td>
+                        <td><input id="phonenum" type="text" name="userPhone"></td>
                     </tr>
                     <tr>
                         <td><label for="address">주소</label></td>
-                        <td><input id="address" type="text" name="address"></td>
+                        <td><input id="address" type="text" name="userAddress"></td>
                     </tr>
                     <tr>
                         <td><label for="nickname">닉네임</label></td>
-                        <td><input id="nickname" type="text" name="nickname"></td>
+                        <td><input id="nickname" type="text" name="userNickname"></td>
                     </tr>
                     <tr>
                         <td colspan="2"><br><input type="submit"  style="width:275px; height:45px;" value="가입하기"></td>

@@ -207,16 +207,12 @@
                     	<form method="post" action="loginAction.jsp">
                        		 <tr>
                          	   <td><label for="id">아이디</label></td>
-                         	   <div class="form-group">
-                         	   <td><input id="id" class="form-control" type="text" name="userID"></td>
-                         	   </div>
-                         	   <td rowspan="2"><input id="submit"  style="width:55px; height:45px; background:rgb(204, 180, 180)" type="submit" class="btn btn-primary form-control" value="입력"></td>
+                         	   <td><input id="id" type="text" name="userID"></td>
+                         	   <td rowspan="2"><input id="submit"  style="width:55px; height:45px; background:rgb(204, 180, 180)" type="submit" value="입력"></td>
                        		 </tr>
                        		 <tr>
                          	   <td><label for="password">비밀번호</label></td>
-                         	   <div class="form-group">
-                         	   <td><input id="password" class="form-control" type="password" name="userPassword"></td>
-                         	   </div>
+                         	   <td><input id="password" type="password" name="userPassword"></td>
                       		 </tr>
     	               	 	  <tr>
                           	 	 <td></td><td></td>
