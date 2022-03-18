@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+    <title>게시글 작성</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1,maximum-scale=1">
+    <style>
+        * {
+            font-family: '빙그레체' , 'Malgun Gothic' , Gothic, sans-serif;
+        }
+        h1 {
+                color:  rgb(138, 111, 111);
+                text-align: center;
+                text-shadow: 2px 2px 1px rgb(194, 157, 157);
+        }
+        /* 반응형_스마트폰*/
+        @media screen and (max-width:767px){
+        body{ width: auto }
+        }
+    </style>
+</head>
+<body>
+    <h1>게시글 작성</h1>
+    <form>
+        <table>
+            <tr>
+                <td><label for="title">제목</label></td>
+                <td><input id="title" type="text" name="title" style="width:400px;"></td>
+            </tr>
+            <tr>
+                <td><label for="content">내용</label></td>
+                <td><input id="content" type="text" name="content" style="width:400px;  height:400px;"></td>
+            </tr>
+        </table>
+        <input id="submit" type="submit" name="submit" style="width:100px;" value="등록">
+    </form>
+</body>
