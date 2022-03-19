@@ -20,6 +20,10 @@
             }
             h3{text-align: right;}
         </style>
+        <%-- date picker 선언_jquery UI --%>
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     </head>
     <body>
         <h1>우리 동네 커뮤니케이션</h1>
@@ -41,11 +45,23 @@
                     </tr>
                     <tr>
                         <td><label for="birth">생년월일</label></td>
-                        <td><input id="birth" type="text" name="userBirth"></td>
+                        <td><input id="birth" type="text" name="userBirth">
+                        	<script>
+    						    $(function() {
+    					            $("#birth").datepicker({
+    					                dateFormat: 'yy-mm-dd', showOtherMonths: true, showMonthAfterYear:true
+    					                ,changeYear: true, changeMonth: true, yearSuffix: "년"
+    					                ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+    					            	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트	
+    					           		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
+    					            });
+    					            $('#datepicker').datepicker('setDate', 'today');    
+    					        });
+   							</script></td>
                     </tr>
                     <tr>
                         <td><label for="phonenum">휴대전화번호</label></td>
-                        <td><input id="phonenum" type="text" name="userPhone"></td>
+                        <td><input id="phonenum" type="text" placeholder="-없이 입력해주세요." name="userPhone"></td>
                     </tr>
                     <tr>
                         <td><label for="address">주소</label></td>

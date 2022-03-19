@@ -39,7 +39,7 @@
 			} else {
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
-				script.println("location.href = 'login.jsp'"); // 회원가입 완료 시 main.jsp로 이동
+				script.println("location.href = 'login.jsp'"); // 회원가입 완료 시 login.jsp로 이동
 				script.println("</script>");
 			}
 		}

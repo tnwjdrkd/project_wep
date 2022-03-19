@@ -19,7 +19,9 @@
 		if (result == 1) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("location.href = 'main.jsp'");
+			script.println("alert('로그인하셨습니다.')");   // 로그인 성공 알림
+			script.println("history.back()");
+			//script.println("location.href = 'main.jsp'");
 			script.println("</script>");
 		}
 		if (result == 0) {
