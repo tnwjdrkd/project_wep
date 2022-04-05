@@ -62,6 +62,5 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 			return -1; // DB 오류
-		}
-	
+		}	
 }
