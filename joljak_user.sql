@@ -39,8 +39,6 @@ CREATE TABLE `user` (
 --
 
 LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('kim','1234','김선유','1999-09-04','01012341234','경기도 의왕시 내손동','선유'),('ththt','12121','김선유','1999-09-04','01012341234','경기도 안양시 평촌동','dxfb');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
