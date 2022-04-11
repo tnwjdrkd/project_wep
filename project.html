@@ -95,7 +95,7 @@
                 overflow: hidden;
             }
             article {
-                margin: 0 10px 20px 100px;
+                margin: 0 80px 20px 80px;
                 padding: 10px 0;
                 border-bottom: 1px dashed rgb(138, 111, 111);
             }
@@ -106,19 +106,19 @@
                 padding-bottom: 10px;
             }
         </style>
-        <!-- 로그인  -->
+        <!-- 로그인 전  -->
         <style>
-            .login {
+            .before_login {
                 width: 300px; height: 150px;
                 background-color: rgb(255, 255, 255);
                 border: 1px solid rgb(138, 111, 111);
                 margin: 5px; padding: 15px;
             }
-            .login > h1 {
+            .before_login > h1 {
                 text-align: center;
                 font-weight: 500;
             }
-            .login >a {
+            .before_login >a {
                 text-align: center;
                 font-size: 14px;
             }
@@ -138,10 +138,32 @@
             #join:hover {
                 color: brown;
             }
-        /* 반응형_스마트폰*/
-            @media screen and (max-width:767px){
-                body{ width: auto }
-                #main-aside { width: auto; float: none;}
+        </style>
+        <!-- 로그인 후  -->
+        <style>
+            .after_login > h1 {
+                text-align: center;
+                font-weight: 500;
+                margin: 0 0 15px 0;
+            }
+            #logout{
+                font-size: 13px;
+                font-weight: 500;
+                width: 70px;
+                height: 25px;
+                background: rgb(204, 180, 180);
+                border: 1px solid rgb(158, 158, 158);
+                cursor: pointer;
+                margin-left: 227px;
+            }
+            #logout:hover{
+                color: white;
+            }
+            .after_login{
+                width: 300px; height: 70px;
+                background-color: rgb(255, 255, 255);
+                border: 1px solid rgb(138, 111, 111);
+                margin: 5px; padding: 30px 15px 30px 15px;
             }
         </style>
         <!-- 게시판 -->
@@ -183,6 +205,7 @@
             .number-menu {
                 list-style: none;
                 display: inline-block;
+                margin-top: 5px;
             }
             .inner-number {
                 float: left;
@@ -199,7 +222,6 @@
                 background:rgb(194, 157, 157);
                 color: white;
             }
-
             #write:hover {
                 color: white;
             }
@@ -232,6 +254,23 @@
             .meeting_info {
                 font-size: 15px;
                 text-align: center;
+            }
+            #make_meeting {
+                background:rgb(204, 180, 180);
+                border:1px solid rgb(158, 158, 158);
+                font-size: 14px;
+                width: 95px;
+                height: 35px;
+                margin-top: 10px;
+            }
+            #make_meeting:hover{
+                color:white;
+                cursor: pointer;
+            }
+            /* 반응형_스마트폰*/
+                @media screen and (max-width:767px){
+                body{ width: auto }
+                #main-aside { width: auto; float: none;}
             }
         </style>
     </head>
@@ -267,7 +306,7 @@
                 </div>
             </nav>
             <aside id="main-aside">
-                <div class="login">
+                <div class="before_login">
                     <h1>로그인</h1>
                     <br>
                     <table>
@@ -285,6 +324,11 @@
                             <td><br><a href=project_join.html style="font-size: 14px; text-align: right; text-decoration:none;" id="join">회원가입</a></td>
                         </tr>
                     </table>
+                </div>
+                <div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
+                    <h1>강수정님 환영합니다.</h1> <!-- 사용자 이름 + 님 환영합니다. -->
+                    <input id="logout"  type="submit" value="로그아웃"> <!-- 클릭 시 로그아웃  -->
+                    </ul>
                 </div>
             </aside>
             <div id="content">
@@ -412,6 +456,9 @@
                                 <li class="meeting_info"><img src="leader.png" width="12")> 강수정
                                 <img src="people.png" width="12")> 5명</li>
                                 </ul>
+                        </div>
+                        <div>
+                            <input id="make_meeting"  type="button" value="모임 만들기" onClick="location.href='project_makemeeting.html'">
                         </div>
                     </article>
                     <article>
