@@ -92,7 +92,7 @@
             }
         </style>
         <!-- 본문 -->
-        <style>
+         <style>
             #content { overflow: hidden; }
             #main-aside {
                 width: 300px;
@@ -101,15 +101,13 @@
             article>div {
                 overflow: hidden;
             }
-        <!-- 본문 포스트 위쪽 내용  -->
-        <style>
             article {
-                margin: 0 10px 20px 100px;
+                margin: 0 80px 20px 80px;
                 padding: 10px 0;
                 border-bottom: 1px dashed rgb(138, 111, 111);
             }
-			.article-header { padding: 10px 0; }
-            .article-title {
+            .article-header { padding: 10px 0; }
+            .article-title { 
                 font-size: 25px;
                 font-weight: 500;
                 padding-bottom: 10px;
@@ -146,11 +144,6 @@
             }
             #join:hover {
                 color: brown;
-            }
-            /* 반응형_스마트폰*/
-            @media screen and (max-width:767px){
-                body{ width: auto }
-                #main-aside { width: auto; float: none;}
             }
         </style>
         <!-- 게시판 -->
@@ -192,6 +185,7 @@
             .number-menu {
                 list-style: none;
                 display: inline-block;
+                margin-top: 5px;
             }
             .inner-number {
                 float: left;
@@ -241,6 +235,23 @@
             .meeting_info {
                 font-size: 15px;
                 text-align: center;
+            }
+            #make_meeting {
+                background:rgb(204, 180, 180);
+                border:1px solid rgb(158, 158, 158);
+                font-size: 14px;
+                width: 95px;
+                height: 35px;
+                margin-top: 10px;
+            }
+            #make_meeting:hover{
+                color:white;
+                cursor: pointer;
+            }
+            /* 반응형_스마트폰*/
+                @media screen and (max-width:767px){
+                body{ width: auto }
+                #main-aside { width: auto; float: none;}
             }
         </style>
     </head>
@@ -312,15 +323,17 @@
                 </div>
                 <%		
 					} else {
-						userID = (String)session.getAttribute("userID");
-						out.println(userID + "님 안녕하세요.");
 				%>
-                <div class="loginout">	
-                   <!--  <h1>로그아웃</h1> -->
-                    <br>
-                    <table>
-                    	<td><br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a></td>
-                    </table>
+				<div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
+					<h1>
+                   		<%
+                    		userID = (String)session.getAttribute("userID");
+							out.println(userID + "님 환영합니니다.</br>");
+                    	%>
+                    </h1>
+                    
+                    	<br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a>
+                    
                 </div>
                 <%
 					}
