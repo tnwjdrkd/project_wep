@@ -41,7 +41,7 @@ public class BoardDAO {
 	}
 	// 닉네임 가져오기
 	public String getuserNickname(String userID) {
-		String SQL = "SELECT userNickname FROM joljak.user WHERE userID = ?";
+		String SQL = "SELECT userNickname FROM user WHERE userID = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
@@ -56,7 +56,7 @@ public class BoardDAO {
 	}
 	// 게시글 번호. 최근 글 +1 해서 다음 글번호.
 	public int getNext() { 
-		String SQL = "SELECT brdID FROM joljak.board ORDER BY brdID DESC";
+		String SQL = "SELECT brdID FROM board ORDER BY brdID DESC";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
@@ -71,7 +71,7 @@ public class BoardDAO {
 	}
 	// 게시글 작성 함수
 	public int write(String brdTitle, String userID, String brdAddress, String category, String userNickname, String brdContent) {
-		String SQL = "INSERT INTO joljak.board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext()); 		// 게시글 번호
@@ -91,7 +91,7 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
-		String SQL = "SELECT * FROM joljak.board WHERE brdID < ? AND brdAvailable = 1 ORDER BY brdID DESC LIMIT 10";
+		String SQL = "SELECT * FROM board WHERE brdID < ? AND brdAvailable = 1 ORDER BY brdID DESC LIMIT 10";
 		ArrayList<Board> list = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -118,7 +118,7 @@ public class BoardDAO {
 	
 	// 페이징 처리 위한 함수
 	public boolean nextPage(int pageNumber) {
-		String SQL = "SELECT * FROM joljak.board WHERE brdID < ? AND brdAvailable = 1";
+		String SQL = "SELECT * FROM board WHERE brdID < ? AND brdAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);

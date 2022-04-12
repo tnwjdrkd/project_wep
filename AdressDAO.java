@@ -1,4 +1,4 @@
-package joljak;
+package address;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +27,7 @@ public class AdressDAO {
         } catch(Exception e) {
             System.out.println("Connect Failed!");
             e.printStackTrace();
-        } /*finally {
+        } finally {
                 try {
                     if(con != null && !con.isClosed()) {
                         con.close();
@@ -35,11 +35,11 @@ public class AdressDAO {
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
-        }*/
+        }
 	}
 	
 	  public String[] select_dong(String sido_name, String sigungu_name) {
-	        String SQL = "SELECT DISTINCT dong_name FROM joljak.address WHERE sido_name = ? AND sigungu_name = ?";
+	        String SQL = "SELECT DISTINCT dong_name FROM address WHERE sido_name = ? AND sigungu_name = ?";
 	        ArrayList<String> dong_list= new ArrayList<String>();
 	        try {
 				pstmt = con.prepareStatement(SQL);
@@ -63,7 +63,7 @@ public class AdressDAO {
 	  }
 	  
 	  public String[] select_sigungu(String sido_name) {
-	        String SQL = "SELECT DISTINCT sigungu_name FROM joljak.address WHERE sido_name = ?";
+	        String SQL = "SELECT DISTINCT sigungu_name FROM address WHERE sido_name = ?";
 	        ArrayList<String> sigungu_list= new ArrayList<String>();
 	        try {
 				pstmt = con.prepareStatement(SQL);
