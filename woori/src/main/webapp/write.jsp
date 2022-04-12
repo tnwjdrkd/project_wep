@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td><label for="content">내용</label></td>
-                    <td><input id="content" type="text" name="brdContent" style="width:400px;  height:400px;"></td>
+                    <td><textarea id="content" type="text" name="brdContent" style="width:400px;  height:400px;"></textarea></td>
                 </tr>
             </table>
             <br>

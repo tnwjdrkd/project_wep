@@ -9,6 +9,7 @@ public class Board {
 	private String userNickname;
 	private String brdDate;
 	private String brdContent;
+	private int brdCount;
 	private int brdAvailable;
 	
 	public int getBrdID() {
@@ -58,6 +59,12 @@ public class Board {
 	}
 	public void setBrdContent(String brdContent) {
 		this.brdContent = brdContent;
+	}
+	public int getBrdCount() {
+		return brdCount;
+	}
+	public void setBrdCount(int brdCount) {
+		this.brdCount = brdCount;
 	}
 	public int getBrdAvailable() {
 		return brdAvailable;

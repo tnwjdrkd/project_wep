@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import board.Board;
-
 public class BoardDAO {
 	
 	private Connection conn;
@@ -70,8 +68,8 @@ public class BoardDAO {
 		return -1; // DB 오류 경우.
 	}
 	// 게시글 작성 함수
-	public int write(String brdTitle, String userID, String brdAddress, String category, String userNickname, String brdContent) {
-		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public int write(String brdTitle, String userID, String brdAddress, String category, String userNickname, String brdContent, int brdCount) {
+		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdCount, brdAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext()); 		// 게시글 번호
@@ -82,7 +80,8 @@ public class BoardDAO {
 			pstmt.setString(6, userNickname); 	// 닉네임
 			pstmt.setString(7, getDate()); 		// 날짜
 			pstmt.setString(8, brdContent);  	// 글 내용
-			pstmt.setInt(9, 1);
+			pstmt.setInt(9, brdCount);
+			pstmt.setInt(10, 1);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,17 +106,17 @@ public class BoardDAO {
 				brd.setUserNickname(rs.getString(6));
 				brd.setBrdDate(rs.getString(7));
 				brd.setBrdContent(rs.getString(8));
-				brd.setBrdAvailable(rs.getInt(9));
+				brd.setBrdCount(rs.getInt(9));
+				brd.setBrdAvailable(rs.getInt(10));
 				list.add(brd); // 리스트에 해당 인스턴스 반환
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list; // 뽑아온 게시글 리스트 출력
-	}  // 함수를 실행시 특정한 페이지에 맞는 게시글 list 반환
+	}
 	
-	// 페이징 처리 위한 함수
-	public boolean nextPage(int pageNumber) {
+	public boolean nextPage(int pageNumber) { // 페이징 처리 위한 함수
 		String SQL = "SELECT * FROM board WHERE brdID < ? AND brdAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -131,4 +130,46 @@ public class BoardDAO {
 		}
 		return false;
 	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
+	
+	public Board getBoard(int brdID) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
+		String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, brdID);
+			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
+			if (rs.next()) {
+				Board brd = new Board();
+				brd.setBrdID(rs.getInt(1));
+				brd.setUserID(rs.getString(2)); 
+				brd.setBrdAddress(rs.getString(3)); 
+				brd.setBrdTitle(rs.getString(4)); 
+				brd.setCategory(rs.getString(5)); 
+				brd.setUserNickname(rs.getString(6));
+				brd.setBrdDate(rs.getString(7));
+				brd.setBrdContent(rs.getString(8));
+				int brdCount=rs.getInt(9);
+				brd.setBrdCount(brdCount);
+				brdCount++;
+				updatebrdCount(brdCount, brdID);
+				brd.setBrdAvailable(rs.getInt(10));
+				return brd;
+			}
+		} catch (Exception e) {
+			e.printStackTrace(); // 해당 글이 존재하지 않는 경우
+		}
+		return null; // null 반환
+	}
+	
+	public int updatebrdCount(int brdCount, int brdID) {
+		String SQL = "update board set brdCount = ? where brdID = ?";
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			pstmt.setInt(1, brdCount);
+			pstmt.setInt(2, brdID);
+			return pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1; //데이터베이스 오류
+	}
 }

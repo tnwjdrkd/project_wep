@@ -243,6 +243,12 @@
                 text-align: center;
             }
         </style>
+        <style type="text/css">
+			a, a:hover {
+			color:#000000;
+			text-decoration: none;
+			}
+		</style>
     </head>
     <body>
     	<% 
@@ -314,7 +320,7 @@
 					} else {
 				%>
                 <div class="loginout">	
-                    <h1>로그아웃</h1>
+                    <h1>암호화 로그인 확인</h1>
                     <br>
                     <table>
                     	<td><br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a></td>
@@ -337,90 +343,42 @@
                                     <td class="bbline">댓글수</td>
                                     <td class="bbline">조회수</td>
                                 </tr>
-                                <tr>
+                     	           <%	// 게시글 출력 부분. 게시글을 뽑아올 수 있도록
+										BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
+										ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
+										for(int i = 0; i < list.size(); i++) { 
+									%>
+								<tr>
+									<td class="bbline"><%= list.get(i).getBrdID() %></td>
+									<td class="bbline"><a href="view.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+									<td class="bbline"><%= list.get(i).getUserNickname() %></td>
+									<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
+									<td class="bbline"></td>
+									<td class="bbline"><%= list.get(i).getBrdCount() %></td>
+								</tr>
+									<%
+										}
+									%>
+                               <%--  <tr>
                                     <td class="bbline"></td>
                                     <td class="bbline"></td>
                                     <td class="bbline"></td>
                                     <td class="bbline"></td>
                                     <td class="bbline"></td>
                                     <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr>
+                                </tr> --%>
                             </table>
                         </div>
                         <div id="menu">
-                            <ul class="number-menu">
+                        	<ul class="number-menu">
+                        	<%
+                        	if(brdDAO.nextPage(pageNumber + 1)) {
+    						%>
+    							<li class="inner-number"><a href="main.jsp?pageNumber=<%=pageNumber + 1%>" class="btn btn-success btn-arraw-left">&lt;</a></li>
+    						<%
+    							} 
+                        	%>
+                        		
                                 <li class="inner-number"><a href="#">1</a></li>
                                 <li class="inner-number"><a href="#">2</a></li>
                                 <li class="inner-number"><a href="#">3</a></li>
@@ -431,8 +389,18 @@
                                 <li class="inner-number"><a href="#">8</a></li>
                                 <li class="inner-number"><a href="#">9</a></li>
                                 <li class="inner-number"><a href="#">10</a></li>
+                                
+                        	<%
+                        	if(pageNumber != 1)	{
+							%>
+								<li class="inner-number"><a href="main.jsp?pageNumber=<%=pageNumber - 1%>" class="btn btn-success btn-arraw-left">&gt;</a></li>
+							<%
+								} 
+							%>
+							</ul>
+                   			 <%--  
                                 <li class="inner-number"><a href="#">></a></li>
-                            </ul>
+                               --%>
                         </div>
                     	<div id="registration">
                             <input id="write"  type="button" value="글쓰기" onClick="location.href='write.jsp'">

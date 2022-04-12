@@ -34,7 +34,7 @@
 					} else {
 						BoardDAO brdDAO = new BoardDAO();    // 데이터베이스 접근 객체 생성
 						int result = brdDAO.write(board.getBrdTitle(), userID, board.getBrdAddress(),
-								board.getCategory(), brdDAO.getuserNickname(userID), board.getBrdContent());
+								board.getCategory(), brdDAO.getuserNickname(userID), board.getBrdContent(), board.getBrdCount());
 						if (result == -1) {    // DB 에러
 							PrintWriter script = response.getWriter();
 							script.println("<script>");

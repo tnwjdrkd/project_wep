@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import encrypt.BCrypt;
 
 public class UserDAO {
 	
@@ -32,7 +33,9 @@ public class UserDAO {
 			pstmt.setString(1, userID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if(rs.getString(1).equals(userPassword)) {
+//				if(rs.getString(1).equals(userPassword)) 
+				if(BCrypt.checkpw(userPassword, rs.getString("userPassword")))   // BCrypt를 이용한 패스워드 인코딩 로그인
+				{
 					return 1;  // 로그인 성공
 				}
 				else
@@ -51,7 +54,7 @@ public class UserDAO {
 			try {
 				pstmt = conn.prepareStatement(SQL);
 				pstmt.setString(1, user.getUserID());
-				pstmt.setString(2, user.getUserPassword());
+				pstmt.setString(2, BCrypt.hashpw(user.getUserPassword(), BCrypt.gensalt(10)));   //  BCrypt를 이용한 패스워드 인코딩
 				pstmt.setString(3, user.getUserName());
 				pstmt.setString(4, user.getUserBirth());
 				pstmt.setString(5, user.getUserPhone());
