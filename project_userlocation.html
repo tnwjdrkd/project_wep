@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <title>사용자 위치</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1,maximum-scale=1">
+    <style>
+        #userlocation{
+            width:800px;
+            margin: 0 auto;
+        }
+        #map{
+            width: 800px; /* 크기 임의 지정 */
+            height: 500px; /* 크기 임의 지정 */
+            border: 1px solid #a8a8a8;
+            margin-top: 100px;
+        }
+        p {
+            border: 1px solid #a8a8a8;
+            float: left;
+            padding:10px;
+        }
+        li { list-style: none; }
+        li > a { color: black; }
+        #locationinfo{
+            width:100%;
+            display:inline-block;
+            text-align: right;
+        }
+        #locationsubmit{
+            margin-top: 17px;
+            height: 42px;
+            width: 150px;
+        }
+        #locationsubmit:hover{
+            cursor: pointer;
+        }
+    /* 반응형_스마트폰*/
+        @media screen and (max-width:767px){ body{ width: auto }}
+    </style>
+</head>
+<body>
+    <div id="userlocation">
+        <div id="map">
+            <!-- 지도 삽입 -->
+        </div>
+        <div id="locationinfo">
+            <p>주소 받을 칸<!-- 주소 입력 --></p>
+            <input id="locationsubmit" type="submit" value="이 위치 사용하기"></li>
+        </div>
+    </div>
+</body>
