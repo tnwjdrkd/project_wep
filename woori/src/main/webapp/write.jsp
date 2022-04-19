@@ -12,12 +12,19 @@
             width: 500px; margin: 0 auto;
         }
         h1{
-                color:  rgb(138, 111, 111);
-                text-align: center;
-                text-shadow: 2px 2px 1px rgb(194, 157, 157);
+            color:  rgb(138, 111, 111);
+            text-align: center;
+            text-shadow: 2px 2px 1px rgb(194, 157, 157);
         }
         #submit {
             cursor: pointer;
+            background:rgb(204, 180, 180);
+            border:1px solid rgb(158, 158, 158);
+            border-radius: 3px;
+            font-size: 15px;
+        }
+        #submit:hover{
+            color:white;
         }
         #submitbtn{
             width: 100px; margin: 0 auto;
@@ -35,7 +42,7 @@
             <table id="bbwrite">
                 <tr>
                     <td><label for="title">제목</label></td>
-                    <td><input id="title" type="text" name="brdTitle" style="width:400px;"></td>
+                    <td><input id="title" type="text" name="brdTitle" style="width:400px;" autofocus="autofocus"></td>
                 </tr>
                 <tr>
                     <td><label for="content">내용</label></td>

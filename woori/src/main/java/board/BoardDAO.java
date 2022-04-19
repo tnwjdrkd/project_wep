@@ -14,7 +14,7 @@ public class BoardDAO {
 	// mysql 접속
 	public BoardDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/Woori?serverTimezone=UTC";
+			String dbURL = "jdbc:mysql://localhost:3306/joljak?serverTimezone=UTC";
 			String dbID = "root";
 			String dbPassword = "root";
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -60,8 +60,8 @@ public class BoardDAO {
 			rs = pstmt.executeQuery();
 			if(rs.next()) { // 결과가 있는 경우
 				return rs.getInt(1) + 1; // 그 다음 게시글의 번호.
-			}
-			return 1; //현재가 첫번재 게시글인 경우
+			}//else
+				return 1; //현재가 첫번재 게시글인 경우
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,11 +90,12 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
-		String SQL = "SELECT * FROM board WHERE brdID < ? AND brdAvailable = 1 ORDER BY brdID DESC LIMIT 10";
+		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? ORDER BY brdID DESC";
 		ArrayList<Board> list = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			pstmt.setInt(1, pageNumber * 10);
+			pstmt.setInt(2, (pageNumber - 1) * 10);
 			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
 			while (rs.next()) {
 				Board brd = new Board(); // 인스턴스 생성
@@ -117,10 +118,10 @@ public class BoardDAO {
 	}
 	
 	public boolean nextPage(int pageNumber) { // 페이징 처리 위한 함수
-		String SQL = "SELECT * FROM board WHERE brdID < ? AND brdAvailable = 1";
+		String SQL = "SELECT * FROM board WHERE brdID - 1 >= ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			pstmt.setInt(1, pageNumber * 10);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return true;  // 다음 페이지로 넘어갈 수 있다고 알림.
@@ -131,8 +132,23 @@ public class BoardDAO {
 		return false;
 	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
 	
+	public int targetPage(int pageNumber) { // 페이징 처리 위한 함수
+		String SQL = "SELECT Count(brdID) FROM board WHERE brdID - 1 > ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, (pageNumber - 1) * 10);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) / 10;  // 다음 페이지로 넘어갈 수 있다고 알림.
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
+	
 	public Board getBoard(int brdID) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
-		String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+		String SQL = "SELECT * FROM board WHERE bbsID = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, brdID);

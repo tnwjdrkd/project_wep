@@ -104,7 +104,7 @@
         <!-- 본문 포스트 위쪽 내용  -->
         <style>
             article {
-                margin: 0 10px 20px 100px;
+                margin: 0 80px 20px 80px;
                 padding: 10px 0;
                 border-bottom: 1px dashed rgb(138, 111, 111);
             }
@@ -115,19 +115,19 @@
                 padding-bottom: 10px;
             }
         </style>
-        <!-- 로그인  -->
+        <!-- 로그인 전  -->
         <style>
-            .login {
+            .before_login {
                 width: 300px; height: 150px;
                 background-color: rgb(255, 255, 255);
                 border: 1px solid rgb(138, 111, 111);
                 margin: 5px; padding: 15px;
             }
-            .login > h1 {
+            .before_login > h1 {
                 text-align: center;
                 font-weight: 500;
             }
-            .login >a {
+            .before_login >a {
                 text-align: center;
                 font-size: 14px;
             }
@@ -147,10 +147,32 @@
             #join:hover {
                 color: brown;
             }
-            /* 반응형_스마트폰*/
-            @media screen and (max-width:767px){
-                body{ width: auto }
-                #main-aside { width: auto; float: none;}
+           </style>
+        <!-- 로그인 후  -->
+        <style>
+            .after_login > h1 {
+                text-align: center;
+                font-weight: 500;
+                margin: 0 0 15px 0;
+            }
+            #logout{
+                font-size: 13px;
+                font-weight: 500;
+                width: 70px;
+                height: 25px;
+                background: rgb(204, 180, 180);
+                border: 1px solid rgb(158, 158, 158);
+                cursor: pointer;
+                margin-left: 170px;
+            }
+            #logout:hover{
+                color: white;
+            }
+            .after_login{
+                width: 250px; height: 70px;
+                background-color: rgb(255, 255, 255);
+                border: 1px solid rgb(138, 111, 111);
+                margin: 5px; padding: 30px 15px 30px 15px;
             }
         </style>
         <!-- 게시판 -->
@@ -186,12 +208,13 @@
         <!-- 게시판 페이징 -->
         <style>
             #menu {
-                width: 300px;
+                width: 500px;
                 margin: 0 auto;
             }
             .number-menu {
                 list-style: none;
                 display: inline-block;
+                margin-top: 5px;
             }
             .inner-number {
                 float: left;
@@ -208,7 +231,6 @@
                 background:rgb(194, 157, 157);
                 color: white;
             }
-
             #write:hover {
                 color: white;
             }
@@ -241,6 +263,23 @@
             .meeting_info {
                 font-size: 15px;
                 text-align: center;
+            }
+            #make_meeting {
+                background:rgb(204, 180, 180);
+                border:1px solid rgb(158, 158, 158);
+                font-size: 14px;
+                width: 95px;
+                height: 35px;
+                margin-top: 10px;
+            }
+            #make_meeting:hover{
+                color:white;
+                cursor: pointer;
+            }
+            /* 반응형_스마트폰*/
+                @media screen and (max-width:767px){
+                body{ width: auto }
+                #main-aside { width: auto; float: none;}
             }
         </style>
         <style type="text/css">
@@ -295,7 +334,7 @@
             	<% 
 					if(userID == null) {
 				%>
-                <div class="login">	
+                <div class="before_login">
                     <h1>로그인</h1>
                     <br>
                     <table>
@@ -319,11 +358,14 @@
                 <%		
 					} else {
 				%>
-                <div class="loginout">	
-                    <h1>암호화 로그인 확인</h1>
+                <div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
+                <%
+                	out.println(userID + "님 환영합니다.");
+                %>
                     <br>
                     <table>
-                    	<td><br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a></td>
+                    <%--<input id="logout"  type="submit" value="로그아웃" onClick="location.href='logoutAction.jsp'">--%>
+                    <td><br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a></td>
                     </table>
                 </div>
                 <%
@@ -359,48 +401,67 @@
 									<%
 										}
 									%>
-                               <%--  <tr>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                    <td class="bbline"></td>
-                                </tr> --%>
                             </table>
                         </div>
                         <div id="menu">
                         	<ul class="number-menu">
                         	<%
-                        	if(brdDAO.nextPage(pageNumber + 1)) {
-    						%>
-    							<li class="inner-number"><a href="main.jsp?pageNumber=<%=pageNumber + 1%>" class="btn btn-success btn-arraw-left">&lt;</a></li>
+                        		int startPage = (pageNumber / 10) * 10 + 1;
+                        		if(pageNumber % 10 == 0) startPage -= 10;
+                        		int targetPage = new BoardDAO().targetPage(pageNumber);
+                        		if(startPage != 1) {
+                        	%>		
+                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
     						<%
-    							} 
+    							} else {
                         	%>
-                        		
-                                <li class="inner-number"><a href="#">1</a></li>
-                                <li class="inner-number"><a href="#">2</a></li>
-                                <li class="inner-number"><a href="#">3</a></li>
-                                <li class="inner-number"><a href="#">4</a></li>
-                                <li class="inner-number"><a href="#">5</a></li>
-                                <li class="inner-number"><a href="#">6</a></li>
-                                <li class="inner-number"><a href="#">7</a></li>
-                                <li class="inner-number"><a href="#">8</a></li>
-                                <li class="inner-number"><a href="#">9</a></li>
-                                <li class="inner-number"><a href="#">10</a></li>
-                                
+                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
                         	<%
-                        	if(pageNumber != 1)	{
+    							}
+                        		if(pageNumber != 1)	{
 							%>
-								<li class="inner-number"><a href="main.jsp?pageNumber=<%=pageNumber - 1%>" class="btn btn-success btn-arraw-left">&gt;</a></li>
+								<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
 							<%
-								} 
-							%>
+								} else {
+		                    %>
+	                        	<li class="inner-number">&lt;&nbsp;</li>
+	                        <%
+	    						}
+                        		for(int i = startPage; i < pageNumber; i++) {
+                        	%>
+                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+                        	<%
+                        		}
+                        	%>
+                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+                        	<%
+                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
+                        			if(i <startPage + 10) {
+                        	%>
+                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+                            <%			
+                        			}
+                        		}
+                        		if(pageNumber != targetPage + pageNumber)	{
+    						%>
+    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+    						<%
+    							} else {
+    		                %>
+    	                        <li class="inner-number">&nbsp;&gt;</li>
+    	                    <%
+    	    					}
+                        		if(targetPage + pageNumber > startPage + 9) {
+                        	%>
+                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
+                            <%	
+                        		} else {
+                        	%>
+                        		<li class="inner-number">&nbsp;&gt;&gt;</li>
+                        	<%
+                        		}
+                        	%>
 							</ul>
-                   			 <%--  
-                                <li class="inner-number"><a href="#">></a></li>
-                               --%>
                         </div>
                     	<div id="registration">
                             <input id="write"  type="button" value="글쓰기" onClick="location.href='write.jsp'">
@@ -417,6 +478,9 @@
                                 <li class="meeting_info"><img src="leader.png" width="12")> 강수정
                                 <img src="people.png" width="12")> 5명</li>
                                 </ul>
+                        </div>
+                        <div>
+                            <input id="make_meeting"  type="button" value="모임 만들기" onClick="location.href='project_makemeeting.html'">
                         </div>
                     </article>
                     <article>
