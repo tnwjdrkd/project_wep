@@ -90,7 +90,7 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
-		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? ORDER BY brdID DESC";
+		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? AND brdAvailable = 1 ORDER BY brdID DESC";
 		ArrayList<Board> list = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -139,16 +139,16 @@ public class BoardDAO {
 			pstmt.setInt(1, (pageNumber - 1) * 10);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				return rs.getInt(1) / 10;  // 다음 페이지로 넘어갈 수 있다고 알림.
+				return rs.getInt(1) / 10;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
-	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
+	}
 	
 	public Board getBoard(int brdID) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
-		String SQL = "SELECT * FROM board WHERE bbsID = ?";
+		String SQL = "SELECT * FROM board WHERE brdID = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, brdID);
@@ -176,7 +176,7 @@ public class BoardDAO {
 		return null; // null 반환
 	}
 	
-	public int updatebrdCount(int brdCount, int brdID) {
+	public int updatebrdCount(int brdCount, int brdID) {  // 조회수 갱신을 위한 함수
 		String SQL = "update board set brdCount = ? where brdID = ?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
@@ -187,5 +187,31 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return -1; //데이터베이스 오류
+	}
+	
+	public int update(int brdID, String brdTitle, String brdContent) { // 글 수정을 위한 함수
+		String SQL = "UPDATE board SET brdTitle = ?, brdContent = ? WHERE brdID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, brdTitle);
+			pstmt.setString(2, brdContent);
+			pstmt.setInt(3, brdID);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1; // DB 오류
+	}
+	
+	public int delete(int brdID) { // 글 삭제를 위한 함수
+		String SQL = "UPDATE board SET brdAvailable = 0 WHERE brdID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, brdID);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1; // DB 오류
 	}
 }

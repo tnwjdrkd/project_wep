@@ -95,7 +95,7 @@
         <style>
             #content { overflow: hidden; }
             #main-aside {
-                width: 300px;
+                width: 350px;
                 float: left;
             }
             article>div {
@@ -163,13 +163,13 @@
                 background: rgb(204, 180, 180);
                 border: 1px solid rgb(158, 158, 158);
                 cursor: pointer;
-                margin-left: 170px;
+                margin-left: 227px;
             }
             #logout:hover{
                 color: white;
             }
             .after_login{
-                width: 250px; height: 70px;
+                width: 300px; height: 70px;
                 background-color: rgb(255, 255, 255);
                 border: 1px solid rgb(138, 111, 111);
                 margin: 5px; padding: 30px 15px 30px 15px;
@@ -208,7 +208,7 @@
         <!-- 게시판 페이징 -->
         <style>
             #menu {
-                width: 500px;
+                width: 300px;
                 margin: 0 auto;
             }
             .number-menu {
@@ -385,14 +385,14 @@
                                     <td class="bbline">댓글수</td>
                                     <td class="bbline">조회수</td>
                                 </tr>
-                     	           <%	// 게시글 출력 부분. 게시글을 뽑아올 수 있도록
+                     	            <%	// 게시글 출력 부분. 게시글을 뽑아올 수 있도록
 										BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
 										ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
 										for(int i = 0; i < list.size(); i++) { 
 									%>
 								<tr>
 									<td class="bbline"><%= list.get(i).getBrdID() %></td>
-									<td class="bbline"><a href="view.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+									<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
 									<td class="bbline"><%= list.get(i).getUserNickname() %></td>
 									<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
 									<td class="bbline"></td>

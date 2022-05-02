@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>모임</title>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1,maximum-scale=1">
+        <style>
+            * {
+                margin: 0; padding: 0;
+                font-family: '빙그레체' , 'Malgun Gothic' , Gothic, sans-serif;
+            }
+            a { text-decoration: none; }
+            li { list-style: none; }
+            li > a { color: black; }
+        </style>
+        <!-- 페이지 구성 -->
+        <style>
+            body { 
+                width: 1500px; margin: 0 auto;
+                background-image: url('purple.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-attachment: fixed;
+            }
+            #page-wrapper {
+                background-color: white;
+                margin: 40px 0; padding: 10px 20px;
+                height: 1000px;
+            }
+        </style>
+        <!-- 헤더(타이틀) 구성 -->
+        <style>
+            #main-header {
+                padding: 80px 0;
+            }
+            .main-title {
+                font-size: 50px;
+                color: #8b60be;
+                text-align: center;
+                text-shadow: 3px 3px 1px #C996CC;
+            }
+        </style>
+        <!-- 본문 구성(모임/멤버) -->
+        <style>
+            #content {
+                overflow: hidden;
+                background-color: rgb(255, 255, 255);
+                border: 2px solid #C996CC;
+                border-radius: 20px;
+                padding: 10px 30px 10px 30px;
+                margin: 10px 10px 10px 0;
+            }
+            #main-aside {
+                width: 300px;
+                float: left;
+                margin: 0 100px 0 0;
+            }
+            .inner-aside {
+                width: 300px; height: 150px;
+                background-color: rgb(255, 255, 255);
+                border: 2px solid #C996CC;
+                border-radius: 20px;
+                margin: 10px 0 30px 10px;
+                padding: 20px;
+            }
+            .inner-aside > h2{
+                text-align: center;
+            }
+            .content-header { padding: 10px 0; }
+
+            .content-title { 
+                padding-bottom: 20px;
+            }
+            ul > li {
+                font-size: 17px;
+                padding-bottom: 5px;
+            }
+            h2 {
+                color:#7440b3;
+                padding-bottom: 15px;
+            }
+            .member_info > li > a:hover{
+                color:#8b60be;
+            }
+            .meeting_leader>a:hover{
+                color:#8b60be;
+            }
+            #meeting-join{
+                width: 340px;
+                height: 70px;
+                margin: 0px 0 10px 10px;
+                background:rgb(222, 187, 255);
+                border: 1px solid #ffffff;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            #meeting-join:hover{
+                background:rgb(200, 141, 255);
+                color:white;
+            }
+            #meeting-record{
+                width: 340px;
+                height: 70px;
+                margin: 10px 0 10px 10px;
+                background:rgb(222, 187, 255);
+                border: 1px solid #ffffff;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            #meeting-record:hover{
+                background:rgb(200, 141, 255);
+                color:white;
+            }
+        </style>
+        <!-- 게시판 -->
+        <style>
+            #bulletinboard {
+                width: 100%;
+                border-top: 1px solid #9b9b9b;
+                border-collapse: collapse;
+            }
+            .bbline {
+                border-bottom: 1px solid #9b9b9b;
+                padding: 10px;
+                text-align: center;
+            }
+        </style>
+        <!-- 게시판 페이징 -->
+        <style>
+            #menu {
+                width: 200px;
+                margin: 0 auto;
+            }
+            .number-menu {
+                list-style: none;
+                display: inline-block;
+            }
+            .inner-number {
+                float: left;
+            }
+            .inner-number > a {
+                margin: 3px;
+                padding: 3px;
+                border: 1px solid #9b9b9b;
+                text-align: center;
+                text-decoration:none;
+                color: black;
+            }
+            .inner-number > a:hover {
+                background:rgb(222, 187, 255);
+                color: white;
+            }
+            #write:hover {
+                color: white;
+            }
+        </style>
+        <!-- 정모  -->
+        <style>
+            #content2 {
+                overflow: hidden;
+                background-color: rgb(255, 255, 255);
+                border: 2px solid #C996CC;
+                border-radius: 20px;
+                padding: 20px 30px 10px 30px;
+                margin: 30px 10px 0 0;
+            }
+            #join {
+                width: 370px;
+                height: 40px;
+                margin: 10px 0 10px 0;
+                background:rgb(222, 187, 255);
+                border: 1px solid #ffffff;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            #join:hover {
+                background:rgb(200, 141, 255);
+                color:white;
+            }
+            #more:hover{
+                cursor: pointer;
+                background:rgb(233, 210, 255);
+            }
+            /* 반응형_스마트폰*/
+            @media screen and (max-width:767px) {
+            body{ width: auto }
+            #main-aside { width: auto; float: none;}
+            }
+        </style>
+    </head>
+    <body>
+        <div id="page-wrapper">
+            <header id="main-header">
+                <hgroup>
+                    <h1 class="main-title">독서 모임</h1> <!-- 모임명-->
+                </hgroup>
+            </header>
+        <aside id="main-aside">
+            <div class="inner-aside">
+                <h2>모임</h2>
+                <ul class="meeting_info">
+                    <li class="meeting_leader"><img src="leader.png" width="20")><a href="project_meminfo.html"> 강수정</a></li> <!-- 모임장(닉네임) -->
+                    <li class="meeting_opendate"><img src="date.png" width="20")> 2022년 04월 02일</li> <!-- 모임 생성 날짜 -->
+                    <li class="meeting_introduction">주말마다 한 번씩 만나서 읽은 책에 대해 이야기합니다.</li> <!-- 모임 소개 -->
+                </ul>
+            </div>
+            <div class="inner-aside">
+                <h2>멤버</h2>
+                <ul class="member_info">
+                <li><img src="people.png" width="18")><a href="project_meminfo.html"> 강수정</a></li> <!-- 모임에 가입된 회원1 -->
+                <li><img src="people.png" width="18")><a href="project_meminfo.html"> 강수정</a></li> <!-- 모임에 가입된 회원2 -->
+                </ul>
+            </div>
+            <div class="meeting-aside">
+                <input id="meeting-join"  type="button" value="모임 가입하기" style="font-size: 17px;" onClick="location.href='project_meetingjoin.html'">
+            </div>
+            <div class="meeting-aside">
+                <input id="meeting-record"  type="button" value="모임 후기 확인하기" style="font-size: 17px;" onClick="location.href='project_meetingjoin.html'">
+            </div>
+        </aside>
+        <div id="content">
+            <div class="content-header">
+                <h2  class="content-title">게시판</h2>
+                <table id="bulletinboard">
+                    <tr>
+                        <td class="bbline">번호</td>
+                        <td class="bbline">제목</td>
+                        <td class="bbline">작성자</td>
+                        <td class="bbline">작성일</td>
+                        <td class="bbline">댓글수</td>
+                        <td class="bbline">조회수</td>
+                    </tr>
+                    <tr>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                    </tr>
+                    <tr>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                    </tr>
+                    <tr>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                    </tr>
+                    <tr>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                        <td class="bbline"></td>
+                    </tr>
+                    </table>
+            </div>
+            <div id="menu">
+                <ul class="number-menu">
+                    <li class="inner-number"><a href="#">1</a></li>
+                    <li class="inner-number"><a href="#">2</a></li>
+                    <li class="inner-number"><a href="#">3</a></li>
+                    <li class="inner-number"><a href="#">4</a></li>
+                    <li class="inner-number"><a href="#">5</a></li>
+                    <li class="inner-number"><a href="#">></a></li>
+            </div>
+            </div>
+            <div id="content2">
+                <h2>모임 정모  <img src="more.png" width="18" id="more"  onClick="location.href='project_newRmeeting.html'")></h2>
+                <ul id="Rmeeting">
+                    <li><img src="date.png" width="20")> 2022년 04월 10일 오후 3:00 </li> <!-- 정모 시간 -->
+                    <li><img src="location.png" width="22")> 경기 안산시 단원구 중앙대로 907 4동 4층 귀큰여우 카페</li> <!-- 정모 장소-->
+                    <li><img src="money.png" width="20")> 개인 음료값</li> <!-- 정모 비용 -->
+                </ul>
+                <input id="join"  type="button" value="참여하기" style="font-size: 17px;">
+            </div>
+        </div>
+    </body>
+</html>

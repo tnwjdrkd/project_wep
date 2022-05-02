@@ -65,7 +65,8 @@
                     </tr>
                     <tr>
                         <td><label for="address">주소</label></td>
-                        <td><input id="address" type="text" name="userAddress"></td>
+                        <td><input id="address" value="" type="text" name="userAddress" readonly="readonly">
+                        <input type="button" value="위치 인증하기" onClick="addPopup()"></td>
                     </tr>
                     <tr>
                         <td><label for="nickname">닉네임</label></td>
@@ -78,5 +79,10 @@
                 </table>
             </form>
         </fieldset>
+        <script type="text/javascript">
+        	function addPopup(){
+        		const pop = window.open("${pageContext.request.contextPath}/location.jsp", "pop", "width=550, height=630, scrollbars=no, resizable=yes");
+        	}
+        </script>
 	</body>
 </html>
