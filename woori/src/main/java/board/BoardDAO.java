@@ -69,7 +69,7 @@ public class BoardDAO {
 	}
 	// 게시글 작성 함수
 	public int write(String brdTitle, String userID, String brdAddress, String category, String userNickname, String brdContent, int brdCount) {
-		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdCount, brdAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdCount, brdAvailable, cmtCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext()); 		// 게시글 번호
@@ -82,6 +82,7 @@ public class BoardDAO {
 			pstmt.setString(8, brdContent);  	// 글 내용
 			pstmt.setInt(9, brdCount);
 			pstmt.setInt(10, 1);
+			pstmt.setInt(11, 0);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,6 +110,7 @@ public class BoardDAO {
 				brd.setBrdContent(rs.getString(8));
 				brd.setBrdCount(rs.getInt(9));
 				brd.setBrdAvailable(rs.getInt(10));
+				brd.setCmtCount(rs.getInt(11));
 				list.add(brd); // 리스트에 해당 인스턴스 반환
 			}
 		} catch (Exception e) {
@@ -168,6 +170,7 @@ public class BoardDAO {
 				brdCount++;
 				updatebrdCount(brdCount, brdID);
 				brd.setBrdAvailable(rs.getInt(10));
+				brd.setCmtCount(rs.getInt(11));
 				return brd;
 			}
 		} catch (Exception e) {

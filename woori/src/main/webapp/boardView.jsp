@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter" %>   <%-- script 문장을 실행할 수 있도록 하는 라이브러리 --%>
-<%@ page import="board.Board" %> <%-- 실제 DB를 사용할 수 있도록, DB 접근 객체 또한 가져온다. --%>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="board.Board" %>
 <%@ page import="board.BoardDAO" %>
+<%@ page import="comment.Comment" %>
+<%@ page import="comment.CommentDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -21,6 +23,7 @@
             body {
             width: 1500px;
             margin: 0 auto;
+            margin-bottom: 200px;
             }
         </style>
         <!-- 본문 -->
@@ -58,17 +61,23 @@
               padding: 15px;
               text-align: center;
             }
+            .bbline2 {
+              border-bottom: 1px solid #9b9b9b;
+              padding: 10px;
+              text-align: center;
+            }
         </style>
         <!-- 게시판 페이징 -->
         <style>
             #menu {
-                width: 300px;
+                width: 350px;
                 margin: 0 auto;
+                padding-left: 60px;
             }
             .number-menu {
                 list-style: none;
                 display: inline-block;
-                margin-top: 5px;
+                margin-top: 10px;
             }
             .inner-number {
                 float: left;
@@ -129,26 +138,18 @@
                 font-size: 14px;
                 color:#9b9b9b;
             }
-            #update {
-                width:55px;
-                height:35px;
-                background:rgb(204, 180, 180);
-                border:1px solid rgb(158, 158, 158);
-                cursor: pointer;
-            }
-            #delete {
-                width:55px;
-                height:35px;
-                background:rgb(204, 180, 180);
-                border:1px solid rgb(158, 158, 158);
-                cursor: pointer;
-            }
             /* 반응형_스마트폰*/
             @media screen and (max-width:767px){
             body{ width: auto }
             #main-aside { width: auto; float: none;}
             }
         </style>
+        <style type="text/css">
+			a, a:hover {
+			color:#000000;
+			text-decoration: none;
+			}
+		</style>
     </head>
     <body>
     	<% 
@@ -172,6 +173,7 @@
 				script.println("</script>");
 			}
 			Board brd = new BoardDAO().getBoard(brdID); // 게시글 조회 인스턴스 생성
+			Comment cmt = new CommentDAO().getComment(brdID);
 	    %>
         <aside id="board-aside">
             <div id="board">
@@ -189,10 +191,10 @@
 								for(int i = 0; i < list.size(); i++) { 
 							%>
 						<tr>
-							<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
-							<td class="bbline"><%= list.get(i).getUserNickname() %></td>
-							<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11) %></td>
-							<td class="bbline"></td>
+							<td class="bbline2"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+							<td class="bbline2"><%= list.get(i).getUserNickname() %></td>
+							<td class="bbline2"><%= list.get(i).getBrdDate().substring(0, 11) %></td>
+							<td class="bbline2"><%= list.get(i).getCmtCount() %></td>
 						</tr>
 							<%
 								}
@@ -201,12 +203,12 @@
                     <div id="menu">
                     	<ul class="number-menu">
                         	<%
-                        		int startPage = (pageNumber / 10) * 10 + 1;
-                        		if(pageNumber % 10 == 0) startPage -= 10;
+                        		int startPage = (pageNumber / 5) * 5 + 1;
+                        		if(pageNumber % 5 == 0) startPage -= 5;
                         		int targetPage = new BoardDAO().targetPage(pageNumber);
                         		if(startPage != 1) {
                         	%>		
-                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
     						<%
     							} else {
                         	%>
@@ -215,7 +217,7 @@
     							}
                         		if(pageNumber != 1)	{
 							%>
-								<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+								<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
 							<%
 								} else {
 		                    %>
@@ -224,31 +226,31 @@
 	    						}
                         		for(int i = startPage; i < pageNumber; i++) {
                         	%>
-                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= i %>"><%= i %></a></li>
                         	<%
                         		}
                         	%>
-                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
                         	<%
                         		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
-                        			if(i <startPage + 10) {
+                        			if(i <startPage + 5) {
                         	%>
-                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+                                <li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= i %>"><%= i %></a></li>
                             <%			
                         			}
                         		}
                         		if(pageNumber != targetPage + pageNumber)	{
     						%>
-    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+    							<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
     						<%
     							} else {
     		                %>
     	                        <li class="inner-number">&nbsp;&gt;</li>
     	                    <%
     	    					}
-                        		if(targetPage + pageNumber > startPage + 9) {
+                        		if(targetPage + pageNumber > startPage + 4) {
                         	%>
-                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
+                                <li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= startPage + 5 %>">&nbsp;&gt;&gt;</a></li>
                             <%	
                         		} else {
                         	%>
@@ -265,44 +267,51 @@
                     <ul><img src="people.png" width="13")><%= brd.getUserNickname() %></ul> 
                     <ul id="contentdate"><%= brd.getBrdDate().substring(0, 11) + brd.getBrdDate().substring(11, 13) + "시" + brd.getBrdDate().substring(14,16) + "분" %></ul> 
                 </li>
-                <p id="content"><%= brd.getBrdContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></p>
+                <p id="content" style="min-height: 100px"><%= brd.getBrdContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></p>
                 <div id="registration">
                 <%
 				if(userID != null && userID.equals(brd.getUserID())) {
 				%>
-					<input id="update"  type="button" value="수정" onClick="location.href='update.jsp?brdID=<%= brdID %>'">
-					<input id="delete"  type="button" value="삭제" onClick="dltbtnClick()">
+				<p style="float: right;">
+					<input id="update"  type="button" value="수정" style="width:40px; height:25px; margin-top: 10px;" onClick="location.href='update.jsp?brdID=<%= brdID %>'">
+					<input id="delete"  type="button" value="삭제" style="width:40px; height:25px;" onClick="dltbtnClick()">
 					<script>
 						function dltbtnClick() {
 							if (confirm('정말로 삭제하시겠습니까?') == true)
 								location.href="deleteAction.jsp?brdID=<%= brdID %>";
 						}
 					</script>
+				</p>
 				<%
 					}
 				%>
 				</div>
-                <h3 id="comment"> 댓글</h3>
-                <li>
-                    <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
-                    <ul id="cc">댓글내용</ul>
-                    <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
+                <h3 id="comment" style="margin-top: 30px"> 댓글</h3>
+   				<%
+				CommentDAO cmtDAO = new CommentDAO(); // 인스턴스 생성
+				ArrayList<Comment> cmtlist = cmtDAO.getList(brdID); // 리스트 생성.
+				for(int i = 0; i < cmtlist.size(); i++) { 
+				%>
+				<li>
+                    <ul id="nickname"><img src="people.png" width="13")><%= "&nbsp;"+cmtlist.get(i).getUserNickname() %></ul>
+                    <ul id="cc"><%= cmtlist.get(i).getCmtContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></ul>
+                    <ul id="commentdate"><%=cmtlist.get(i).getCmtDate()%></ul> <!-- 날짜 -->
                 </li>
-                <li>
-                    <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
-                    <ul id="cc">댓글내용</ul>
-                    <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
-                </li>
-                <li>
-                    <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
-                    <ul id="cc">댓글내용</ul>
-                    <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
-                </li>
-                <li>
-                    <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
-                    <ul id="cc">댓글내용</ul>
-                    <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
-                </li>
+				<%
+					}
+				%>
+				<form method="post" action="commentAction.jsp?brdID=<%= brdID %>">
+            		<table id="bbwrite">
+            			<li>
+                    		<ul id="nickname"><img src="people.png" width="13")><%= "&nbsp;"+ brdDAO.getuserNickname(userID) %></ul>
+                    	</li>
+		                <tr>
+		                	<td><textarea id="content" type="text" name="cmtContent" style="width:750px; height:60px" placeholder="동네 이웃에게 따뜻한 댓글을 달아주세요."></textarea></td>
+		               		<td><input id="submit" type="submit" name="submit" style="width:90px; height:90px; margin-left: 5px;" value="등 록"></td>
+		                </tr>
+	            	</table>
+       			</form>
+				<br>
             </div>
         </aside>
     </body>

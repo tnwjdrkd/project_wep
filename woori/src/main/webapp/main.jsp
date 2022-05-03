@@ -208,7 +208,7 @@
         <!-- 게시판 페이징 -->
         <style>
             #menu {
-                width: 300px;
+                width: 400px;
                 margin: 0 auto;
             }
             .number-menu {
@@ -395,7 +395,7 @@
 									<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
 									<td class="bbline"><%= list.get(i).getUserNickname() %></td>
 									<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
-									<td class="bbline"></td>
+									<td class="bbline"><%= list.get(i).getCmtCount() %></td>
 									<td class="bbline"><%= list.get(i).getBrdCount() %></td>
 								</tr>
 									<%

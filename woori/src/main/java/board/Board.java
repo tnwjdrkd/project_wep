@@ -11,6 +11,7 @@ public class Board {
 	private String brdContent;
 	private int brdCount;
 	private int brdAvailable;
+	private int cmtCount;
 	
 	public int getBrdID() {
 		return brdID;
@@ -71,5 +72,11 @@ public class Board {
 	}
 	public void setBrdAvailable(int brdAvailable) {
 		this.brdAvailable = brdAvailable;
+	}
+	public int getCmtCount() {
+		return cmtCount;
+	}
+	public void setCmtCount(int cmtCount) {
+		this.cmtCount = cmtCount;
 	}
 }
