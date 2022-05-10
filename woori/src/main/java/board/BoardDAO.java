@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import meeting.Meeting;
+
 public class BoardDAO {
 	
 	private Connection conn;
@@ -68,15 +70,15 @@ public class BoardDAO {
 		return -1; // DB 오류 경우.
 	}
 	// 게시글 작성 함수
-	public int write(String brdTitle, String userID, String brdAddress, String category, String userNickname, String brdContent, int brdCount) {
-		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, category, userNickname, brdDate, brdContent, brdCount, brdAvailable, cmtCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public int write(String brdTitle, String userID, String brdAddress, String brdMt, String userNickname, String brdContent, int brdCount) {
+		String SQL = "INSERT INTO board (brdID, userID, brdAddress, brdTitle, brdMt, userNickname, brdDate, brdContent, brdCount, brdAvailable, cmtCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext()); 		// 게시글 번호
 			pstmt.setString(2, userID);			// 작성자
 			pstmt.setString(3, brdAddress); 	// 주소
 			pstmt.setString(4, brdTitle);  		// 작성자
-			pstmt.setString(5, category);  		// 카테고리
+			pstmt.setString(5, brdMt);  		// 카테고리
 			pstmt.setString(6, userNickname); 	// 닉네임
 			pstmt.setString(7, getDate()); 		// 날짜
 			pstmt.setString(8, brdContent);  	// 글 내용
@@ -104,7 +106,7 @@ public class BoardDAO {
 				brd.setUserID(rs.getString(2)); 
 				brd.setBrdAddress(rs.getString(3)); 
 				brd.setBrdTitle(rs.getString(4)); 
-				brd.setCategory(rs.getString(5)); 
+				brd.setBrdMt(rs.getString(5)); 
 				brd.setUserNickname(rs.getString(6));
 				brd.setBrdDate(rs.getString(7));
 				brd.setBrdContent(rs.getString(8));
@@ -117,6 +119,36 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return list; // 뽑아온 게시글 리스트 출력
+	}
+	
+	public ArrayList<Board> getMtList(int pageNumber, String brdMt) {
+		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? AND brdMt = ? AND brdAvailable = 1 ORDER BY brdID DESC";
+		ArrayList<Board> mtlist = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, pageNumber * 10);
+			pstmt.setInt(2, (pageNumber - 1) * 10);
+			pstmt.setString(3, brdMt);
+			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
+			while (rs.next()) {
+				Board brdmt = new Board(); // 인스턴스 생성
+				brdmt.setBrdID(rs.getInt(1)); // brd의 속성들
+				brdmt.setUserID(rs.getString(2)); 
+				brdmt.setBrdAddress(rs.getString(3)); 
+				brdmt.setBrdTitle(rs.getString(4)); 
+				brdmt.setBrdMt(rs.getString(5)); 
+				brdmt.setUserNickname(rs.getString(6));
+				brdmt.setBrdDate(rs.getString(7));
+				brdmt.setBrdContent(rs.getString(8));
+				brdmt.setBrdCount(rs.getInt(9));
+				brdmt.setBrdAvailable(rs.getInt(10));
+				brdmt.setCmtCount(rs.getInt(11));
+				mtlist.add(brdmt); // 리스트에 해당 인스턴스 반환
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mtlist; // 뽑아온 게시글 리스트 출력
 	}
 	
 	public boolean nextPage(int pageNumber) { // 페이징 처리 위한 함수
@@ -149,6 +181,22 @@ public class BoardDAO {
 		return 0;
 	}
 	
+	public int targetMtPage(int pageNumber, String brdMt) { // 페이징 처리 위한 함수
+		String SQL = "SELECT Count(brdID) FROM board WHERE brdID - 1 > ? AND brdMt = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, (pageNumber - 1) * 10);
+			pstmt.setString(2, brdMt);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) / 10;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public Board getBoard(int brdID) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
 		String SQL = "SELECT * FROM board WHERE brdID = ?";
 		try {
@@ -161,7 +209,7 @@ public class BoardDAO {
 				brd.setUserID(rs.getString(2)); 
 				brd.setBrdAddress(rs.getString(3)); 
 				brd.setBrdTitle(rs.getString(4)); 
-				brd.setCategory(rs.getString(5)); 
+				brd.setBrdMt(rs.getString(5)); 
 				brd.setUserNickname(rs.getString(6));
 				brd.setBrdDate(rs.getString(7));
 				brd.setBrdContent(rs.getString(8));

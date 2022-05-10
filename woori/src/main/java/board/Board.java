@@ -5,7 +5,7 @@ public class Board {
 	private String userID;
 	private String brdAddress;
 	private String brdTitle;
-	private String category;
+	private String brdMt;
 	private String userNickname;
 	private String brdDate;
 	private String brdContent;
@@ -37,11 +37,11 @@ public class Board {
 	public void setBrdTitle(String brdTitle) {
 		this.brdTitle = brdTitle;
 	}
-	public String getCategory() {
-		return category;
+	public String getBrdMt() {
+		return brdMt;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setBrdMt(String brdMt) {
+		this.brdMt = brdMt;
 	}
 	public String getUserNickname() {
 		return userNickname;

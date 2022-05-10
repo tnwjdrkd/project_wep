@@ -1,3 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="board.BoardDAO" %>
+<%@ page import="board.Board" %>
+<%@ page import="meeting.MeetingDAO" %>
+<%@ page import="meeting.Meeting" %>
+<%@ page import="member.MemberDAO" %>
+<%@ page import="member.Member" %>
+<%@ page import="r_meeting.R_meetingDAO" %>
+<%@ page import="r_meeting.R_meeting" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -187,28 +199,64 @@
             #main-aside { width: auto; float: none;}
             }
         </style>
+        <style type="text/css">
+			a, a:hover {
+			color:#000000;
+			text-decoration: none;
+			}
+		</style>
     </head>
     <body>
+   		<% 
+			String userID = null;    // 로그인 확인 후 userID에 로그인한 값, 비로그인 null
+			if(session.getAttribute("userID") != null) {
+				userID = (String)session.getAttribute("userID");
+			}
+			int pageNumber = 1; // 게시판 기본 페이지 설정
+			if (request.getParameter("pageNumber") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber")); 
+			}
+			String mtID = null;
+			if(request.getParameter("mtID") != null) {
+				mtID = request.getParameter("mtID");
+			}
+			if(mtID == null) {   // 모임 존재시 모임 페이지 조회가능
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('존재하지 않는 모임입니다.')");      
+				script.println("location.href='main.jsp'");   
+				script.println("</script>");
+			}
+			Meeting mt = new MeetingDAO().getMeeting(mtID); // 모임 조회 인스턴스
+			R_meeting rmt = new R_meetingDAO().getR_meeting(mtID);
+		%>
         <div id="page-wrapper">
             <header id="main-header">
                 <hgroup>
-                    <h1 class="main-title">독서 모임</h1> <!-- 모임명-->
+                    <h1 class="main-title"><%= mt.getMtID() %></h1> <!-- 모임명-->
                 </hgroup>
             </header>
         <aside id="main-aside">
             <div class="inner-aside">
                 <h2>모임</h2>
                 <ul class="meeting_info">
-                    <li class="meeting_leader"><img src="leader.png" width="20")><a href="project_meminfo.html"> 강수정</a></li> <!-- 모임장(닉네임) -->
-                    <li class="meeting_opendate"><img src="date.png" width="20")> 2022년 04월 02일</li> <!-- 모임 생성 날짜 -->
-                    <li class="meeting_introduction">주말마다 한 번씩 만나서 읽은 책에 대해 이야기합니다.</li> <!-- 모임 소개 -->
+                    <li class="meeting_leader"><img src="leader.png" width="20")><a href="project_meminfo.html"><%= mt.getMtLeader() %></a></li> <!-- 모임장(닉네임) -->
+                    <li class="meeting_opendate"><img src="date.png" width="20")><%= mt.getMtDate().substring(0, 4) + "년" + mt.getMtDate().substring(5, 7) + "월" + mt.getMtDate().substring(8, 10) + "일" %></li> <!-- 모임 생성 날짜 -->
+                    <li class="meeting_introduction"><%= mt.getMtSummary() %></li> <!-- 모임 소개 -->
                 </ul>
             </div>
             <div class="inner-aside">
                 <h2>멤버</h2>
                 <ul class="member_info">
-                <li><img src="people.png" width="18")><a href="project_meminfo.html"> 강수정</a></li> <!-- 모임에 가입된 회원1 -->
-                <li><img src="people.png" width="18")><a href="project_meminfo.html"> 강수정</a></li> <!-- 모임에 가입된 회원2 -->
+                <%
+					MemberDAO mbDAO = new MemberDAO(); // 인스턴스 생성
+					ArrayList<Member> mblist = mbDAO.getMbList(mtID); // 리스트 생성.
+					for(int i = 0; i < mblist.size(); i++) { 
+				%>
+                <li><img src="people.png" width="18")><a href="project_meminfo.html"><%= mblist.get(i).getMbUser() %></a></li> <!-- 모임에 가입된 회원1 -->
+                <%
+					}
+				%>
                 </ul>
             </div>
             <div class="meeting-aside">
@@ -230,56 +278,90 @@
                         <td class="bbline">댓글수</td>
                         <td class="bbline">조회수</td>
                     </tr>
-                    <tr>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                    </tr>
-                    <tr>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                    </tr>
-                    <tr>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                    </tr>
-                    <tr>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                        <td class="bbline"></td>
-                    </tr>
-                    </table>
+                    <%
+						BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
+						ArrayList<Board> list = brdDAO.getMtList(pageNumber, mtID); // 리스트 생성.
+						for(int i = 0; i < list.size(); i++) { 
+					%>
+                   	<tr>
+						<td class="bbline"><%= list.get(i).getBrdID() %></td>
+						<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+						<td class="bbline"><%= list.get(i).getUserNickname() %></td>
+						<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
+						<td class="bbline"><%= list.get(i).getCmtCount() %></td>
+						<td class="bbline"><%= list.get(i).getBrdCount() %></td>
+					</tr>
+						<%
+							}
+						%>
+                 </table>
             </div>
             <div id="menu">
                 <ul class="number-menu">
-                    <li class="inner-number"><a href="#">1</a></li>
-                    <li class="inner-number"><a href="#">2</a></li>
-                    <li class="inner-number"><a href="#">3</a></li>
-                    <li class="inner-number"><a href="#">4</a></li>
-                    <li class="inner-number"><a href="#">5</a></li>
-                    <li class="inner-number"><a href="#">></a></li>
-            </div>
+                   	<%
+	               		int startPage = (pageNumber / 10) * 10 + 1;
+	               		if(pageNumber % 10 == 0) startPage -= 10;
+	               		int targetPage = new BoardDAO().targetMtPage(pageNumber, mtID);
+	               		if(startPage != 1) {
+                 	%>		
+             	  		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+					<%
+						} else {
+                 	%>
+                 		<li class="inner-number">&lt;&lt;&nbsp;</li>
+                 	<%
+						}
+                 		if(pageNumber != 1)	{
+					%>
+						<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+					<%
+						} else {
+                    %>
+                       	<li class="inner-number">&lt;&nbsp;</li>
+                   	<%
+						}
+                   		for(int i = startPage; i < pageNumber; i++) {
+                   	%>
+                   		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+                   	<%
+                   		}
+                   	%>
+                   		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+                   	<%
+                   		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
+                   			if(i <startPage + 10) {
+                   	%>
+                           <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+                  	<%			
+               				}
+                   		}
+                   		if(pageNumber != targetPage + pageNumber)	{
+					%>
+						<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+					<%
+						} else {
+	                %>
+                        <li class="inner-number">&nbsp;&gt;</li>
+                    <%
+    					}
+                   		if(targetPage + pageNumber > startPage + 9) {
+                   	%>
+                           <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
+                    <%	
+                   		} else {
+                   	%>
+                   		<li class="inner-number">&nbsp;&gt;&gt;</li>
+                   	<%
+                   		}
+                   	%>
+               	</ul>
             </div>
             <div id="content2">
-                <h2>모임 정모  <img src="more.png" width="18" id="more"  onClick="location.href='project_newRmeeting.html'")></h2>
+                <h2>모임 정모  <img src="more.png" width="18" id="more"  onClick="location.href='addR_meeting.jsp?mtID=<%= mtID %>'")></h2>
                 <ul id="Rmeeting">
-                    <li><img src="date.png" width="20")> 2022년 04월 10일 오후 3:00 </li> <!-- 정모 시간 -->
-                    <li><img src="location.png" width="22")> 경기 안산시 단원구 중앙대로 907 4동 4층 귀큰여우 카페</li> <!-- 정모 장소-->
-                    <li><img src="money.png" width="20")> 개인 음료값</li> <!-- 정모 비용 -->
+                    <li><img src="date.png" width="20")><%= rmt.getRmtDate().substring(0, 4) + "년" + rmt.getRmtDate().substring(5, 7) + "월" + rmt.getRmtDate().substring(8, 10) + "일" %></li> <!-- 정모 시간 -->
+                    <li><img src="location.png" width="22")><%= rmt.getRmtPlace() %></li> <!-- 정모 장소-->
+                    <li><img src="money.png" width="20")><%= rmt.getRmtCost() %></li> <!-- 정모 비용 -->
                 </ul>
                 <input id="join"  type="button" value="참여하기" onClick="alert('참여 신청을 보냈습니다. 모임장 수락시 참여 가능합니다.')" style="font-size: 17px;"> 
                 <!-- 클릭시 알림창 생성 -->

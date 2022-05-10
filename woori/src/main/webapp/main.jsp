@@ -4,6 +4,7 @@
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.Board" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -474,7 +475,7 @@
                        		<div class="meetingbb">
                                 <ul class="meeting">
                                 <li class="category"><img src="category.png" width="12")> 독서</li>
-                                <li class="meeting_name"><a href="project_meeting.html">독서 모임</a></li>
+                                <li class="meeting_name"><a href='meeting.jsp?mtID=<%= URLEncoder.encode("독서모임", "UTF-8")%>'>독서 모임</a></li>
                                 <li class="meeting_info"><img src="leader.png" width="12")> 강수정
                                 <img src="people.png" width="12")> 5명</li>
                                 </ul>

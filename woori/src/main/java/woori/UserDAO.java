@@ -33,7 +33,7 @@ public class UserDAO {
 			pstmt.setString(1, userID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-//				if(rs.getString(1).equals(userPassword)) 
+				// if(rs.getString(1).equals(userPassword)) 
 				if(BCrypt.checkpw(userPassword, rs.getString("userPassword")))   // BCrypt를 이용한 패스워드 인코딩 로그인
 				{
 					return 1;  // 로그인 성공
