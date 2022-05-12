@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>우리 동네 커뮤니케이션</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/project_upgrade.css" />
+
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+		<script>
+			$(function (){
+					$("#joinBtn").click(function (){
+					  $("#join").toggle();
+				});
+			});
+		</script>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="#" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<nav class="links">
+							<ul>
+								<li><a href="#bulletinboard">시 게시판</a></li>
+								<li><a href="#meeting">모임</a></li>
+							</ul>
+						</nav>
+						<nav class="main">
+							<ul>
+								<li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Search" />
+									</form>
+								</li>
+								<li class="menu">
+									<a class="fa-bars" href="#menu">Menu</a>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Menu (css:3339)-->
+					<section id="menu" >
+
+						<!-- 로그인-->
+						<section id="login">
+							<li><input id="login_id" type="text" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li><input id="login_pw" type="password" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
+							<li><input class="button big fit"  type="submit" value="로그인"></li>
+							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
+						</section>
+
+						<section id="join" style="display:none">
+							<form method="post">
+							<li><input id="id" type="text"placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li><input id="pw" type="password" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
+							<li><input id="name" type="text" placeholder="이름" style="margin-bottom: 5px;"></li>
+							<li><input id="birth" type="text" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="phonenum" type="text" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="address" type="text" placeholder="주소" style="margin-bottom: 5px;"></li>
+							<li><input id="nickname" type="text" placeholder="닉네임" style="margin-bottom: 10px;"></li>
+							<li><input class="button big fit" type="submit" value="가입하기"></li>
+							</form>
+						</section>
+
+					</section> 
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post" id="bulletinboard">
+								<header>
+									<div class="title">
+										<h2>시 게시판</h2>
+										<p>같은 지역에 사는 이웃들과 자유롭게 이야기할 수 있는 공간입니다.</p>
+									</div>
+									<div class="meta">
+										<a href="#" class="author"><span class="name" style="font-size: 10px;">글쓰기</span></a>
+									</div>
+								</header>
+								<table id="bulletinboard">
+									<tr>
+										<td class="bbline">번호</td>
+										<td class="bbline">제목</td>
+										<td class="bbline">작성자</td>
+										<td class="bbline">작성일</td>
+										<td class="bbline">댓글수</td>
+										<td class="bbline">조회수</td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+									<tr>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+										<td class="bbline"></td>
+									</tr>
+								</table>
+								<ul class="number-menu">
+									<li class="inner-number"><a href="#">1</a></li>
+									<li class="inner-number"><a href="#">2</a></li>
+									<li class="inner-number"><a href="#">3</a></li>
+									<li class="inner-number"><a href="#">4</a></li>
+									<li class="inner-number"><a href="#">5</a></li>
+									<li class="inner-number"><a href="#">6</a></li>
+									<li class="inner-number"><a href="#">7</a></li>
+									<li class="inner-number"><a href="#">8</a></li>
+									<li class="inner-number"><a href="#">9</a></li>
+									<li class="inner-number"><a href="#">10</a></li>
+									<li class="inner-number"><a href="#">></a></li>
+								</ul>
+							</article>
+
+						<!-- Post -->
+							<article class="post" id="meeting">
+								<header>
+									<div class="title">
+										<h2>모임</h2>
+										<p>근처의 이웃들과 함께 모임을 만들어 취미를 즐길 수 있는 공간입니다.</p>
+									</div>
+									<div class="meta">
+										<a href="#" class="author"><span class="name" style="font-size: 10px;">모임 만들기</span></a>
+									</div>
+								</header>
+								<ul class="posts">
+									<li>
+										<article>
+											<header>
+												<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
+												<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 12일</h3>
+											</header>
+											<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
+										</article>
+									</li>
+
+							</article>
+							<article class="mini-post" style="width:200px">
+								<header>
+									<h3 style="font-size: 15px; font-weight: 500;"><a href="#">독서모임</a></h3>
+									<h3 class="published" style="font-size:10px;">2022년 05월 08일</h3>
+									<a href="#" class="author"><img src="images/avatar.jpg"/></a>
+								</header>
+								<a href="#" class="image"><img src="images/pic08.jpg"  style="height: 200px;" /></a>
+							</article>
+
+					</div>
+
+				<!-- Sidebar -->
+					<section id="sidebar">
+
+						<!-- Intro -->
+							<section id="intro">
+								<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+								<header>
+									<h2>우리동네<br>커뮤니케이션</h2>
+									<p>동네 이웃들과 이야기 나누고 취미를 공유해보세요.</p>
+								</header>
+							</section>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
