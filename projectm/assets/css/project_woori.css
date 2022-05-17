@@ -2162,8 +2162,8 @@
 
 	ul {
 		list-style: disc;
-		margin: 0 0 2em 0;
-		padding-left: 1em;
+		/*margin: 0 0 0 0; */ /*ㅅㅈ*/
+		/* padding-left: 1em; */ /*ㅅㅈ*/
 	}
 
 		ul li {
@@ -3417,4 +3417,42 @@
 		}
 		li  #joinBtn:hover{
 			color:#2ebaae;
+		}
+
+		#post {
+			width: 850px;
+			float:left;
+			margin-top: 150px;
+			padding-left: 50px;
+		}
+		#content {
+			padding: 15px 0 15px 0;
+			border-bottom: 1px solid #c9c9c9;
+			line-height: 170%;
+		}
+		#postinfo {
+			border-top: 1px solid #c9c9c9;
+			border-bottom: 1px solid #c9c9c9;
+			padding: 15px 0 15px 0;
+		}
+		#comment {
+			padding: 15px 0 10px 0;
+		}
+		#nickname{
+			/*font-size: 15px; /*ㅅㅈ*/
+			/*padding: 5px 0 5px 0;*/
+		}
+		#cc{
+			font-size: 15px;
+			padding-bottom: 7px;
+		}
+		#commentdate{
+			font-size: 13px;
+			color:#9b9b9b;
+			border-bottom: 1px solid #c9c9c9;
+			padding-bottom: 5px;
+		}
+		#contentdate{
+			font-size: 14px;
+			color:#9b9b9b;
 		}

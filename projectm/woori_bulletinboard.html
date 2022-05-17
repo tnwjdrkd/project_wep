@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>우리 동네 커뮤니케이션</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/woori_bulletinboard.css" />
+
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+		<script>
+			$(function (){
+					$("#joinBtn").click(function (){
+					  $("#join").toggle();
+				});
+			});
+		</script>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="#" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<nav class="main">
+							<ul>
+								<li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Search" />
+									</form>
+								</li>
+								<li class="menu">
+									<a class="fa-bars" href="#menu">Menu</a>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Menu (css:3339)-->
+					<section id="menu" >
+
+						<!-- 로그인-->
+						<section id="login">
+							<li><input id="login_id" type="text" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li><input id="login_pw" type="password" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
+							<li><input class="button big fit"  type="submit" value="로그인"></li>
+							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
+						</section>
+
+						<section id="join" style="display:none">
+							<form method="post">
+							<li><input id="id" type="text"placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li><input id="pw" type="password" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
+							<li><input id="name" type="text" placeholder="이름" style="margin-bottom: 5px;"></li>
+							<li><input id="birth" type="text" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="phonenum" type="text" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="address" type="text" placeholder="주소" style="margin-bottom: 5px;"></li>
+							<li><input id="nickname" type="text" placeholder="닉네임" style="margin-bottom: 10px;"></li>
+							<li><input class="button big fit" type="submit" value="가입하기"></li>
+							</form>
+						</section>
+
+					</section> 
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post" id="bulletinboard">
+                                    <h1>게시글 제목</h1>
+                                    <li id="postinfo">
+                                        <ul><img src="people.png" width="13")> 닉네임</ul> 
+                                        <ul id="contentdate">2022.04.17. 13:50</ul> 
+                                    </li>
+                                    <p id="content">내용</p>
+                                    <h3 id="comment"> 댓글</h3>
+                                    <li>
+                                        <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
+                                        <ul id="cc">댓글내용</ul>
+                                        <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
+                                    </li>
+                                    <li>
+                                        <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
+                                        <ul id="cc">댓글내용</ul>
+                                        <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
+                                    </li>
+                                    <li>
+                                        <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
+                                        <ul id="cc">댓글내용</ul>
+                                        <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
+                                    </li>
+                                    <li>
+                                        <ul id="nickname"><img src="people.png" width="13")>닉네임</ul>
+                                        <ul id="cc">댓글내용</ul>
+                                        <ul id="commentdate">2022.04.17. 13:50</ul> <!-- 날짜 -->
+                                    </li>
+							</article>
+					</div>
+
+				<!-- Sidebar -->
+					<section id="sidebar">
+
+                            <section>
+                                <h1>게시판 목록</h1>
+                                <table id="bulletinboard">
+                                    <tr>
+                                        <td class="bbline">제목</td>
+                                        <td class="bbline">작성자</td>
+                                        <td class="bbline">작성일</td>
+                                        <td class="bbline">댓글수</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                        <td class="bbline"></td>
+                                    </tr>
+                                </table>
+                            </section>
+
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
