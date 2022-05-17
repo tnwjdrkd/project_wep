@@ -24,6 +24,45 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public String add(String userID) {
+		String userAdd = null;
+		String SQL = "SELECT LEFT(RIGHT(userAddress, 8), 4) from user WHERE userID = ?";
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, userID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				userAdd = rs.getString(1);
+			}else {
+				userAdd = "false";
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userAdd;
+	}
+
+	public String nick(String userID) {
+		String userNick = null;
+		String SQL = "SELECT userNickname FROM user WHERE userID = ?";
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, userID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				userNick = rs.getString(1);
+			}else {
+				userNick = "false";
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userNick;
+	}
+
 	
 	// 로그인 함수
 	public int login(String userID, String userPassword) {

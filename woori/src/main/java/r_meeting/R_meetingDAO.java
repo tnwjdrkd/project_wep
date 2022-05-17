@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import board.Board;
 
 public class R_meetingDAO {
 	private Connection conn;
@@ -76,5 +79,31 @@ public class R_meetingDAO {
 			e.printStackTrace();
 		}
 		return null; // null 반환
+	}
+	
+	public ArrayList<R_meeting> getRmList(int pageNumber, String rmtGroup) {
+		String SQL = "SELECT * FROM r_meeting WHERE rmtID - 1 > (SELECT MAX(rmtID) - 1 FROM r_meeting) - ? AND rmtID - 1 <= (SELECT MAX(rmtID) - 1 FROM r_meeting) - ? AND rmtAvailable = 1 AND rmtGroup = ? ORDER BY rmtID DESC";
+		ArrayList<R_meeting> list = new ArrayList<R_meeting>(); 
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, pageNumber * 6);
+			pstmt.setInt(2, (pageNumber - 1) * 6);
+			pstmt.setString(3, rmtGroup);
+			rs = pstmt.executeQuery(); 
+			while (rs.next()) {
+				R_meeting rmt = new R_meeting();
+				rmt.setRmtID(rs.getInt(1));
+				rmt.setRmtGroup(rs.getString(2)); 
+				rmt.setRmtDate(rs.getString(3));
+				rmt.setRmtTime(rs.getString(4));
+				rmt.setRmtPlace(rs.getString(5)); 
+				rmt.setRmtCost(rs.getString(6)); 
+				rmt.setRmtAvailable(rs.getInt(7));
+				list.add(rmt); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

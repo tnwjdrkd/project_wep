@@ -1,13 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <head>
-    <title>Á¤¸ğ Ãß°¡ÇÏ±â</title>
+    <title>ì •ëª¨ ì¶”ê°€í•˜ê¸°</title>
     <meta name="viewport" content="user-scalable=no, initial-scale=1,maximum-scale=1">
     <style>
         * {
-            font-family: 'ºù±×·¹Ã¼' , 'Malgun Gothic' , Gothic, sans-serif;
+            font-family: 'ë¹™ê·¸ë ˆì²´' , 'Malgun Gothic' , Gothic, sans-serif;
         }
         #Rmeeting {
             width: 420px; margin: 0 auto;
@@ -44,7 +45,7 @@
         }
 
         li > a { color: black; }
-    /* ¹İÀÀÇü_½º¸¶Æ®Æù*/
+    /* ë°˜ì‘í˜•_ìŠ¤ë§ˆíŠ¸í°*/
         @media screen and (max-width:767px){
         body{ width: auto }
         }
@@ -58,27 +59,27 @@
 		}
 		String mtID = null;
 		if(request.getParameter("mtID") != null) {
-			mtID = request.getParameter("mtID");
+			mtID = (String)request.getParameter("mtID");
 		}
-		if(mtID == null) {   // ¸ğÀÓ Á¸Àç½Ã ¸ğÀÓ ÆäÀÌÁö Á¶È¸°¡´É
+		if(mtID == null) {   // ëª¨ì„ ì¡´ì¬ì‹œ ëª¨ì„ í˜ì´ì§€ ì¡°íšŒê°€ëŠ¥
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('Á¸ÀçÇÏÁö ¾Ê´Â ¸ğÀÓÀÔ´Ï´Ù.')");      
+			script.println("alert('ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ëª¨ì„ì…ë‹ˆë‹¤.')");      
 			script.println("location.href='main.jsp'");   
 			script.println("</script>");
 		}
 	%>
     <div id="Rmeeting">
-        <h1>Á¤¸ğ Ãß°¡ÇÏ±â</h1>
-        <form method="post" action="addR_meetingAction.jsp?mtID=<%= mtID %>">
-        <li id="Rmeeting_date"><input id="date" type="date" name="rmtDate"></li>
-        <li id="Rmeeting_time"><input id="time" type="time" name="rmtTime"></li>
-        <li id="Rmeeting_place"><input id="place" type="text" name="rmtPlace" placeholder="Á¤¸ğ Àå¼Ò¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." onfocus="this.placeholder=''" onblur="this.placeholder='Á¤¸ğ Àå¼Ò¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.'"></li>
-        <li id="Rmeeting_cost"><input id="cost" type="text" name="rmtCost" placeholder="ºñ¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." onfocus="this.placeholder=''" onblur="this.placeholder='ºñ¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä'"></li>
-        <br>
-        <div id="submit_btn">
-            <input id="submit" type="submit" name="submit" value="µî·Ï">
-        </div>
+        <h1>ì •ëª¨ ì¶”ê°€í•˜ê¸°</h1>
+        <form method="post" action="addR_meetingAction.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>">
+	        <li id="Rmeeting_date"><input id="date" type="date" name="rmtDate"></li>
+	        <li id="Rmeeting_time"><input id="time" type="time" name="rmtTime"></li>
+	        <li id="Rmeeting_place"><input id="place" type="text" name="rmtPlace" placeholder="ì •ëª¨ ì¥ì†Œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”." onfocus="this.placeholder=''" onblur="this.placeholder='ì •ëª¨ ì¥ì†Œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.'"></li>
+	        <li id="Rmeeting_cost"><input id="cost" type="text" name="rmtCost" placeholder="ë¹„ìš©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”." onfocus="this.placeholder=''" onblur="this.placeholder='ë¹„ìš©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”'"></li>
+	        <br>
+	        <div id="submit_btn">
+	            <input id="submit" type="submit" name="submit" value="ë“±ë¡">
+	        </div>
         </form>
     </div>
 </body>

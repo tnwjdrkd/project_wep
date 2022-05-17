@@ -29,7 +29,7 @@
 		}
 		String mtID = null;
 		if(request.getParameter("mtID") != null) {
-			mtID = request.getParameter("mtID");
+			mtID = (String)request.getParameter("mtID");
 		}
 		if(mtID == null) {   // 모임 존재시 모임 페이지 조회가능
 			PrintWriter script = response.getWriter();

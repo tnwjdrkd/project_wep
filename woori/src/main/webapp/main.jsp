@@ -3,6 +3,8 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.Board" %>
+<%@ page import="woori.UserDAO" %>
+<%@ page import="woori.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
@@ -293,8 +295,13 @@
     <body>
     	<% 
 			String userID = null;    // 로그인 확인 후 userID에 로그인한 값, 비로그인 null
+			String add = null;
+			String nick = null;
 			if(session.getAttribute("userID") != null) {
 				userID = (String)session.getAttribute("userID");
+				UserDAO user = new UserDAO();
+				add = user.add(userID);
+				nick = user.nick(userID);
 			}
 			int pageNumber = 1; // 게시판 기본 페이지 설정
 			if (request.getParameter("pageNumber") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
@@ -360,14 +367,12 @@
 					} else {
 				%>
                 <div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
-                <%
-                	out.println(userID + "님 환영합니다.");
-                %>
-                    <br>
-                    <table>
-                    <%--<input id="logout"  type="submit" value="로그아웃" onClick="location.href='logoutAction.jsp'">--%>
-                    <td><br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a></td>
-                    </table>
+					<h1>
+                   		<%
+							out.println(nick + "님 환영합니니다.</br>");
+                    	%>                    	
+                    </h1>
+                    <br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a>
                 </div>
                 <%
 					}
@@ -376,7 +381,12 @@
             <div id="content">
                 <article>
                     <div class="article-header"  id="시게시판">
-                        <h1 class="article-title">시 게시판</h1>
+                        <%if(userID == null){%>
+                    		<h1 class="article-title">시 게시판</h1>
+                    	<%}else{%>
+                    		<h1 class="article-title"><%=add %> 게시판</h1>
+                    	<%}%>
+                        
                         <table id="bulletinboard">
                                 <tr>
                                     <td class="bbline">번호</td>

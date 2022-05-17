@@ -10,6 +10,7 @@
 <%@ page import="r_meeting.R_meetingDAO" %>
 <%@ page import="r_meeting.R_meeting" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -213,12 +214,14 @@
 				userID = (String)session.getAttribute("userID");
 			}
 			int pageNumber = 1; // 게시판 기본 페이지 설정
+			int r_meetingpage = 1;
 			if (request.getParameter("pageNumber") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
-				pageNumber = Integer.parseInt(request.getParameter("pageNumber")); 
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+				r_meetingpage = Integer.parseInt(request.getParameter("r_meetingpage"));
 			}
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
-				mtID = request.getParameter("mtID");
+				mtID = (String)request.getParameter("mtID");
 			}
 			if(mtID == null) {   // 모임 존재시 모임 페이지 조회가능
 				PrintWriter script = response.getWriter();
@@ -228,7 +231,6 @@
 				script.println("</script>");
 			}
 			Meeting mt = new MeetingDAO().getMeeting(mtID); // 모임 조회 인스턴스
-			R_meeting rmt = new R_meetingDAO().getR_meeting(mtID);
 		%>
         <div id="page-wrapper">
             <header id="main-header">
@@ -263,7 +265,7 @@
                 <input id="meeting-join"  type="button" value="모임 가입하기" style="font-size: 17px;" onClick="location.href='project_meetingjoin.html'">
             </div>
             <div class="meeting-aside">
-                <input id="meeting-record"  type="button" value="정모후기 보기" style="font-size: 17px;" onClick="location.href='project_RmeetingReview.html'">
+                <input id="meeting-record"  type="button" value="정모후기 보기" style="font-size: 17px;" onClick="location.href='review.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">
             </div>
         </aside>
         <div id="content">
@@ -356,14 +358,23 @@
                    	%>
                	</ul>
             </div>
+         </div>
             <div id="content2">
-                <h2>모임 정모  <img src="more.png" width="18" id="more"  onClick="location.href='addR_meeting.jsp?mtID=<%= mtID %>'")></h2>
+                <h2>모임 정모  <img src="more.png" width="18" id="more"  onClick="location.href='addR_meeting.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'")></h2>
+                <%	// 게시글 출력 부분. 게시글을 뽑아올 수 있도록
+					R_meetingDAO rmtDAO = new R_meetingDAO(); // 인스턴스 생성
+					ArrayList<R_meeting> rmlist = rmtDAO.getRmList(r_meetingpage, mtID); // 리스트 생성.
+					for(int i = 0; i < rmlist.size(); i++) { 
+				%>
                 <ul id="Rmeeting">
-                    <li><img src="date.png" width="20")><%= rmt.getRmtDate().substring(0, 4) + "년" + rmt.getRmtDate().substring(5, 7) + "월" + rmt.getRmtDate().substring(8, 10) + "일" %></li> <!-- 정모 시간 -->
-                    <li><img src="location.png" width="22")><%= rmt.getRmtPlace() %></li> <!-- 정모 장소-->
-                    <li><img src="money.png" width="20")><%= rmt.getRmtCost() %></li> <!-- 정모 비용 -->
+                    <li><img src="date.png" width="20")><%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %></li> <!-- 정모 시간 -->
+                    <li><img src="location.png" width="22")><%= rmlist.get(i).getRmtPlace() %></li> <!-- 정모 장소-->
+                    <li><img src="money.png" width="20")><%= rmlist.get(i).getRmtCost() %></li> <!-- 정모 비용 -->
                 </ul>
                 <input id="join"  type="button" value="참여하기" onClick="alert('참여 신청을 보냈습니다. 모임장 수락시 참여 가능합니다.')" style="font-size: 17px;"> 
+                <%
+					}
+				%>
                 <!-- 클릭시 알림창 생성 -->
             </div>
         </div>
