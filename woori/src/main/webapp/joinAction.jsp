@@ -51,7 +51,7 @@
 				session.setAttribute("userID", user.getUserID());  // 세션 부여
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
-				script.println("alert('회원가입을 완료하였습니다.')");
+				script.println("alert('가입 완료되었습니다. 로그인 후 이용 가능합니다.')");
 				script.println("location.href = 'main.jsp'"); // 회원가입 완료 시 main.jsp로 이동
 				script.println("</script>");
 			}

@@ -7,293 +7,40 @@
 <%@ page import="woori.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-    <head>
-        <title>우리 동네 커뮤니케이션</title>
-        <meta name="viewport" content="user-scalable=no, initial-scale=1,maximum-scale=1">
-        <!-- 초기화 -->
-        <style>
-            * {
-                margin: 0; padding: 0;
-                font-family: '빙그레체' , 'Malgun Gothic' , Gothic, sans-serif;
-            }
-           
-            a { text-decoration: none; }
-            li { list-style: none; }
-        </style>
-        <!-- 기본 페이지 구성 -->
-        <style>
-            .pull-left { float: left; }
-            body {
-                width: 1500px; margin: 0 auto;
-                background-image: url('snowfall.jpg');
-                background-size: 100%;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-            }
-            #page-wrapper {
-                background-color: white;
-                margin: 40px 0; padding: 10px 20px;
-            }
-        </style>
-        <!-- 헤더(타이틀) 구성 -->
-        <style>
-            #main-header {
-                padding: 80px 0;
-            }
-            .main-title {
-                font-size: 50px;
-                color:  rgb(138, 111, 111);
-                text-align: center;
-                text-shadow: 3px 3px 1px rgb(194, 157, 157);
-            }
-        </style>
-        <!-- 내비게이션 및 풀다운 메뉴 구성  -->
-        <style>
-            #main-navigation {
-                border-top: 1px solid rgb(165, 150, 150);
-                border-bottom: 1px solid rgb(165, 150, 150);
-                margin-bottom: 20px;
-                height: 40px;
-            }
-            .outer-menu-item {
-                float: left;
-                position: relative;
-            }
-            .outer-menu-item:hover {
-                background-color:  rgb(138, 111, 111);
-                color: white;
-            }
-            .menu-title {
-                display: block;
-                height: 30px; line-height: 30px;
-                text-align: center;
-                padding: 5px 20px;
-                cursor: pointer;
-            }
-            .inner-menu {
-                display: none;
-                position: absolute;
-                top: 40px; left: 0;
-                width: 180%;
-                background-color: white;
-                box-shadow: 0 2px 6px rgba(5, 5, 5, 0.9);
-                z-index: 1000;
-            }
-            .inner-menu-item > a {
-                display: block;
-                padding: 5px 10px;
-                color: black;
-            }
-            .inner-menu-item > a:hover {
-                background-color: rgb(138, 111, 111);
-                color: white;
-            }
-            .menu-title > a {
-                color: black;
-            }
-        </style>
-        <!-- 본문 -->
-        <style>
-            #content { overflow: hidden; }
-            #main-aside {
-                width: 350px;
-                float: left;
-            }
-            article>div {
-                overflow: hidden;
-            }
-        <!-- 본문 포스트 위쪽 내용  -->
-        <style>
-            article {
-                margin: 0 80px 20px 80px;
-                padding: 10px 0;
-                border-bottom: 1px dashed rgb(138, 111, 111);
-            }
-			.article-header { padding: 10px 0; }
-            .article-title {
-                font-size: 25px;
-                font-weight: 500;
-                padding-bottom: 10px;
-            }
-        </style>
-        <!-- 로그인 전  -->
-        <style>
-            .before_login {
-                width: 300px; height: 150px;
-                background-color: rgb(255, 255, 255);
-                border: 1px solid rgb(138, 111, 111);
-                margin: 5px; padding: 15px;
-            }
-            .before_login > h1 {
-                text-align: center;
-                font-weight: 500;
-            }
-            .before_login >a {
-                text-align: center;
-                font-size: 14px;
-            }
-			#submit {
-                width: 55px;
-                height: 45px;
-                background: rgb(204, 180, 180);
-                border: 1px solid rgb(158, 158, 158);
-                cursor: pointer;
-            }
-            #submit:hover {
-                color: white;
-            }
-            #join {
-                color: black;
-            }
-            #join:hover {
-                color: brown;
-            }
-           </style>
-        <!-- 로그인 후  -->
-        <style>
-            .after_login > h1 {
-                text-align: center;
-                font-weight: 500;
-                margin: 0 0 15px 0;
-            }
-            #logout{
-                font-size: 13px;
-                font-weight: 500;
-                width: 70px;
-                height: 25px;
-                background: rgb(204, 180, 180);
-                border: 1px solid rgb(158, 158, 158);
-                cursor: pointer;
-                margin-left: 227px;
-            }
-            #logout:hover{
-                color: white;
-            }
-            .after_login{
-                width: 300px; height: 70px;
-                background-color: rgb(255, 255, 255);
-                border: 1px solid rgb(138, 111, 111);
-                margin: 5px; padding: 30px 15px 30px 15px;
-            }
-        </style>
-        <!-- 게시판 -->
-        <style>
-            #bulletinboard {
-              width: 100%;
-              border-top: 1px solid #9b9b9b;
-              border-collapse: collapse;
-            }
-            .bbline {
-              border-bottom: 1px solid #9b9b9b;
-              padding: 10px;
-              text-align: center;
-            }
-            #write {
-                width:55px;
-                height:35px;
-                background:rgb(204, 180, 180);
-                border:1px solid rgb(158, 158, 158);
-                cursor: pointer;
-            }
-        </style>
-        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <script>
-            $(document).ready(function(){
-                $('.outer-menu-item').hover(function() {
-                    $(this).find('.inner-menu').show();
-                }, function() {
-                    $(this).find('.inner-menu').hide();
-                });
-            });
-        </script>
-        <!-- 게시판 페이징 -->
-        <style>
-            #menu {
-                width: 400px;
-                margin: 0 auto;
-            }
-            .number-menu {
-                list-style: none;
-                display: inline-block;
-                margin-top: 5px;
-            }
-            .inner-number {
-                float: left;
-            }
-            .inner-number > a {
-                margin: 3px;
-                padding: 3px;
-                border: 1px solid #9b9b9b;
-                text-align: center;
-                text-decoration:none;
-                color: black;
-            }
-            .inner-number > a:hover {
-                background:rgb(194, 157, 157);
-                color: white;
-            }
-            #write:hover {
-                color: white;
-            }
-        </style>
-        <!-- 모임 -->
-        <style>
-            .meetingbb {
-                width: 150px;
-                margin: 5px;
-                padding: 10px 30px 10px 30px;
-                border: 2px solid #9b9b9b;
-                border-radius: 10px;
-            }
-            .category {
-                font-size: 15px;
-                text-align: center;
-            }
-            .meeting_name {
-                text-align: center;
-            }
-            .meeting_name > a {
-                font-weight: 500;
-                text-align: center;
-                color: black;
-            }
-            .meeting_name>a:hover{
-                color: rgb(133, 78, 78);
-                font-weight: 600;
-            }
-            .meeting_info {
-                font-size: 15px;
-                text-align: center;
-            }
-            #make_meeting {
-                background:rgb(204, 180, 180);
-                border:1px solid rgb(158, 158, 158);
-                font-size: 14px;
-                width: 95px;
-                height: 35px;
-                margin-top: 10px;
-            }
-            #make_meeting:hover{
-                color:white;
-                cursor: pointer;
-            }
-            /* 반응형_스마트폰*/
-                @media screen and (max-width:767px){
-                body{ width: auto }
-                #main-aside { width: auto; float: none;}
-            }
-        </style>
-        <style type="text/css">
-			a, a:hover {
-			color:#000000;
-			text-decoration: none;
-			}
-		</style>
-    </head>
-    <body>
-    	<% 
+	<head>
+		<title>우리 동네 커뮤니케이션</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/project_woori.css" />
+
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+		<script>
+			$(function (){
+					$("#joinBtn").click(function (){
+					  $("#join").show();
+					  $("#loginBtn").show();
+					  $("#joinBtn").hide();
+					  $(".login").hide();
+				});
+			});
+			$(function (){
+					$("#loginBtn").click(function (){
+						$(".login").show();
+						$("#loginBtn").hide();
+						$("#joinBtn").show();
+						$("#join").hide();
+				});
+			});
+		</script>
+		<%-- date picker 선언_jquery UI --%>
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	</head>
+	<body>
+		<% 
 			String userID = null;    // 로그인 확인 후 userID에 로그인한 값, 비로그인 null
 			String add = null;
 			String nick = null;
@@ -308,247 +55,270 @@
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber")); 
 			}
 		%>
-        <div id="page-wrapper">
-            <header id="main-header">
-                <hgroup>
-                    <h1 class="main-title">우리 동네 커뮤니케이션</h1>
-                </hgroup>
-            </header>
-            <nav id="main-navigation">
-                <div class="pull-left">
-                    <ul class="outer-menu">
-                        <li class="outer-menu-item">
-                            <span class="menu-title"><a href="#시게시판">게시판</a></span>
-                        </li>
-                        <li class="outer-menu-item">
-                            <span class="menu-title">모임</span>
-                            <ul class="inner-menu">
-                                <li class="inner-menu-item"><a href="#내모임">내 모임</a></li>
-                                <li class="inner-menu-item"><a href="#모임찾기">모임 찾기</a></li>
-                            </ul>
-                        </li>
-                        <li class="outer-menu-item">
-                            <span class="menu-title">문의/신고</span>
-                            <ul class="inner-menu">
-                                <li class="inner-menu-item"><a href="#자주묻는질문">자주 묻는 질문</a></li>
-                                <li class="inner-menu-item"><a href="#문의하기">문의하기</a></li>
-                                <li class="inner-menu-item"><a href="#신고하기">신고하기</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <aside id="main-aside">
-            	<% 
-					if(userID == null) {
-				%>
-                <div class="before_login">
-                    <h1>로그인</h1>
-                    <br>
-                    <table>
-                    	<form method="post" action="loginAction.jsp">
-                       		 <tr>
-                         	   <td><label for="id">아이디</label></td>
-                         	   <td><input id="id" type="text" name="userID"></td>
-                         	   <td rowspan="2"><input id="submit"  type="submit" value="입력"></td>
-                       		 </tr>
-                       		 <tr>
-                         	   <td><label for="password">비밀번호</label></td>
-                         	   <td><input id="password" type="password" name="userPassword"></td>
-                      		 </tr>
-    	               	 	 <tr>
-                          	 	 <td></td><td></td>
-                          		  <td><br><a href=join.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="join">회원가입</a></td>
-                      		 </tr>
-                        </form>
-                    </table>
-                </div>
-                <%		
-					} else {
-				%>
-                <div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
-					<h1>
-                   		<%
-							out.println(nick + "님 환영합니니다.</br>");
-                    	%>                    	
-                    </h1>
-                    <br><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a>
-                </div>
-                <%
-					}
-				%>
-            </aside>
-            <div id="content">
-                <article>
-                    <div class="article-header"  id="시게시판">
-                        <%if(userID == null){%>
-                    		<h1 class="article-title">시 게시판</h1>
-                    	<%}else{%>
-                    		<h1 class="article-title"><%=add %> 게시판</h1>
-                    	<%}%>
-                        
-                        <table id="bulletinboard">
-                                <tr>
-                                    <td class="bbline">번호</td>
-                                    <td class="bbline">제목</td>
-                                    <td class="bbline">작성자</td>
-                                    <td class="bbline">작성일</td>
-                                    <td class="bbline">댓글수</td>
-                                    <td class="bbline">조회수</td>
-                                </tr>
-                     	            <%	// 게시글 출력 부분. 게시글을 뽑아올 수 있도록
-										BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
-										ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
-										for(int i = 0; i < list.size(); i++) { 
-									%>
-								<tr>
-									<td class="bbline"><%= list.get(i).getBrdID() %></td>
-									<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
-									<td class="bbline"><%= list.get(i).getUserNickname() %></td>
-									<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
-									<td class="bbline"><%= list.get(i).getCmtCount() %></td>
-									<td class="bbline"><%= list.get(i).getBrdCount() %></td>
-								</tr>
-									<%
-										}
-									%>
-                            </table>
-                        </div>
-                        <div id="menu">
-                        	<ul class="number-menu">
-                        	<%
-                        		int startPage = (pageNumber / 10) * 10 + 1;
-                        		if(pageNumber % 10 == 0) startPage -= 10;
-                        		int targetPage = new BoardDAO().targetPage(pageNumber);
-                        		if(startPage != 1) {
-                        	%>		
-                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
-    						<%
-    							} else {
-                        	%>
-                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
-                        	<%
-    							}
-                        		if(pageNumber != 1)	{
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="#" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<nav class="links">
+							<ul>
+								<li><a href="#bulletinboard">시 게시판</a></li>
+								<li><a href="#meeting">모임</a></li>
+							</ul>
+						</nav>
+						<nav class="main">
+							<ul>
+								<li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Search" />
+									</form>
+								</li>
+								<li class="menu">
+									<a class="fa-bars" href="#menu">Menu</a>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Menu (css:3339)-->
+					<section id="menu" >
+
+						<!-- 로그인-->
+						<section id="login">
+							<%
+								if(userID == null) {
 							%>
-								<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+							<form method="post" action="loginAction.jsp">
+							<li class="login"><input id="login_id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li class="login"><input id="login_pw" type="password" name="userPassword" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
+							<li class="login"><input class="button big fit" type="submit" value="로그인"></li>
+							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
+							<li id="loginBtn" style="float:right; cursor:pointer; font-size: 13px; display:none;">로그인</li>
+							</form>
 							<%
 								} else {
-		                    %>
-	                        	<li class="inner-number">&lt;&nbsp;</li>
-	                        <%
-	    						}
-                        		for(int i = startPage; i < pageNumber; i++) {
-                        	%>
-                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
-                        	<%
-                        		}
-                        	%>
-                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
-                        	<%
-                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
-                        			if(i <startPage + 10) {
-                        	%>
-                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
-                            <%			
-                        			}
-                        		}
-                        		if(pageNumber != targetPage + pageNumber)	{
-    						%>
-    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
-    						<%
-    							} else {
-    		                %>
-    	                        <li class="inner-number">&nbsp;&gt;</li>
-    	                    <%
-    	    					}
-                        		if(targetPage + pageNumber > startPage + 9) {
-                        	%>
-                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
-                            <%	
-                        		} else {
-                        	%>
-                        		<li class="inner-number">&nbsp;&gt;&gt;</li>
-                        	<%
-                        		}
-                        	%>
+							%>
+							<div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
+								<h1>
+			                   		<%
+										out.println(nick + "님 환영합니다.</br>");
+			                    	%>                    	
+			                    </h1>
+			                    <a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a>
+			                </div>
+			                 <%
+								}
+							%>
+						</section>
+
+						<section id="join" style="display:none">
+							<form method="post" action="joinAction.jsp">
+							<li><input id="id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li><input id="pw" type="password" name="userPassword" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
+							<li><input id="name" type="text" name="userName" placeholder="이름" style="margin-bottom: 5px;"></li>
+							<li><input id="birth" type="text" name="userBirth" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;">
+								<script>
+    						    $(function() {
+    					            $("#birth").datepicker({
+    					                dateFormat: 'yy-mm-dd', showOtherMonths: true, showMonthAfterYear:true
+    					                ,changeYear: true, changeMonth: true, yearSuffix: "년"
+    					                ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+    					            	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트	
+    					           		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
+    					            });
+    					            $('#datepicker').datepicker('setDate', 'today');    
+    					        });
+	   							</script>
+							</li>
+							<li><input id="phonenum" type="text" name="userPhone" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="address" type="text" name="userAddress" placeholder="주소" style="margin-bottom: 5px;" onClick="addPopup()"><!-- 주소 입력창 클릭시 위치 인증 팝업으로-->
+								<script type="text/javascript">
+					        	function addPopup(){
+					        		const pop = window.open("${pageContext.request.contextPath}/location.jsp", "pop", "width=550, height=630, scrollbars=no, resizable=yes");
+					        	}
+					       		 </script>
+					        </li> 
+							<li><input id="nickname" type="text" name="userNickname" placeholder="닉네임" style="margin-bottom: 10px;"></li>
+							<li><input class="button big fit" type="submit" value="가입하기"></li>
+							</form>
+						</section>
+
+					</section> 
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post" id="bulletinboard">
+								<header>
+									<div class="title">
+										<%if(userID == null){%>
+											<h2>시 게시판</h2>
+										<%}else{%>
+											<h2 class="article-title"><%=add %> 게시판</h2>
+                    					<%}%>
+										<p>같은 지역에 사는 이웃들과 자유롭게 이야기할 수 있는 공간입니다.</p>
+									</div>
+									<div class="meta">
+										<a href="write.jsp" class="author"><span class="name" style="font-size: 10px;">글쓰기</span></a>
+									</div>
+								</header>
+								<table id="bulletinboard">
+									<tr>
+										<td class="bbline">번호</td>
+										<td class="bbline">제목</td>
+										<td class="bbline">작성자</td>
+										<td class="bbline">작성일</td>
+										<td class="bbline">댓글수</td>
+										<td class="bbline">조회수</td>
+									</tr>
+										<%  // 게시글 출력 부분. 게시글을 뽑아올 수 있도록
+											BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
+											ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
+											for(int i = 0; i < list.size(); i++) { 
+										%>
+									<tr>
+										<td class="bbline"><%= list.get(i).getBrdID() %></td>
+										<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+										<td class="bbline"><%= list.get(i).getUserNickname() %></td>
+										<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
+										<td class="bbline"><%= list.get(i).getCmtCount() %></td>
+										<td class="bbline"><%= list.get(i).getBrdCount() %></td>
+									</tr>
+										<%
+											}
+										%>
+								</table>	
+								<ul class="number-menu">
+								<%
+	                        		int startPage = (pageNumber / 10) * 10 + 1;
+	                        		if(pageNumber % 10 == 0) startPage -= 10;
+	                        		int targetPage = new BoardDAO().targetPage(pageNumber);
+	                        		if(startPage != 1) {
+	                        	%>		
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+	    						<%
+	    							} else {
+	                        	%>
+	                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
+	                        	<%
+	    							}
+	                        		if(pageNumber != 1)	{
+								%>
+									<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+								<%
+									} else {
+			                    %>
+		                        	<li class="inner-number">&lt;&nbsp;</li>
+		                        <%
+		    						}
+	                        		for(int i = startPage; i < pageNumber; i++) {
+	                        	%>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+	                        	<%
+	                        		}
+	                        	%>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+	                        	<%
+	                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
+	                        			if(i <startPage + 10) {
+	                        	%>
+	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+	                            <%			
+	                        			}
+	                        		}
+	                        		if(pageNumber != targetPage + pageNumber)	{
+	    						%>
+	    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+	    						<%
+	    							} else {
+	    		                %>
+	    	                        <li class="inner-number">&nbsp;&gt;</li>
+	    	                    <%
+	    	    					}
+	                        		if(targetPage + pageNumber > startPage + 9) {
+	                        	%>
+	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
+	                            <%	
+	                        		} else {
+	                        	%>
+	                        		<li class="inner-number">&nbsp;&gt;&gt;</li>
+	                        	<%
+	                        		}
+	                        	%>
+								</ul>
+							</article>
+
+						<!-- Post -->
+							<article class="post" id="meeting">
+								<header>
+									<div class="title">
+										<h2>모임</h2>
+										<p>근처의 이웃들과 함께 모임을 만들어 취미를 즐길 수 있는 공간입니다.</p>
+									</div>
+									<div class="meta">
+										<a href="woori_makemeeting.html" class="author"><span class="name" style="font-size: 10px;">모임 만들기</span></a>
+									</div>
+								</header>
+								<header id="category">
+									<ul style="list-style:none; margin: 1% 1% 1% 26%;">
+										<li id="firstcategorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">전체</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">운동</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">봉사활동</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">게임</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">문화/공연</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">공예/만들기</a></li>
+										<li class="categorylist" style="float:left; margin: 0 5% 0 2%; font-size: 15px;"><a href="" target="_blank">공부/스터디</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">음악/댄스</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">사교</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">여행</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">독서</a></li>
+										<li  id="firstcategorylist" style="float:left; font-size: 15px;"><a href="" target="_blank">자유</a></li>
+									</ul>
+								</header>
+								<article>
+								<ul class="posts">
+										<article style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: solid 1px #dddddd;" >
+											<header>
+												<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
+												<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 12일</h3>
+											</header>
+											<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
+										</article>
+								</ul>
+								<ul class="posts">
+									<article>
+										<header>
+											<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
+											<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 15일</h3>
+										</header>
+										<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
+									</article>
+								</article>
 							</ul>
-                        </div>
-                    	<div id="registration">
-                            <input id="write"  type="button" value="글쓰기" onClick="location.href='write.jsp'">
-                        </div>
-                    </article>
-                    <article>
-                        <div class="article-header"  id="내모임">
-                            <h1 class="article-title">내 모임</h1>
-                        </div>
-                       		<div class="meetingbb">
-                                <ul class="meeting">
-                                <li class="category"><img src="category.png" width="12")> 독서</li>
-                                <li class="meeting_name"><a href='meeting.jsp?mtID=<%= URLEncoder.encode("독서모임", "UTF-8")%>'>독서 모임</a></li>
-                                <li class="meeting_info"><img src="leader.png" width="12")> 강수정
-                                <img src="people.png" width="12")> 5명</li>
-                                </ul>
-                        </div>
-                        <div>
-                            <input id="make_meeting"  type="button" value="모임 만들기" onClick="location.href='project_makemeeting.html'">
-                        </div>
-                    </article>
-                    <article>
-                        <div class="article-header"  id="모임찾기">
-                            <h1 class="article-title">모집중인 모임</h1>
-                            <table id="category">
-                                <tr>
-                                    <td>카테고리 선택</td>
-                                    <td>
-                                    <select>
-                                        <option>전체</option>
-                                        <option>운동</option>
-                                        <option>봉사활동</option>
-                                        <option>게임</option>
-                                        <option>문화/공연</option>
-                                        <option>반려동물</option>
-                                        <option>공예/만들기</option>
-                                        <option>요리/제조</option>
-                                        <option>공부/스터디</option>
-                                        <option>음악/댄스</option>
-                                        <option>사교</option>
-                                        <option>여행</option>
-                                        <option>독서</option>
-                                        <option>자유</option>
-                                    </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="meetingbb">
-                            <ul class="meeting">
-                            <li class="category"><img src="category.png" width="12")> 독서</li>
-                            <li class="meeting_name"><a href="project_meeting.html">독서 모임</a></li>
-                            <li class="meeting_info"><img src="leader.png" width="12")> 강수정
-                            <img src="people.png" width="12")> 5명</li>
-                            </ul>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="article-header"  id="자주묻는질문">
-                            <h1 class="article-title">자주 묻는 질문</h1>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="article-header"  id="문의하기">
-                            <h1 class="article-title">문의하기</h1>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="article-header"  id="신고하기">
-                            <h1 class="article-title">신고하기</h1>
-                        </div>
-                    </article>
-               </div>
-            <footer id="main-footer">
-                <a href="#"></a>
-            </footer>
-        </div>
-    </body>
+							</article>
+					</div>
+
+				<!-- Sidebar -->
+					<section id="sidebar">
+						<!-- Intro -->
+							<section id="intro">
+								<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+								<header>
+									<h2>우리동네 <br>커뮤니케이션</h2>
+									<p>동네 이웃들과 이야기 나누고 취미를 공유해보세요.</p>
+								</header>
+							</section>
+					</section>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+	</body>
 </html>

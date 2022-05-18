@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>시게시판 글 작성</title>
+		<title>모임게시판 글 작성</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/project_woori.css" />
@@ -45,7 +45,7 @@
 								<header>
 									<div class="title">
 										<h2>글쓰기</h2>
-										<p>게시판에 글을 작성해보세요.</p>
+										<p>모임게시판에 글을 작성해보세요.</p>
 									</div>
 								</header>
 								<form method="post" action="writeAction.jsp">
