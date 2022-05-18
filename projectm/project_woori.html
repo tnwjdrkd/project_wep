@@ -10,7 +10,18 @@
 		<script>
 			$(function (){
 					$("#joinBtn").click(function (){
-					  $("#join").toggle();
+					  $("#join").show();
+					  $("#loginBtn").show();
+					  $("#joinBtn").hide();
+					  $(".login").hide();
+				});
+			});
+			$(function (){
+					$("#loginBtn").click(function (){
+						$(".login").show();
+						$("#loginBtn").hide();
+						$("#joinBtn").show();
+						$("#join").hide();
 				});
 			});
 		</script>
@@ -49,10 +60,11 @@
 
 						<!-- 로그인-->
 						<section id="login">
-							<li><input id="login_id" type="text" placeholder="아이디" style="margin-bottom: 5px;"></li>
-							<li><input id="login_pw" type="password" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
-							<li><input class="button big fit"  type="submit" value="로그인"></li>
+							<li class="login"><input id="login_id" type="text" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li class="login"><input id="login_pw" type="password" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
+							<li class="login"><input class="button big fit" type="submit" value="로그인"></li>
 							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
+							<li id="loginBtn" style="float:right; cursor:pointer; font-size: 13px; display:none;">로그인</li>
 						</section>
 
 						<section id="join" style="display:none">
@@ -62,9 +74,9 @@
 							<li><input id="name" type="text" placeholder="이름" style="margin-bottom: 5px;"></li>
 							<li><input id="birth" type="text" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;"></li>
 							<li><input id="phonenum" type="text" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
-							<li><input id="address" type="text" placeholder="주소" style="margin-bottom: 5px;"></li>
-							<li><input id="nickname" type="text" placeholder="닉네임" style="margin-bottom: 5px;"></li>
-							<li><input class="button big fit" type="submit" value="가입하기"></li>
+							<li><input id="address" type="text" placeholder="주소" style="margin-bottom: 5px;" onClick="location.href='location.html'"> <!-- 주소 입력창 클릭시 위치 인증 팝업으로-->
+							<li><input id="nickname" type="text" placeholder="닉네임" style="margin-bottom: 10px;"></li>
+							<li><input class="button big fit" type="submit" value="가입하기" onClick="alert('가입 완료되었습니다. 로그인 후 이용 가능합니다.')"></li>
 							</form>
 						</section>
 
@@ -81,7 +93,7 @@
 										<p>같은 지역에 사는 이웃들과 자유롭게 이야기할 수 있는 공간입니다.</p>
 									</div>
 									<div class="meta">
-										<a href="#" class="author"><span class="name" style="font-size: 10px;">글쓰기</span></a>
+										<a href="woori_bbwrite.html" class="author"><span class="name" style="font-size: 10px;">글쓰기</span></a>
 									</div>
 								</header>
 								<table id="bulletinboard">
@@ -197,34 +209,50 @@
 										<p>근처의 이웃들과 함께 모임을 만들어 취미를 즐길 수 있는 공간입니다.</p>
 									</div>
 									<div class="meta">
-										<a href="#" class="author"><span class="name" style="font-size: 10px;">모임 만들기</span></a>
+										<a href="woori_makemeeting.html" class="author"><span class="name" style="font-size: 10px;">모임 만들기</span></a>
 									</div>
 								</header>
+								<header id="category">
+									<ul style="list-style:none; margin: 1% 1% 1% 26%;">
+										<li id="firstcategorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">전체</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">운동</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">봉사활동</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">게임</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">문화/공연</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">공예/만들기</a></li>
+										<li class="categorylist" style="float:left; margin: 0 5% 0 2%; font-size: 15px;"><a href="" target="_blank">공부/스터디</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">음악/댄스</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">사교</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">여행</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">독서</a></li>
+										<li  id="firstcategorylist" style="float:left; font-size: 15px;"><a href="" target="_blank">자유</a></li>
+									</ul>
+								</header>
+								<article>
 								<ul class="posts">
-									<li>
-										<article>
+										<article style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: solid 1px #dddddd;" >
 											<header>
 												<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
 												<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 12일</h3>
 											</header>
 											<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
 										</article>
-									</li>
+								</ul>
+								<ul class="posts">
+									<article>
+										<header>
+											<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
+											<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 15일</h3>
+										</header>
+										<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
+									</article>
+								</article>
+							</ul>
 							</article>
-							<article class="mini-post" style="width:200px">
-								<header>
-									<h3 style="font-size: 15px; font-weight: 500;"><a href="#">독서모임</a></h3>
-									<h3 class="published" style="font-size:10px;">2022년 05월 08일</h3>
-									<a href="#" class="author"><img src="images/avatar.jpg"/></a>
-								</header>
-								<a href="#" class="image"><img src="images/pic08.jpg"  style="height: 200px;" /></a>
-							</article>
-
 					</div>
 
 				<!-- Sidebar -->
 					<section id="sidebar">
-
 						<!-- Intro -->
 							<section id="intro">
 								<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
@@ -234,7 +262,6 @@
 								</header>
 							</section>
 					</section>
-
 			</div>
 
 		<!-- Scripts -->
@@ -243,6 +270,5 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>

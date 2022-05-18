@@ -1730,7 +1730,8 @@
 			color: #2ebaae !important;
 		}
 
-		li[id="joinBtn"]:hover{
+		li[id="joinBtn"]:hover,
+		li[id="loginBtn"]:hover{
 			color: #2ebaae !important;
 		}
 
@@ -2608,9 +2609,9 @@
 
 			.post > header .meta {
 				padding: 3.75em 3em 1.75em 3em ;
-				min-width: 17em;
+				min-width: 1em; /* ㅅㅈ */
 				text-align: right;
-				width: 17em;
+				width: 1em; /* ㅅㅈ */
 			}
 
 				.post > header .meta > * {
@@ -2881,7 +2882,7 @@
 	}
 
 	table {
-		margin: 0 0 2em 0;
+		margin: 0 0 2em 0; /*ㅅㅈ*/
 		width: 100%;
 	}
 
@@ -2892,11 +2893,11 @@
 		}
 
 			table tbody tr:nth-child(2n + 1) {
-				background-color: rgba(160, 160, 160, 0.075);
+				/*background-color: rgba(160, 160, 160, 0.075); /*ㅅㅈ*/
 			}
 
 		table td {
-			padding: 0.75em 0.75em;
+			padding: 0.75em 0.75em; /*ㅅㅈ*/
 		}
 
 		table th {
@@ -3415,10 +3416,6 @@
 		li {
             list-style: none;
 		}
-		li  #joinBtn:hover{
-			color:#2ebaae;
-		}
-
 		#post {
 			width: 850px;
 			float:left;
