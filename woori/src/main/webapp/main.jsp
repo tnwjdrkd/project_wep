@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="board.BoardDAO" %>
-<%@ page import="board.Board" %>
 <%@ page import="woori.UserDAO" %>
 <%@ page import="woori.User" %>
+<%@ page import="board.BoardDAO" %>
+<%@ page import="board.Board" %>
+<%@ page import="meeting.MeetingDAO" %>
+<%@ page import="meeting.Meeting" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE HTML>
@@ -37,7 +39,7 @@
 		<%-- date picker 선언_jquery UI --%>
 			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<link rel="stylesheet" href="assets/css/jquery-ui.css">
 	</head>
 	<body>
 		<% 
@@ -51,9 +53,14 @@
 				nick = user.nick(userID);
 			}
 			int pageNumber = 1; // 게시판 기본 페이지 설정
+			int meetingPage = 1;
 			if (request.getParameter("pageNumber") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber")); 
 			}
+			if (request.getParameter("meetingPage") != null) {
+				meetingPage = Integer.parseInt(request.getParameter("meetingPage")); 
+			}
+			String Category = "전체";
 		%>
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -128,7 +135,7 @@
     					            	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트	
     					           		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
     					            });
-    					            $('#datepicker').datepicker('setDate', 'today');    
+    					            $('#datepicker').datepicker('setDate', 'today');
     					        });
 	   							</script>
 							</li>
@@ -198,7 +205,7 @@
 	                        		int targetPage = new BoardDAO().targetPage(pageNumber);
 	                        		if(startPage != 1) {
 	                        	%>		
-	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>&meetingPage=<%= meetingPage %>">&lt;&lt;&nbsp;</a></li>
 	    						<%
 	    							} else {
 	                        	%>
@@ -207,7 +214,7 @@
 	    							}
 	                        		if(pageNumber != 1)	{
 								%>
-									<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+									<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>&meetingPage=<%= meetingPage %>">&lt;&nbsp;</a></li>
 								<%
 									} else {
 			                    %>
@@ -216,22 +223,22 @@
 		    						}
 	                        		for(int i = startPage; i < pageNumber; i++) {
 	                        	%>
-	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>"><%= i %></a></li>
 	                        	<%
 	                        		}
 	                        	%>
-	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>"><%= pageNumber %></a></li>
 	                        	<%
 	                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
 	                        			if(i <startPage + 10) {
 	                        	%>
-	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>"><%= i %></a></li>
 	                            <%			
 	                        			}
 	                        		}
 	                        		if(pageNumber != targetPage + pageNumber)	{
 	    						%>
-	    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+	    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>&meetingPage=<%= meetingPage %>">&nbsp;&gt;</a></li>
 	    						<%
 	    							} else {
 	    		                %>
@@ -240,7 +247,7 @@
 	    	    					}
 	                        		if(targetPage + pageNumber > startPage + 9) {
 	                        	%>
-	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
+	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>&meetingPage=<%= meetingPage %>">&nbsp;&gt;&gt;</a></li>
 	                            <%	
 	                        		} else {
 	                        	%>
@@ -259,7 +266,7 @@
 										<p>근처의 이웃들과 함께 모임을 만들어 취미를 즐길 수 있는 공간입니다.</p>
 									</div>
 									<div class="meta">
-										<a href="woori_makemeeting.html" class="author"><span class="name" style="font-size: 10px;">모임 만들기</span></a>
+										<a href="makeMeeting.jsp" class="author"><span class="name" style="font-size: 10px;">모임 만들기</span></a>
 									</div>
 								</header>
 								<header id="category">
@@ -279,25 +286,81 @@
 									</ul>
 								</header>
 								<article>
+								<%
+									MeetingDAO mtDAO = new MeetingDAO(); // 인스턴스 생성
+									ArrayList<Meeting> meetinglist = mtDAO.getMeetingList(meetingPage); // 리스트 생성.
+									for(int i = 0; i < meetinglist.size(); i++) { 
+								%>
 								<ul class="posts">
 										<article style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: solid 1px #dddddd;" >
 											<header>
-												<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
-												<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 12일</h3>
+												<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="meeting.jsp?mtID=<%= URLEncoder.encode(meetinglist.get(i).getMtID(), "UTF-8")%>"> <%= meetinglist.get(i).getMtID() %></a></h3>
+												<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published"> <%= meetinglist.get(i).getMtDate().substring(0, 4) + "년" + meetinglist.get(i).getMtDate().substring(5, 7) + "월" + meetinglist.get(i).getMtDate().substring(8, 10) + "일" %></h3>
 											</header>
-											<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
+											<a href="meeting.jsp?mtID=<%= URLEncoder.encode(meetinglist.get(i).getMtID(), "UTF-8")%>" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
 										</article>
 								</ul>
-								<ul class="posts">
-									<article>
-										<header>
-											<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="#">독서모임</a></h3>
-											<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published">2022년 05월 15일</h3>
-										</header>
-										<a href="#" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
-									</article>
-								</article>
-							</ul>
+								<%
+									}
+								%>
+								<ul class="number-menu">
+	                                <%
+		                        		int startMtPage = (meetingPage / 5) * 5 + 1;
+		                        		if(meetingPage % 5 == 0) startMtPage -= 5;
+		                        		int targetMtPage = new MeetingDAO().targetMeetingPage(meetingPage);
+		                        		if(startMtPage != 1) {
+		                        	%>		
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+		    						<%
+		    							} else {
+		                        	%>
+		                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
+		                        	<%
+		    							}
+		                        		if(meetingPage != 1)	{
+									%>
+										<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage - 1 %>">&lt;&nbsp;</a></li>
+									<%
+										} else {
+				                    %>
+			                        	<li class="inner-number">&lt;&nbsp;</li>
+			                        <%
+			    						}
+		                        		for(int i = startMtPage; i < meetingPage; i++) {
+		                        	%>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>"><%= i %></a></li>
+		                        	<%
+		                        		}
+		                        	%>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>"><%= meetingPage %></a></li>
+		                        	<%
+		                        		for (int i = meetingPage + 1; i <= targetMtPage + meetingPage; i++) {
+		                        			if(i <startMtPage + 5) {
+		                        	%>
+		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>"><%= i %></a></li>
+		                            <%			
+		                        			}
+		                        		}
+		                        		if(meetingPage != targetMtPage + meetingPage)	{
+		    						%>
+		    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage + 1 %>">&nbsp;&gt;</a></li>
+		    						<%
+		    							} else {
+		    		                %>
+		    	                        <li class="inner-number">&nbsp;&gt;</li>
+		    	                    <%
+		    	    					}
+		                        		if(targetMtPage + meetingPage > startMtPage + 4) {
+		                        	%>
+		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage + 5 %>">&nbsp;&gt;&gt;</a></li>
+		                            <%	
+		                        		} else {
+		                        	%>
+		                        		<li class="inner-number">&nbsp;&gt;&gt;</li>
+		                        	<%
+		                        		}
+		                        	%>
+								</ul>
 							</article>
 					</div>
 
