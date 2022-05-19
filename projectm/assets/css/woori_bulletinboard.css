@@ -2892,7 +2892,7 @@
 		}
 
 			table tbody tr:nth-child(2n + 1) {
-				background-color: rgba(160, 160, 160, 0.075);
+				/*background-color: rgba(160, 160, 160, 0.075); /*ㅅㅈ*/
 			}
 
 		table td {
@@ -2908,11 +2908,11 @@
 		}
 
 		table thead {
-			border-bottom: solid 2px rgba(160, 160, 160, 0.3);
+			/*border-bottom: solid 2px rgba(160, 160, 160, 0.3);/*ㅅㅈ*/
 		}
 
 		table tfoot {
-			border-top: solid 2px rgba(160, 160, 160, 0.3);
+			/*border-top: solid 2px rgba(160, 160, 160, 0.3);/*ㅅㅈ*/
 		}
 
 		table.alt {
@@ -2920,17 +2920,17 @@
 		}
 
 			table.alt tbody tr td {
-				border: solid 1px rgba(160, 160, 160, 0.3);
+				/*border: solid 1px rgba(160, 160, 160, 0.3);*/
 				border-left-width: 0;
 				border-top-width: 0;
 			}
 
 				table.alt tbody tr td:first-child {
-					border-left-width: 1px;
+					/*border-left-width: 1px;*/
 				}
 
 			table.alt tbody tr:first-child td {
-				border-top-width: 1px;
+				/*border-top-width: 1px;*/
 			}
 
 			table.alt thead {
@@ -3210,23 +3210,65 @@
 /* Sidebar */
 
 	#sidebar {
-		margin-right: 3em;
-		min-width: 22em;
-		width: 22em;
+		margin-right: 2em;
+		min-width: 28em; /*ㅅㅈ*/
+		width: 28em; /*ㅅㅈ*/
+		background: #ffffff;
+		border: solid 1px rgba(160, 160, 160, 0.3);
 	}
 
 		#sidebar > * {
 			border-top: solid 1px rgba(160, 160, 160, 0.3);
 			margin: 3em 0 0 0;
-			padding: 3em 0 0 0;
+			padding: 2em;
+			overflow:hidden;
 		}
 
 		#sidebar > :first-child {
 			border-top: 0;
 			margin-top: 0;
-			padding-top: 0;
+			padding-top: 3em;
 		}
 
+		#bulletinboard {
+			table-layout: fixed;
+		}
+		#bulletinboard > * {
+			text-align: center;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		#bulletinboard tr :first-child {
+			width:15%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+
+		}
+		#bulletinboard tr :nth-child(2) {
+			width:10%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+
+		}
+		#bulletinboard tr :nth-child(3) {
+			width:10%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		#bulletinboard tr :last-child {
+			width:6%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.bbline {
+			font-size:15px;
+		}
 		@media screen and (max-width: 1280px) {
 
 			#sidebar {
@@ -3320,26 +3362,6 @@
 			}
 
 	}
-
-/* Footer */
-
-	#footer .icons {
-		color: #aaaaaa;
-	}
-
-	#footer .copyright {
-		color: #aaaaaa;
-		font-family: "Raleway", Helvetica, sans-serif;
-		font-size: 0.5em;
-		font-weight: 400;
-		letter-spacing: 0.09em; /* ㅅㅈ */
-		text-transform: uppercase;
-	}
-
-	body.single #footer {
-		text-align: center;
-	}
-
 /* Menu */
 
 	#menu {
