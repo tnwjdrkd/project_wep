@@ -1,12 +1,20 @@
 package meeting;
 
 public class Meeting {
+	private int mtNum;
+	
 	private String mtID;
 	private String mtAddress;
 	private String mtCategory;
 	private String mtLeader;
 	private String mtSummary;
 	private String mtDate;
+	public int getMtNum() {
+		return mtNum;
+	}
+	public void setMtNum(int mtNum) {
+		this.mtNum = mtNum;
+	}
 	public String getMtID() {
 		return mtID;
 	}
