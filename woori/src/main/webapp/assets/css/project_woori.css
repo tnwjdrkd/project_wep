@@ -3453,3 +3453,29 @@
 			font-size: 14px;
 			color:#9b9b9b;
 		}
+		.Rmeeting01{
+			padding:10px 5px 10px 5px;
+		}
+		.Rmeeting01:hover {
+			background-color: #f5f5f5;
+			cursor: pointer;
+		}
+		.review01 li {
+			padding: 10px 5px 10px 5px;
+			border-top: 1px solid #dbdbdb;
+		}
+		.Rmeeting02{
+			border-top: 2px solid #dbdbdb;
+			padding:20px 5px 10px 5px;
+		}
+		.Rmeeting02:hover {
+			background-color: #f5f5f5;
+			cursor: pointer;
+		}
+		.review02 li {
+			padding: 10px 5px 10px 5px;
+			border-top: 1px solid #dbdbdb;
+		}
+		.content {
+			margin: 20px 0 20px 0; 
+		}
