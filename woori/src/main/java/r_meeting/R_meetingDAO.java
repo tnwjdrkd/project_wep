@@ -58,11 +58,11 @@ public class R_meetingDAO {
 		return -2; // DB오류.
 	}
 	
-	public R_meeting getR_meeting(String rmtGroup) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
-		String SQL = "SELECT * FROM r_meeting WHERE rmtGroup = ? AND rmtID = (SELECT MAX(rmtID) FROM r_meeting)";
+	public R_meeting getR_meeting(int rmtID) {
+		String SQL = "SELECT * FROM r_meeting WHERE rmtID = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, rmtGroup);
+			pstmt.setInt(1, rmtID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				R_meeting rmt = new R_meeting();

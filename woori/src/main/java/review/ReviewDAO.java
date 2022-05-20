@@ -78,4 +78,20 @@ public class ReviewDAO {
 		}
 		return false;
 	}
+	
+	public int rvWrite(int rvRmeeting, String rvUser, String rvContent) {
+		String SQL = "INSERT INTO review (rvID, rvRmeeting, rvUser, rvContent, rvAvailable) VALUES (?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext()); 		// 게시글 번호
+			pstmt.setInt(2, rvRmeeting);			// 작성자
+			pstmt.setString(3, rvUser); 	// 주소
+			pstmt.setString(4, rvContent);
+			pstmt.setInt(5, 1);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -2; // DB오류.
+	}
 }

@@ -93,12 +93,11 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
-		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? AND brdAvailable = 1 AND brdMt is NULL ORDER BY brdID DESC";
+		String SQL = "SELECT * FROM board WHERE brdAvailable = 1 AND brdMt is NULL ORDER BY brdID DESC LIMIT ?, 10";
 		ArrayList<Board> list = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, pageNumber * 10);
-			pstmt.setInt(2, (pageNumber - 1) * 10);
+			pstmt.setInt(1, (pageNumber - 1) * 10);
 			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
 			while (rs.next()) {
 				Board brd = new Board(); // 인스턴스 생성
@@ -167,7 +166,7 @@ public class BoardDAO {
 	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
 	
 	public int targetPage(int pageNumber) { // 페이징 처리 위한 함수
-		String SQL = "SELECT Count(brdID) FROM board WHERE brdID - 1 > ?";
+		String SQL = "SELECT Count(brdID - 1) FROM board WHERE brdID - 1 > ? AND brdAvailable = 1 AND brdMt is NULL";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, (pageNumber - 1) * 10);
@@ -182,7 +181,7 @@ public class BoardDAO {
 	}
 	
 	public int targetMtPage(int pageNumber, String brdMt) { // 페이징 처리 위한 함수
-		String SQL = "SELECT Count(brdID) FROM board WHERE brdID - 1 > ? AND brdMt = ?";
+		String SQL = "SELECT Count(brdID - 1) FROM board WHERE brdID - 1 > ? AND brdMt = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, (pageNumber - 1) * 10);

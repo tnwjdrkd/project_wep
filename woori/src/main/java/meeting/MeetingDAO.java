@@ -98,11 +98,35 @@ public class MeetingDAO {
 	}
 	
 	public ArrayList<Meeting> getMeetingList(int pageNumber) {
-		String SQL = "SELECT * FROM meeting WHERE mtNum - 1 > (SELECT MAX(mtNum) - 1 FROM meeting) - ? AND mtNum - 1 <= (SELECT MAX(mtNum) - 1 FROM meeting) - ? ORDER BY mtNum DESC";
+		String SQL = "SELECT * FROM meeting ORDER BY mtNum DESC LIMIT ?, 5 ";
 		ArrayList<Meeting> list = new ArrayList<Meeting>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, pageNumber * 5);
+			pstmt.setInt(1, (pageNumber - 1) * 5);
+			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
+			while (rs.next()) {
+				Meeting mt = new Meeting(); // 인스턴스 생성
+				mt.setMtNum(rs.getInt(1)); // brd의 속성들
+				mt.setMtID(rs.getString(2)); 
+				mt.setMtAddress(rs.getString(3)); 
+				mt.setMtCategory(rs.getString(4)); 
+				mt.setMtLeader(rs.getString(5)); 
+				mt.setMtSummary(rs.getString(6));
+				mt.setMtDate(rs.getString(7));
+				list.add(mt); // 리스트에 해당 인스턴스 반환
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list; // 뽑아온 게시글 리스트 출력
+	}
+	
+	public ArrayList<Meeting> getMeetingCategoryList(int pageNumber, String mtCategory) {
+		String SQL = "SELECT * FROM meeting WHERE mtCategory = ? ORDER BY mtNum DESC LIMIT ?, 5 ";
+		ArrayList<Meeting> list = new ArrayList<Meeting>();  // Board 클래스의 인스턴스 보관 리스트
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, mtCategory);
 			pstmt.setInt(2, (pageNumber - 1) * 5);
 			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
 			while (rs.next()) {
@@ -138,10 +162,26 @@ public class MeetingDAO {
 	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
 	
 	public int targetMeetingPage(int pageNumber) { // 페이징 처리 위한 함수
-		String SQL = "SELECT Count(mtNum) FROM meeting WHERE mtNum - 1 > ?";
+		String SQL = "SELECT Count(mtNum - 1) FROM meeting WHERE mtNum - 1 > ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, (pageNumber - 1) * 5);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) / 5;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int targetMeetingCategoryPage(int pageNumber, String mtCategory) { // 페이징 처리 위한 함수
+		String SQL = "SELECT Count(mtNum - 1) FROM meeting WHERE mtNum - 1 > ? AND mtCategory = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, (pageNumber - 1) * 5);
+			pstmt.setString(2, mtCategory);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1) / 5;
