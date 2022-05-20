@@ -3486,3 +3486,11 @@
 			margin: 30px 10px 0 0;
 			border-radius: 20px;
 		}
+		#RmeetingReview:hover{
+			color: #2ebaae;
+			cursor: pointer;
+		}
+		#Rmeeting_join:hover{
+			color: #2ebaae;
+			cursor: pointer;
+		}
