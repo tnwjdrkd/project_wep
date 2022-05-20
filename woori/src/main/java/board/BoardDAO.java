@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import meeting.Meeting;
+import comment.Comment;
 
 public class BoardDAO {
 	
@@ -16,7 +16,7 @@ public class BoardDAO {
 	// mysql 접속
 	public BoardDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/joljak?serverTimezone=UTC";
+			String dbURL = "jdbc:mysql://localhost:3306/joljak?serverTimezone=UTC&allowMultiQueries=true";
 			String dbID = "root";
 			String dbPassword = "root";
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -93,7 +93,7 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
-		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? AND brdAvailable = 1 ORDER BY brdID DESC";
+		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board WHERE brdAvailable = 1) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board WHERE brdAvailable = 1) - ? AND brdAvailable = 1 AND brdMt is NULL ORDER BY brdID DESC";
 		ArrayList<Board> list = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -255,10 +255,11 @@ public class BoardDAO {
 	}
 	
 	public int delete(int brdID) { // 글 삭제를 위한 함수
-		String SQL = "UPDATE board SET brdAvailable = 0 WHERE brdID = ?";
+		String SQL = "UPDATE board SET brdAvailable = 0 WHERE brdID = ?;" + "UPDATE comments SET cmtAvailable = 0 WHERE brdID = ?;";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, brdID);
+			pstmt.setInt(2, brdID);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

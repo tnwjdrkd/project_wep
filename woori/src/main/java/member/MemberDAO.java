@@ -23,6 +23,36 @@ public class MemberDAO {
 		}
 	}
 	
+	public int getNext() { 
+		String SQL = "SELECT mbID FROM member ORDER BY mbID DESC";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			if(rs.next()) { // 결과가 있는 경우
+				return rs.getInt(1) + 1;
+			}//else
+				return 1; //현재가 첫번재 게시글인 경우
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1; // DB 오류 경우.
+	}
+	
+	public int memberjoin(String mbMeeting, String mbUser, String mbGreet) {
+		String SQL = "INSERT INTO member (mbID, mbMeeting, mbUser, mbGreet) VALUES (?, ?, ?, ?)";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext());
+			pstmt.setString(2, mbMeeting);
+			pstmt.setString(3, mbUser);
+			pstmt.setString(4, mbGreet); 
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -2; // DB오류.
+	}
+	
 	public ArrayList<Member> getMbList(String mbMeeting) {
 		String SQL = "SELECT * FROM member WHERE mbMeeting = ? ORDER BY mbID ASC";
 		ArrayList<Member> list = new ArrayList<Member>();
