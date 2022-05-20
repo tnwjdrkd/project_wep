@@ -67,7 +67,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="#" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<h1><a href="main.jsp" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
 						<nav class="links">
 							<ul>
 								<li><a href="#bulletinboard">시 게시판</a></li>

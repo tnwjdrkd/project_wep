@@ -45,6 +45,7 @@
 				script.println("</script>");
 			}
 			Board brd = new BoardDAO().getBoard(brdID); // 게시글 조회 인스턴스 생성
+			BoardDAO brdDAO = new BoardDAO();
 			Comment cmt = new CommentDAO().getComment(brdID);
 	    %>
 		<!-- Wrapper -->
@@ -98,13 +99,28 @@
 					<div id="main">
 
 						<!-- Post -->
-							<article class="post" id="bulletinboard">
+							<article class="post">
                                     <h1><%= brd.getBrdTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></h1>
                                     <li id="postinfo">
                                         <ul><img src="people.png" width="13")> <%= brd.getUserNickname() %></ul> 
                                         <ul id="contentdate"><%= brd.getBrdDate().substring(0,16) %></ul> 
                                     </li>
                                     <p id="content"><%= brd.getBrdContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></p>
+                                    <%
+										if(userID != null && userID.equals(brd.getUserID())) {
+									%>
+                                    <input type="button" id="delete" value="삭제" style="width:80px; height:50px; float:right;" onClick="dltbtnClick()">
+                                    <script>
+										function dltbtnClick() {
+											if (confirm('정말로 삭제하시겠습니까?') == true)
+												location.href="deleteAction.jsp?brdID=<%= brdID %>";
+										}
+									</script>
+                                    <input type="button" id="modify" value="수정" style="width:80px; height:50px; float:right;" onClick="location.href='update.jsp?brdID=<%= brdID %>'">
+                                    <%
+										}
+									%>
+                                    <br>
                                     <h3 id="comment"> 댓글</h3>
                                     <%
 										CommentDAO cmtDAO = new CommentDAO(); // 인스턴스 생성
@@ -119,6 +135,15 @@
                                     <%
 										}
 									%>
+									<form method="post" action="commentAction.jsp?brdID=<%= brdID %>">
+										<ul id="nickname" style="margin-top:30px;"><img src="people.png" width="13")> <%= brdDAO.getuserNickname(userID) %></ul>
+	                                    <table>
+	                                        <tr style="border:none;  padding:0;">
+	                                            <td style="width:80%; padding:0;"><textarea style="height:70px;" name="cmtContent" placeholder="동네 이웃에게 따뜻한 댓글을 달아주세요."></textarea> </td>
+	                                            <td style="width:20%;  text-align: center; padding:0;"><input type="submit" id="register" value="등록" style="width:100px; height:70px; text-align: center;"></td>
+	                                        </tr>
+	                                    </table>
+	                               	</form>
 							</article>
 					</div>
 
@@ -133,13 +158,12 @@
                                         <td class="bbline">작성일</td>
                                         <td class="bbline">댓글수</td>
                                     </tr>
-                                    	<%	// 게시글 출력 부분. 게시글을 뽑아올 수 있도록
-											BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
+                                    	<%	
 											ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
 											for(int i = 0; i < list.size(); i++) { 
 										%>
                                     <tr>
-										<td class="bbline2"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+										<td class="bbline2" title="<%= list.get(i).getBrdTitle() %>"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
 										<td class="bbline2"><%= list.get(i).getUserNickname() %></td>
 										<td class="bbline2"><%= list.get(i).getBrdDate().substring(0, 11) %></td>
 										<td class="bbline2"><%= list.get(i).getCmtCount() %></td>

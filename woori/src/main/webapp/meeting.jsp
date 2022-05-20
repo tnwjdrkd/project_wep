@@ -267,7 +267,7 @@
 									%>
                                 </div>
                                 <div class="meeting-aside">
-                                    <input id="meeting-join"  type="button" value="모임 가입하기" style="font-size: 17px;" onClick="location.href='woori_meetingjoin.html'">
+                                    <input id="meeting-join"  type="button" value="모임 가입하기" style="font-size: 17px;" onClick="location.href='meetingJoin.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">
                                 </div>
                                 <div class="meeting-aside">
                                     <input id="meeting-record"  type="button" value="정모후기 보기" style="font-size: 17px;" onClick="location.href='review.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">

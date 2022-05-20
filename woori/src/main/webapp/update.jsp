@@ -3,91 +3,122 @@
 <%@ page import="java.io.PrintWriter" %>   <%-- script 문장을 실행할 수 있도록 하는 라이브러리 --%>
 <%@ page import="board.Board" %>
 <%@ page import="board.BoardDAO" %>
-<!DOCTYPE html>
-<head>
-    <title>게시글 작성</title>
-    <meta name="viewport" content="user-scalable=no, initial-scale=1,maximum-scale=1">
-    <style>
-        * {
-            font-family: '빙그레체' , 'Malgun Gothic' , Gothic, sans-serif;
-        }
-        #writemenu {
-            width: 500px; margin: 0 auto;
-        }
-        h1{
-            color:  rgb(138, 111, 111);
-            text-align: center;
-            text-shadow: 2px 2px 1px rgb(194, 157, 157);
-        }
-        #submit {
-            cursor: pointer;
-            background:rgb(204, 180, 180);
-            border:1px solid rgb(158, 158, 158);
-            border-radius: 3px;
-            font-size: 15px;
-        }
-        #submit:hover{
-            color:white;
-        }
-        #submitbtn{
-            width: 100px; margin: 0 auto;
-        }
-        /* 반응형_스마트폰*/
-        @media screen and (max-width:767px){
-        body{ width: auto }
-        }
-    </style>
-</head>
-<body>
-	<% 
-		String userID = null;  // 로그인 세션 관리 
-		if(session.getAttribute("userID") != null) {
-			userID = (String)session.getAttribute("userID");
-		}
-		if(userID == null) {   // 비로그인 시 로그인페이지로 이동
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('로그인을 하세요.')");      
-			script.println("location.href='main.jsp'");   
-			script.println("</script>");
-		}
-		int brdID = 0;    // 게시글 번호 초기화
-		if (request.getParameter("brdID") != null) {
-			brdID = Integer.parseInt(request.getParameter("brdID"));
-		}
-		if(brdID == 0) {   // 번호 존재하지 않다면 오류 메시지 출력
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('존재하지 않는 게시글입니다.')");      
-			script.println("location.href='main.jsp'");   
-			script.println("</script>");
-		}
-		Board brd = new BoardDAO().getBoard(brdID);  // brdID 값으로 해당 글을 가져온다.
-		if(!userID.equals(brd.getUserID())) {  // 글 작성자 확인
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('수정 권한이 없습니다.')");      
-			script.println("location.href='main.jsp'");   
-			script.println("</script>");
-		}
-	%>
-    <div id="writemenu">
-        <h1>게시글 수정</h1>
-        <form method="post" action="updateAction.jsp?brdID=<%= brdID %>">
-            <table id="bbwrite">
-                <tr>
-                    <td><label for="title">제목</label></td>
-                    <td><input id="title" type="text" name="brdTitle" style="width:400px;" autofocus="autofocus" value="<%= brd.getBrdTitle() %>"></td>
-                </tr>
-                <tr>
-                    <td><label for="content">내용</label></td>
-                    <td><textarea id="content" type="text" name="brdContent" style="width:400px;  height:400px;"><%= brd.getBrdContent() %></textarea></td>
-                </tr>
-            </table>
-            <br>
-            <div id="submitbtn">
-        	<input id="submit" type="submit" name="submit" style="width:100px;" value="등록">
-    		</div>
-        </form>
-    </div>
-</body>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>시게시판 글 수정</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/project_woori.css" />
+
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+		<script>
+			$(function (){
+					$("#joinBtn").click(function (){
+					  $("#join").toggle();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<% 
+			String userID = null;  // 로그인 세션 관리 
+			if(session.getAttribute("userID") != null) {
+				userID = (String)session.getAttribute("userID");
+			}
+			if(userID == null) {   // 비로그인 시 로그인페이지로 이동
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('로그인을 하세요.')");      
+				script.println("location.href='main.jsp'");   
+				script.println("</script>");
+			}
+			int brdID = 0;    // 게시글 번호 초기화
+			if (request.getParameter("brdID") != null) {
+				brdID = Integer.parseInt(request.getParameter("brdID"));
+			}
+			if(brdID == 0) {   // 번호 존재하지 않다면 오류 메시지 출력
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('존재하지 않는 게시글입니다.')");      
+				script.println("location.href='main.jsp'");   
+				script.println("</script>");
+			}
+			Board brd = new BoardDAO().getBoard(brdID);  // brdID 값으로 해당 글을 가져온다.
+			if(!userID.equals(brd.getUserID())) {  // 글 작성자 확인
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('수정 권한이 없습니다.')");      
+				script.println("location.href='main.jsp'");   
+				script.println("</script>");
+			}
+		%>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="main.jsp" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<nav class="main">
+							<ul>
+								<li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Search" />
+									</form>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post" id="bulletinboard">
+								<header>
+									<div class="title">
+										<h2>글수정</h2>
+										<p>작성한 글을 수정해보세요.</p>
+									</div>
+								</header>
+								<form method="post" action="updateAction.jsp?brdID=<%= brdID %>">
+									<table>
+										<tr style="border:none;">
+											<td ><label for="title" style="font-weight: 500;">제목</label></td>
+											<td><input id="title" type="text" name="brdTitle" style="width:765px;" autofocus="autofocus" value="<%= brd.getBrdTitle() %>"></td>
+										</tr>
+										<tr style="border:none;">
+											<td><label for="content" style="font-weight: 500;">내용</label></td>
+											<td><textarea name="brdContent" style="width:765px;"><%= brd.getBrdContent() %></textarea></td>
+										</tr>
+									</table>
+									<input type="submit" name="submit" style="width:100%;" value="등록">
+								</form>
+							</article>
+					</div>
+
+				<!-- Sidebar -->
+					<section id="sidebar">
+
+						<!-- Intro -->
+							<section id="intro">
+								<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+								<header>
+									<h2>우리동네 <br>커뮤니케이션</h2>
+									<p>동네 이웃들과 이야기 나누고 취미를 공유해보세요.</p>
+								</header>
+							</section>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
