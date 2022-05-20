@@ -72,7 +72,7 @@
 							<li><input id="id" type="text"placeholder="아이디" style="margin-bottom: 5px;"></li>
 							<li><input id="pw" type="password" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
 							<li><input id="name" type="text" placeholder="이름" style="margin-bottom: 5px;"></li>
-							<li><input id="birth" type="text" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="birth" type="date" placeholder="생년월일" style="margin-bottom: 5px; width:100%; border:1px soild #dddddd; "></li>
 							<li><input id="phonenum" type="text" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
 							<li><input id="address" type="text" placeholder="주소" style="margin-bottom: 5px;" onClick="location.href='location.html'"> <!-- 주소 입력창 클릭시 위치 인증 팝업으로-->
 							<li><input id="nickname" type="text" placeholder="닉네임" style="margin-bottom: 10px;"></li>
@@ -261,6 +261,89 @@
 									<p>동네 이웃들과 이야기 나누고 취미를 공유해보세요.</p>
 								</header>
 							</section>
+						<!-- Mini Posts -->
+						<section>
+							<header>
+								<h2 style="text-align: center;">지역 소식</h2>
+							</header>
+							<div class="mini-posts">
+									<article class="mini-post">
+										<header>
+											<h3><a href="https://www.gbuspb.kr/userMain.do" style="font-weight: 500;">경기도 청소년 교통비 지원사업</a></h3>
+											<p class="published">신청기간 : 2022.07.01.~              문의 : 1577-8459</p>
+										</header>
+										<a href="https://www.gbuspb.kr/userMain.do" class="image"><img src="images/news01.png" alt=""/></a>
+									</article>
+
+									<header>
+										<h2 style="text-align: center;">동네 일정</h2>
+									</header>
+
+									<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+										<header style="padding:15px;">
+											<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2571&menuLevel=2&menuNo=1" style="font-weight: 500;  font-size: 13px;">APAP 오디오 투어 감상 안내</a></h3>
+											<p class="published" style="font-size: 10px;">기간 : 2020.12.14.~2022.12.31.<br>장소 : 안양파빌리온<br>문의 : 031-687-0548</p>
+										</header>
+										<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2571&menuLevel=2&menuNo=1" class="image"><img src="images/schedule01.jpg" alt="" /></a>
+									</li>
+
+								<li class="mini-post" style="width:49%; float:left;">
+									<header style="padding:15px;">
+										<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=11&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" style="font-weight: 500;  font-size: 13px;">김중업, 더 비기닝 건축예술의 문을 열다</a></h3>
+										<p class="published"  style="font-size: 10px;" >기간 : 2021.12.16.~2022.06.30.<br>장소 : 김중업건축박물관<br>문의 : 031-687-0909</p>
+									</header>
+									<a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=11&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" class="image"><img src="images/schedule02.png" alt="" /></a>
+								</li>
+
+								<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+									<header style="padding:15px;">
+										<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=10&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" style="font-weight: 500;  font-size: 13px;">돌아온 역사, 안양</a></h3>
+										<p class="published" style="font-size: 10px;">기간 : 2021.11.30.~2022.06.26.<br>장소 : 안양박물관<br>문의 : 031-687-0909</p>
+									</header>
+									<a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=10&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" class="image"><img src="images/schedule03.jpg" alt="" /></a>
+								</li>
+
+								<li class="mini-post" style="width:49%; float:left;">
+									<header style="padding:15px;">
+										<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2627&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">안양예술공원 미니투어</a></h3>
+										<p class="published"  style="font-size: 10px;" >기간 : 2022.05.03.~2022.11.30<br>장소 : 안양파빌리온<br>문의 : 031-687-0548</p>
+									</header>
+									<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2627&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule06.jpg" alt="" /></a>
+								</li>
+
+							<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2642&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">무엇이 삶을 예술로 만드는가</a></h3>
+									<p class="published" style="font-size: 10px;">기간 : 2022.04.28.~2022.05.29.<br>장소 : 평촌아트홀<br>문의 : 031-687-0500</p>
+								</header>
+									<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2642&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule05.jpg" alt="" /></a>
+							</li>
+
+							<li class="mini-post" style="width:49%; float:left;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=12&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" style="font-weight: 500;  font-size: 13px;">김중업, 건축예술로 이어지다</a></h3>
+									<p class="published"  style="font-size: 10px;" >기간 : 2022.04.15.~2022.09.25.<br>장소 : 김중업건축박물관<br>문의 : 031-687-0909</p>
+								</header>
+								<a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=12&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" class="image"><img src="images/schedule04.jpg" alt="" /></a>
+							</li>
+
+							<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2646&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">평촌아트홀 아카데미</a></h3>
+									<p class="published" style="font-size: 10px;">기간 : 2022.05.12.~2022.05.25.<br>장소 : 평촌아트홀<br>문의 : 031-687-0555</p>
+								</header>
+									<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2646&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule07.jpg" alt="" /></a>
+							</li>
+
+							<li class="mini-post" style="width:49%; float:left;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2620&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">안양예술공원 작품투어</a></h3>
+									<p class="published"  style="font-size: 10px;" >기간 : 2022.05.03.~2022.11.30.<br>장소 : 안양파빌리온<br>문의 : 031-687-0548</p>
+								</header>
+								<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2620&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule08.jpg" alt="" /></a>
+							</li>
+							</div>
+						</section>
 					</section>
 			</div>
 

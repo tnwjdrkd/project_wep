@@ -1,10 +1,24 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>정모 후기 작성하기</title>
+		<title>정모 후기 보기</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/project_woori.css" />
+
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+		<script>
+			$(function (){
+					$(".Rmeeting01").click(function (){
+                        $(".review01").toggle();
+				});
+			});
+            $(function (){
+					$(".Rmeeting02").click(function (){
+                        $(".review02").toggle();
+				});
+			});
+		</script>
 	</head>
 	<body>
 
@@ -33,26 +47,36 @@
 							<article class="post" id="Rmeeting">
 								<header>
 									<div class="title">
-										<h2>정모 후기 작성하기</h2>
-										<p>정모를 마치고 후기를 작성해보세요.</p>
+										<h2>정모 후기 보기</h2>
+										<p>모임의 정모 후기를 확인할 수 있습니다.</p>
 									</div>
 								</header>
-                                <form>
-                                    <table id="mymeeting">
-                                        <tr style="border:none;">
-                                            <td><label for="RmeetingDate"><img src="date.png" width="20")></label></td>
-                                            <td><input id="RmeetingDate" type="text" style="width:770px;"></td>
-                                        </tr>
-                                        <tr style="border:none;">
-                                            <td><label for="Rmeetinglocation"><img src="location.png" width="22")></label></td>
-                                            <td><input id="Rmeetinglocation" type="text" style="width:770px;"></td>
-                                        </tr>
-                                        <tr style="border:none;">
-                                            <td style="font-size: 15px;"><label for="meeting_name" style="font-weight: 500;">후기</label></td>
-                                            <td><textarea></textarea></td>
-                                        </tr>
-                                    </table>
-                                </form>
+                                <div class="content">
+                                    <ul class="Rmeeting01" style="font-size:17px;">
+                                        <li><img src="date.png" width="23")> 2022년 04월 10일 오후 3:00</li> <!-- 정모 시간 -->
+                                        <li><img src="location.png" width="23")> 경기 안산시 단원구 중앙대로 907 4동 4층 귀큰여우 카페</li> <!-- 정모 장소-->
+                                        <li><img src="money.png" width="23")> 개인 음료값</li> <!-- 정모 장소-->
+                                    </ul>
+                                    <ul class="review01" style="display:none;">
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                    </ul>
+                                </div>
+                                <div class="content">
+                                    <ul class="Rmeeting02" style="font-size:17px;">
+                                        <li><img src="date.png" width="23")> 2022년 05월 14일 오후 2:00</li> <!-- 정모 시간 -->
+                                        <li><img src="location.png" width="23")> 경기 안양시 만안구 안양로 316 VON PLAZA</li> <!-- 정모 장소-->
+                                        <li><img src="money.png" width="23")> 개인 음료값</li> <!-- 정모 장소-->
+                                    </ul>
+                                    <ul class="review02" style="display:none;">
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                        <li><img src="review.png" width="24")> 후기내용</li> <!-- 후기 내용 -->
+                                    </ul>
+                                </div>
 							</article>
 					</div>
 
