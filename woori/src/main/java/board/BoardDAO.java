@@ -93,7 +93,7 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
-		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board WHERE brdAvailable = 1) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board WHERE brdAvailable = 1) - ? AND brdAvailable = 1 AND brdMt is NULL ORDER BY brdID DESC";
+		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? AND brdAvailable = 1 AND brdMt is NULL ORDER BY brdID DESC";
 		ArrayList<Board> list = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
