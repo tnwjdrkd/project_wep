@@ -58,7 +58,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="#" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<h1><a href="main.jsp" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
 
 						<nav class="main">
 							<ul>
@@ -217,9 +217,10 @@
 									%>
 										<table>
 											<tr>
-												<td><img src="date.png" width="20")> <%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %> </td> <!-- 정모 시간 -->
+												<td><img src="date.png" width="20")> <%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %></td> <!-- 정모 시간 -->
 												<td></td>
-												<td style="text-align: center;" width="200px" rowspan="3" input id="Rmeeting_join"  type="button" onClick="alert('참여 신청을 보냈습니다. 모임장 수락시 참여 가능합니다.')"><br><br>참여하기</td> <!-- 클릭시 알림창 생성-->
+												<td style="text-align: center; background: #f3f3f3;" width="120px" rowspan="3" input id="RmeetingReview"  type="button" onClick="location.href='review.jsp?mtID=<%= mtID %>&rmtID=<%= rmlist.get(i).getRmtID() %>'"><br><br>후기쓰기</td>
+												<td style="text-align: center; background: #f6fdfd;" width="120px" rowspan="3" input id="Rmeeting_join"  type="button" onClick="alert('참여 신청을 보냈습니다. 모임장 수락시 참여 가능합니다.')"><br><br>참여하기</td> <!-- 클릭시 알림창 생성-->
 											</tr>
 											<tr>
 												<td><img src="location.png" width="22")> <%= rmlist.get(i).getRmtPlace() %></td> <!-- 정모 장소-->

@@ -36,10 +36,6 @@
 				});
 			});
 		</script>
-		<%-- date picker 선언_jquery UI --%>
-			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			<link rel="stylesheet" href="assets/css/jquery-ui.css">
 	</head>
 	<body>
 		<% 
@@ -60,7 +56,7 @@
 			if (request.getParameter("meetingPage") != null) {
 				meetingPage = Integer.parseInt(request.getParameter("meetingPage")); 
 			}
-			String Category = "전체";
+			String mtCategory = null;
 		%>
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -125,20 +121,7 @@
 							<li><input id="id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
 							<li><input id="pw" type="password" name="userPassword" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
 							<li><input id="name" type="text" name="userName" placeholder="이름" style="margin-bottom: 5px;"></li>
-							<li><input id="birth" type="text" name="userBirth" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;">
-								<script>
-    						    $(function() {
-    					            $("#birth").datepicker({
-    					                dateFormat: 'yy-mm-dd', showOtherMonths: true, showMonthAfterYear:true
-    					                ,changeYear: true, changeMonth: true, yearSuffix: "년"
-    					                ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-    					            	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트	
-    					           		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
-    					            });
-    					            $('#datepicker').datepicker('setDate', 'today');
-    					        });
-	   							</script>
-							</li>
+							<li><input id="birth" type="date" placeholder="생년월일" style="margin-bottom: 5px; width:100%; border:1px soild #dddddd; "></li>
 							<li><input id="phonenum" type="text" name="userPhone" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
 							<li><input id="address" type="text" name="userAddress" placeholder="주소" style="margin-bottom: 5px;" onClick="addPopup()"><!-- 주소 입력창 클릭시 위치 인증 팝업으로-->
 								<script type="text/javascript">
@@ -205,7 +188,7 @@
 	                        		int targetPage = new BoardDAO().targetPage(pageNumber);
 	                        		if(startPage != 1) {
 	                        	%>		
-	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>&meetingPage=<%= meetingPage %>">&lt;&lt;&nbsp;</a></li>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>&meetingPage=<%= meetingPage %>#bulletinboard">&lt;&lt;&nbsp;</a></li>
 	    						<%
 	    							} else {
 	                        	%>
@@ -214,7 +197,7 @@
 	    							}
 	                        		if(pageNumber != 1)	{
 								%>
-									<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>&meetingPage=<%= meetingPage %>">&lt;&nbsp;</a></li>
+									<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>&meetingPage=<%= meetingPage %>#bulletinboard">&lt;&nbsp;</a></li>
 								<%
 									} else {
 			                    %>
@@ -223,22 +206,22 @@
 		    						}
 	                        		for(int i = startPage; i < pageNumber; i++) {
 	                        	%>
-	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>"><%= i %></a></li>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>#bulletinboard"><%= i %></a></li>
 	                        	<%
 	                        		}
 	                        	%>
-	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>"><%= pageNumber %></a></li>
+	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>#bulletinboard"><%= pageNumber %></a></li>
 	                        	<%
 	                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
 	                        			if(i <startPage + 10) {
 	                        	%>
-	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>"><%= i %></a></li>
+	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>#bulletinboard"><%= i %></a></li>
 	                            <%			
 	                        			}
 	                        		}
 	                        		if(pageNumber != targetPage + pageNumber)	{
 	    						%>
-	    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>&meetingPage=<%= meetingPage %>">&nbsp;&gt;</a></li>
+	    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>&meetingPage=<%= meetingPage %>#bulletinboard">&nbsp;&gt;</a></li>
 	    						<%
 	    							} else {
 	    		                %>
@@ -247,7 +230,7 @@
 	    	    					}
 	                        		if(targetPage + pageNumber > startPage + 9) {
 	                        	%>
-	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>&meetingPage=<%= meetingPage %>">&nbsp;&gt;&gt;</a></li>
+	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>&meetingPage=<%= meetingPage %>#bulletinboard">&nbsp;&gt;&gt;</a></li>
 	                            <%	
 	                        		} else {
 	                        	%>
@@ -271,24 +254,26 @@
 								</header>
 								<header id="category">
 									<ul style="list-style:none; margin: 1% 1% 1% 26%;">
-										<li id="firstcategorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">전체</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">운동</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">봉사활동</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">게임</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">문화/공연</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">공예/만들기</a></li>
-										<li class="categorylist" style="float:left; margin: 0 5% 0 2%; font-size: 15px;"><a href="" target="_blank">공부/스터디</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">음악/댄스</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">사교</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">여행</a></li>
-										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="" target="_blank">독서</a></li>
-										<li  id="firstcategorylist" style="float:left; font-size: 15px;"><a href="" target="_blank">자유</a></li>
+										<li id="firstcategorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>#meeting">전체</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "운동" %>#meeting">운동</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "봉사활동" %>#meeting">봉사활동</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "게임" %>#meeting">게임</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "문화/공연" %>#meeting">문화/공연</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "공예/만들기" %>#meeting">공예/만들기</a></li>
+										<li class="categorylist" style="float:left; margin: 0 5% 0 2%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "공부/스터디" %>#meeting">공부/스터디</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "음악/댄스" %>#meeting">음악/댄스</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "사교" %>#meeting">사교</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "여행" %>#meeting">여행</a></li>
+										<li class="categorylist" style="float:left; margin-right: 5%; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "독서" %>#meeting">독서</a></li>
+										<li  id="firstcategorylist" style="float:left; font-size: 15px;"><a href="main.jsp?pageNumber=<%= pageNumber %>&mtCategory=<%= "자유" %>#meeting">자유</a></li>
 									</ul>
 								</header>
 								<article>
 								<%
-									MeetingDAO mtDAO = new MeetingDAO(); // 인스턴스 생성
-									ArrayList<Meeting> meetinglist = mtDAO.getMeetingList(meetingPage); // 리스트 생성.
+									MeetingDAO mtDAO = new MeetingDAO();
+									if(request.getParameter("mtCategory") != null) {
+									mtCategory = (String)request.getParameter("mtCategory");
+									ArrayList<Meeting> meetinglist = mtDAO.getMeetingCategoryList(meetingPage, mtCategory); // 리스트 생성.
 									for(int i = 0; i < meetinglist.size(); i++) { 
 								%>
 								<ul class="posts">
@@ -301,16 +286,16 @@
 										</article>
 								</ul>
 								<%
-									}
+										}
 								%>
 								<ul class="number-menu">
 	                                <%
 		                        		int startMtPage = (meetingPage / 5) * 5 + 1;
 		                        		if(meetingPage % 5 == 0) startMtPage -= 5;
-		                        		int targetMtPage = new MeetingDAO().targetMeetingPage(meetingPage);
+		                        		int targetMtPage = new MeetingDAO().targetMeetingCategoryPage(meetingPage, mtCategory);
 		                        		if(startMtPage != 1) {
 		                        	%>		
-		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage - 1 %>&mtCategory=<%= mtCategory %>#meeting">&lt;&lt;&nbsp;</a></li>
 		    						<%
 		    							} else {
 		                        	%>
@@ -319,7 +304,7 @@
 		    							}
 		                        		if(meetingPage != 1)	{
 									%>
-										<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage - 1 %>">&lt;&nbsp;</a></li>
+										<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage - 1 %>&mtCategory=<%= mtCategory %>#meeting">&lt;&nbsp;</a></li>
 									<%
 										} else {
 				                    %>
@@ -328,22 +313,22 @@
 			    						}
 		                        		for(int i = startMtPage; i < meetingPage; i++) {
 		                        	%>
-		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>"><%= i %></a></li>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>&mtCategory=<%= mtCategory %>#meeting"><%= i %></a></li>
 		                        	<%
 		                        		}
 		                        	%>
-		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>"><%= meetingPage %></a></li>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>&mtCategory=<%= mtCategory %>#meeting"><%= meetingPage %></a></li>
 		                        	<%
 		                        		for (int i = meetingPage + 1; i <= targetMtPage + meetingPage; i++) {
 		                        			if(i <startMtPage + 5) {
 		                        	%>
-		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>"><%= i %></a></li>
+		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>&mtCategory=<%= mtCategory %>#meeting"><%= i %></a></li>
 		                            <%			
 		                        			}
 		                        		}
 		                        		if(meetingPage != targetMtPage + meetingPage)	{
 		    						%>
-		    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage + 1 %>">&nbsp;&gt;</a></li>
+		    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage + 1 %>&mtCategory=<%= mtCategory %>#meeting">&nbsp;&gt;</a></li>
 		    						<%
 		    							} else {
 		    		                %>
@@ -352,7 +337,7 @@
 		    	    					}
 		                        		if(targetMtPage + meetingPage > startMtPage + 4) {
 		                        	%>
-		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage + 5 %>">&nbsp;&gt;&gt;</a></li>
+		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage + 5 %>&mtCategory=<%= mtCategory %>#meeting">&nbsp;&gt;&gt;</a></li>
 		                            <%	
 		                        		} else {
 		                        	%>
@@ -361,6 +346,84 @@
 		                        		}
 		                        	%>
 								</ul>
+								<%
+									} else {
+										ArrayList<Meeting> meetinglist = mtDAO.getMeetingList(meetingPage); // 리스트 생성.
+										for(int i = 0; i < meetinglist.size(); i++) { 
+								%>
+								<ul class="posts">
+										<article style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: solid 1px #dddddd;" >
+											<header>
+												<h3 style="margin-left:70px; font-size: 18px; font-weight: 500;"><a href="meeting.jsp?mtID=<%= URLEncoder.encode(meetinglist.get(i).getMtID(), "UTF-8")%>"> <%= meetinglist.get(i).getMtID() %></a></h3>
+												<h3 style="margin-left:70px; font-size: 13px; font-weight: 500;" class="published"> <%= meetinglist.get(i).getMtDate().substring(0, 4) + "년" + meetinglist.get(i).getMtDate().substring(5, 7) + "월" + meetinglist.get(i).getMtDate().substring(8, 10) + "일" %></h3>
+											</header>
+											<a href="meeting.jsp?mtID=<%= URLEncoder.encode(meetinglist.get(i).getMtID(), "UTF-8")%>" class="image"><img src="images/pic08.jpg" style="width: 130px;" /></a>
+										</article>
+								</ul>
+								<%
+										}
+								%>
+								<ul class="number-menu">
+	                                <%
+		                        		int startMtPage = (meetingPage / 5) * 5 + 1;
+		                        		if(meetingPage % 5 == 0) startMtPage -= 5;
+		                        		int targetMtPage = new MeetingDAO().targetMeetingPage(meetingPage);
+		                        		if(startMtPage != 1) {
+		                        	%>		
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage - 1 %>#meeting">&lt;&lt;&nbsp;</a></li>
+		    						<%
+		    							} else {
+		                        	%>
+		                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
+		                        	<%
+		    							}
+		                        		if(meetingPage != 1)	{
+									%>
+										<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage - 1 %>#meeting">&lt;&nbsp;</a></li>
+									<%
+										} else {
+				                    %>
+			                        	<li class="inner-number">&lt;&nbsp;</li>
+			                        <%
+			    						}
+		                        		for(int i = startMtPage; i < meetingPage; i++) {
+		                        	%>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>#meeting"><%= i %></a></li>
+		                        	<%
+		                        		}
+		                        	%>
+		                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>#meeting"><%= meetingPage %></a></li>
+		                        	<%
+		                        		for (int i = meetingPage + 1; i <= targetMtPage + meetingPage; i++) {
+		                        			if(i <startMtPage + 5) {
+		                        	%>
+		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= i %>#meeting"><%= i %></a></li>
+		                            <%			
+		                        			}
+		                        		}
+		                        		if(meetingPage != targetMtPage + meetingPage)	{
+		    						%>
+		    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage + 1 %>#meeting">&nbsp;&gt;</a></li>
+		    						<%
+		    							} else {
+		    		                %>
+		    	                        <li class="inner-number">&nbsp;&gt;</li>
+		    	                    <%
+		    	    					}
+		                        		if(targetMtPage + meetingPage > startMtPage + 4) {
+		                        	%>
+		                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= startMtPage + 5 %>#meeting">&nbsp;&gt;&gt;</a></li>
+		                            <%	
+		                        		} else {
+		                        	%>
+		                        		<li class="inner-number">&nbsp;&gt;&gt;</li>
+		                        	<%
+		                        		}
+		                        	%>
+								</ul>
+								<%
+									}
+								%>
 							</article>
 					</div>
 
@@ -374,6 +437,89 @@
 									<p>동네 이웃들과 이야기 나누고 취미를 공유해보세요.</p>
 								</header>
 							</section>
+						<!-- Mini Posts -->
+						<section>
+							<header>
+								<h2 style="text-align: center;">지역 소식</h2>
+							</header>
+							<div class="mini-posts">
+									<article class="mini-post">
+										<header>
+											<h3><a href="https://www.gbuspb.kr/userMain.do" style="font-weight: 500;">경기도 청소년 교통비 지원사업</a></h3>
+											<p class="published">신청기간 : 2022.07.01.~              문의 : 1577-8459</p>
+										</header>
+										<a href="https://www.gbuspb.kr/userMain.do" class="image"><img src="images/news01.png" alt=""/></a>
+									</article>
+
+									<header>
+										<h2 style="text-align: center;">동네 일정</h2>
+									</header>
+
+									<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+										<header style="padding:15px;">
+											<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2571&menuLevel=2&menuNo=1" style="font-weight: 500;  font-size: 13px;">APAP 오디오 투어 감상 안내</a></h3>
+											<p class="published" style="font-size: 10px;">기간 : 2020.12.14.~2022.12.31.<br>장소 : 안양파빌리온<br>문의 : 031-687-0548</p>
+										</header>
+										<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2571&menuLevel=2&menuNo=1" class="image"><img src="images/schedule01.jpg" alt="" /></a>
+									</li>
+
+								<li class="mini-post" style="width:49%; float:left;">
+									<header style="padding:15px;">
+										<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=11&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" style="font-weight: 500;  font-size: 13px;">김중업, 더 비기닝 건축예술의 문을 열다</a></h3>
+										<p class="published"  style="font-size: 10px;" >기간 : 2021.12.16.~2022.06.30.<br>장소 : 김중업건축박물관<br>문의 : 031-687-0909</p>
+									</header>
+									<a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=11&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" class="image"><img src="images/schedule02.png" alt="" /></a>
+								</li>
+
+								<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+									<header style="padding:15px;">
+										<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=10&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" style="font-weight: 500;  font-size: 13px;">돌아온 역사, 안양</a></h3>
+										<p class="published" style="font-size: 10px;">기간 : 2021.11.30.~2022.06.26.<br>장소 : 안양박물관<br>문의 : 031-687-0909</p>
+									</header>
+									<a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=10&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" class="image"><img src="images/schedule03.jpg" alt="" /></a>
+								</li>
+
+								<li class="mini-post" style="width:49%; float:left;">
+									<header style="padding:15px;">
+										<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2627&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">안양예술공원 미니투어</a></h3>
+										<p class="published"  style="font-size: 10px;" >기간 : 2022.05.03.~2022.11.30<br>장소 : 안양파빌리온<br>문의 : 031-687-0548</p>
+									</header>
+									<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2627&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule06.jpg" alt="" /></a>
+								</li>
+
+							<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2642&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">무엇이 삶을 예술로 만드는가</a></h3>
+									<p class="published" style="font-size: 10px;">기간 : 2022.04.28.~2022.05.29.<br>장소 : 평촌아트홀<br>문의 : 031-687-0500</p>
+								</header>
+									<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2642&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule05.jpg" alt="" /></a>
+							</li>
+
+							<li class="mini-post" style="width:49%; float:left;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=12&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" style="font-weight: 500;  font-size: 13px;">김중업, 건축예술로 이어지다</a></h3>
+									<p class="published"  style="font-size: 10px;" >기간 : 2022.04.15.~2022.09.25.<br>장소 : 김중업건축박물관<br>문의 : 031-687-0909</p>
+								</header>
+								<a href="https://www.ayac.or.kr/base/schedule/read?scheduleManagementNo=1&scheduleNo=12&page=&searchStartDate=&searchEndDate=&searchCategory=&searchType=&searchWord=&menuLevel=2&menuNo=2" class="image"><img src="images/schedule04.jpg" alt="" /></a>
+							</li>
+
+							<li class="mini-post" style="width:49%; float:left; margin-right:7px;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2646&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">평촌아트홀 아카데미</a></h3>
+									<p class="published" style="font-size: 10px;">기간 : 2022.05.12.~2022.05.25.<br>장소 : 평촌아트홀<br>문의 : 031-687-0555</p>
+								</header>
+									<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2646&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule07.jpg" alt="" /></a>
+							</li>
+
+							<li class="mini-post" style="width:49%; float:left;">
+								<header style="padding:15px;">
+									<h3 style="padding-bottom:5px;"><a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2620&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" style="font-weight: 500;  font-size: 13px;">안양예술공원 작품투어</a></h3>
+									<p class="published"  style="font-size: 10px;" >기간 : 2022.05.03.~2022.11.30.<br>장소 : 안양파빌리온<br>문의 : 031-687-0548</p>
+								</header>
+								<a href="https://www.ayac.or.kr/base/ayac/performance/read?performanceNo=2620&menuLevel=2&menuNo=1&year=2022&month=5&currentDate=1" class="image"><img src="images/schedule08.jpg" alt="" /></a>
+							</li>
+							</div>
+						</section>
 					</section>
 			</div>
 
