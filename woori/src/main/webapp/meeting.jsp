@@ -34,11 +34,13 @@
 			if(session.getAttribute("userID") != null) {
 				userID = (String)session.getAttribute("userID");
 			}
-			int pageNumber = 1; // 게시판 기본 페이지 설정
-			int r_meetingpage = 1;
-			if (request.getParameter("pageNumber") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
-				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-				r_meetingpage = Integer.parseInt(request.getParameter("r_meetingpage"));
+			int mtbrdPage = 1; // 게시판 기본 페이지 설정
+			int r_meetingPage = 1;
+			if (request.getParameter("mtbrdPage") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
+				mtbrdPage = Integer.parseInt(request.getParameter("mtbrdPage"));
+			}
+			if (request.getParameter("r_meetingPage") != null) {  // pageNumber 존재 시 해당 페이지 값 대입.
+				r_meetingPage = Integer.parseInt(request.getParameter("r_meetingPage"));
 			}
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
@@ -126,7 +128,7 @@
 											</tr>
 											<%
 												BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
-												ArrayList<Board> list = brdDAO.getMtList(pageNumber, mtID); // 리스트 생성.
+												ArrayList<Board> list = brdDAO.getMtList(mtbrdPage, mtID); // 리스트 생성.
 												for(int i = 0; i < list.size(); i++) { 
 											%>
 						                   	<tr>
@@ -143,54 +145,54 @@
 											</table>
 											<ul class="number-menu">
 												<%
-								               		int startPage = (pageNumber / 10) * 10 + 1;
-								               		if(pageNumber % 10 == 0) startPage -= 10;
-								               		int targetPage = new BoardDAO().targetMtPage(pageNumber, mtID);
+								               		int startPage = (mtbrdPage / 10) * 10 + 1;
+								               		if(mtbrdPage % 10 == 0) startPage -= 10;
+								               		int targetPage = new BoardDAO().targetMtPage(mtbrdPage, mtID);
 								               		if(startPage != 1) {
 							                 	%>		
-							             	  		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+							             	  		<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= startPage - 1 %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard">&lt;&lt;&nbsp;</a></li>
 												<%
 													} else {
 							                 	%>
 							                 		<li class="inner-number">&lt;&lt;&nbsp;</li>
 							                 	<%
 													}
-							                 		if(pageNumber != 1)	{
+							                 		if(mtbrdPage != 1)	{
 												%>
-													<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+													<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage - 1 %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard">&lt;&nbsp;</a></li>
 												<%
 													} else {
 							                    %>
 							                       	<li class="inner-number">&lt;&nbsp;</li>
 							                   	<%
 													}
-							                   		for(int i = startPage; i < pageNumber; i++) {
+							                   		for(int i = startPage; i < mtbrdPage; i++) {
 							                   	%>
-							                   		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+							                   		<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= i %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard"><%= i %></a></li>
 							                   	<%
 							                   		}
 							                   	%>
-							                   		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+							                   		<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard"><%= mtbrdPage %></a></li>
 							                   	<%
-							                   		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
+							                   		for (int i = mtbrdPage + 1; i <= targetPage + mtbrdPage; i++) {
 							                   			if(i <startPage + 10) {
 							                   	%>
-							                           <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+							                           <li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= i %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard"><%= i %></a></li>
 							                  	<%			
 							               				}
 							                   		}
-							                   		if(pageNumber != targetPage + pageNumber)	{
+							                   		if(mtbrdPage != targetPage + mtbrdPage)	{
 												%>
-													<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+													<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage + 1 %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard">&nbsp;&gt;</a></li>
 												<%
 													} else {
 								                %>
 							                        <li class="inner-number">&nbsp;&gt;</li>
 							                    <%
 							    					}
-							                   		if(targetPage + pageNumber > startPage + 9) {
+							                   		if(targetPage + mtbrdPage > startPage + 9) {
 							                   	%>
-							                           <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>">&nbsp;&gt;&gt;</a></li>
+							                           <li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= startPage + 10 %>&r_meetingPage=<%= r_meetingPage %>#bulletinboard">&nbsp;&gt;&gt;</a></li>
 							                    <%	
 							                   		} else {
 							                   	%>
@@ -212,7 +214,7 @@
 								</header>
 									<%
 										R_meetingDAO rmtDAO = new R_meetingDAO(); // 인스턴스 생성
-										ArrayList<R_meeting> rmlist = rmtDAO.getRmList(r_meetingpage, mtID); // 리스트 생성.
+										ArrayList<R_meeting> rmlist = rmtDAO.getRmList(r_meetingPage, mtID); // 리스트 생성.
 										for(int i = 0; i < rmlist.size(); i++) { 
 									%>
 										<table>
@@ -234,6 +236,64 @@
 									<%
 										}
 									%>
+									<ul class="number-menu">
+	                                <%
+		                        		int startRmtPage = (r_meetingPage / 5) * 5 + 1;
+		                        		if(r_meetingPage % 5 == 0) startRmtPage -= 5;
+		                        		int targetRmtPage = new R_meetingDAO().targetR_meetingPage(r_meetingPage, mtID);
+		                        		if(startRmtPage != 1) {
+		                        	%>		
+		                        		<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= startRmtPage - 1 %>#meeting">&lt;&lt;&nbsp;</a></li>
+		    						<%
+		    							} else {
+		                        	%>
+		                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
+		                        	<%
+		    							}
+		                        		if(r_meetingPage != 1)	{
+									%>
+										<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= r_meetingPage - 1 %>#meeting">&lt;&nbsp;</a></li>
+									<%
+										} else {
+				                    %>
+			                        	<li class="inner-number">&lt;&nbsp;</li>
+			                        <%
+			    						}
+		                        		for(int i = startRmtPage; i < r_meetingPage; i++) {
+		                        	%>
+		                        		<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= i %>#meeting"><%= i %></a></li>
+		                        	<%
+		                        		}
+		                        	%>
+		                        		<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= r_meetingPage %>#meeting"><%= r_meetingPage %></a></li>
+		                        	<%
+		                        		for (int i = r_meetingPage + 1; i <= targetRmtPage + r_meetingPage; i++) {
+		                        			if(i <startRmtPage + 5) {
+		                        	%>
+		                                <li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= i %>#meeting"><%= i %></a></li>
+		                            <%			
+		                        			}
+		                        		}
+		                        		if(r_meetingPage != targetRmtPage + r_meetingPage)	{
+		    						%>
+		    							<li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= r_meetingPage + 1 %>#meeting">&nbsp;&gt;</a></li>
+		    						<%
+		    							} else {
+		    		                %>
+		    	                        <li class="inner-number">&nbsp;&gt;</li>
+		    	                    <%
+		    	    					}
+		                        		if(targetRmtPage + r_meetingPage > startRmtPage + 4) {
+		                        	%>
+		                                <li class="inner-number"><a href="meeting.jsp?mtID=<%= mtID %>&mtbrdPage=<%= mtbrdPage %>&r_meetingPage=<%= startRmtPage + 5 %>#meeting">&nbsp;&gt;&gt;</a></li>
+		                            <%	
+		                        		} else {
+		                        	%>
+		                        		<li class="inner-number">&nbsp;&gt;&gt;</li>
+		                        	<%
+		                        		}
+		                        	%>
+								</ul>
 							</article>
 					</div>
 
@@ -271,7 +331,7 @@
                                     <input id="meeting-join"  type="button" value="모임 가입하기" style="font-size: 17px;" onClick="location.href='meetingJoin.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">
                                 </div>
                                 <div class="meeting-aside">
-                                    <input id="meeting-record"  type="button" value="정모후기 보기" style="font-size: 17px;" onClick="location.href='review.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">
+                                    <input id="meeting-record"  type="button" value="정모후기 보기" style="font-size: 17px;" onClick="location.href='reviewView.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">
                                 </div>
                             </section>
 					</section>

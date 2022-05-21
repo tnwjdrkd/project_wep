@@ -29,23 +29,9 @@
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
 			}
-			if(mtID == null) {   // 모임 존재시 모임 페이지 조회가능
-				PrintWriter script = response.getWriter();
-				script.println("<script>");
-				script.println("alert('존재하지 않는 모임입니다.')");      
-				script.println("location.href='main.jsp'");   
-				script.println("</script>");
-			}
 			int rmtID = 0;			// 글번호 매개변수 관리
 			if (request.getParameter("rmtID") != null) {
 				rmtID = Integer.parseInt(request.getParameter("rmtID"));
-			}
-			if(rmtID == 0) {   // 글번호 존재시 특정 글 조회가능
-				PrintWriter script = response.getWriter();
-				script.println("<script>");
-				script.println("alert('존재하지 않는 정모입니다.')");      
-				script.println("history.back()");   
-				script.println("</script>");
 			}
 			R_meeting rmt = new R_meetingDAO().getR_meeting(rmtID); // 모임 조회 인스턴스
 		%>
