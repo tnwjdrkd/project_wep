@@ -3,6 +3,8 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.Board" %>
+<%@ page import="woori.UserDAO" %>
+<%@ page import="woori.User" %>
 <%@ page import="meeting.MeetingDAO" %>
 <%@ page import="meeting.Meeting" %>
 <%@ page import="member.MemberDAO" %>
@@ -31,8 +33,13 @@
 	<body>
 		<% 
 			String userID = null;    // 로그인 확인 후 userID에 로그인한 값, 비로그인 null
+			String add = null;
+			String nick = null;
 			if(session.getAttribute("userID") != null) {
 				userID = (String)session.getAttribute("userID");
+				UserDAO user = new UserDAO();
+				add = user.add(userID);
+				nick = user.nick(userID);
 			}
 			int mtbrdPage = 1; // 게시판 기본 페이지 설정
 			int r_meetingPage = 1;
@@ -82,21 +89,47 @@
 
 						<!-- 로그인-->
 						<section id="login">
-							<li><input id="login_id" type="text" placeholder="아이디" style="margin-bottom: 5px;"></li>
-							<li><input id="login_pw" type="password" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
-							<li><input class="button big fit"  type="submit" value="로그인"></li>
+							<%
+								if(userID == null) {
+							%>
+							<form method="post" action="loginAction.jsp">
+							<li class="login"><input id="login_id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li class="login"><input id="login_pw" type="password" name="userPassword" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
+							<li class="login"><input class="button big fit" type="submit" value="로그인"></li>
 							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
+							<li id="loginBtn" style="float:right; cursor:pointer; font-size: 13px; display:none;">로그인</li>
+							</form>
+							<%
+								} else {
+							%>
+							<div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
+								<h1>
+			                   		<%
+										out.println(nick + "님 환영합니다.</br>");
+			                    	%>                    	
+			                    </h1>
+			                    <a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a>
+			                </div>
+			                 <%
+								}
+							%>
 						</section>
 
 						<section id="join" style="display:none">
-							<form method="post">
-							<li><input id="id" type="text"placeholder="아이디" style="margin-bottom: 5px;"></li>
-							<li><input id="pw" type="password" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
-							<li><input id="name" type="text" placeholder="이름" style="margin-bottom: 5px;"></li>
-							<li><input id="birth" type="text" placeholder="생년월일(숫자 8자리 입력)" style="margin-bottom: 5px;"></li>
-							<li><input id="phonenum" type="text" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
-							<li><input id="address" type="text" placeholder="주소" style="margin-bottom: 5px;"></li>
-							<li><input id="nickname" type="text" placeholder="닉네임" style="margin-bottom: 10px;"></li>
+							<form method="post" action="joinAction.jsp">
+							<li><input id="id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
+							<li><input id="pw" type="password" name="userPassword" placeholder="비밀번호" style="margin-bottom: 5px;"></li>
+							<li><input id="name" type="text" name="userName" placeholder="이름" style="margin-bottom: 5px;"></li>
+							<li><input id="birth" type="date" placeholder="생년월일" style="margin-bottom: 5px; width:100%; border:1px soild #dddddd; "></li>
+							<li><input id="phonenum" type="text" name="userPhone" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;"></li>
+							<li><input id="address" type="text" name="userAddress" placeholder="주소" style="margin-bottom: 5px;" onClick="addPopup()"><!-- 주소 입력창 클릭시 위치 인증 팝업으로-->
+								<script type="text/javascript">
+					        	function addPopup(){
+					        		const pop = window.open("${pageContext.request.contextPath}/location.jsp", "pop", "width=550, height=630, scrollbars=no, resizable=yes");
+					        	}
+					       		 </script>
+					        </li> 
+							<li><input id="nickname" type="text" name="userNickname" placeholder="닉네임" style="margin-bottom: 10px;"></li>
 							<li><input class="button big fit" type="submit" value="가입하기"></li>
 							</form>
 						</section>
@@ -114,7 +147,7 @@
 										<p>모임 멤버들과 소통할 수 있는 공간입니다.</p>
 									</div>
 									<div class="meta">
-										<a href="woori_meetingBBwrite.html" class="author"><span class="name" style="font-size: 10px;">글쓰기</span></a>
+										<a href="writeMeeting.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>" class="author"><span class="name" style="font-size: 10px;">글쓰기</span></a>
 									</div>
 								</header>
 									<table id="bulletinboard">

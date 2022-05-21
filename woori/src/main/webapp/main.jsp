@@ -437,6 +437,9 @@
 									<p>동네 이웃들과 이야기 나누고 취미를 공유해보세요.</p>
 								</header>
 							</section>
+						<%
+							if(userID != null){
+						%>
 						<!-- Mini Posts -->
 						<section>
 							<header>
@@ -520,6 +523,9 @@
 							</li>
 							</div>
 						</section>
+						<% 
+							}
+						%>
 					</section>
 			</div>
 

@@ -23,6 +23,13 @@
 				add = user.add(userID);
 				nick = user.nick(userID);
 			}
+			if(userID == null) {  // 세션이 부여된 상태
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('로그인하세요.')");
+				script.println("history.back()");
+				script.println("</script>");
+			} 
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
@@ -31,7 +38,7 @@
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('존재하지 않는 모임입니다.')");      
-				script.println("location.href='main.jsp'");   
+				script.println("history.back()");   
 				script.println("</script>");
 			}
 		%>

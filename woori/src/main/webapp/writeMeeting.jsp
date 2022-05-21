@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -18,7 +19,12 @@
 		</script>
 	</head>
 	<body>
-
+		<%
+			String mtID = null;
+			if(request.getParameter("mtID") != null) {
+				mtID = (String)request.getParameter("mtID");
+			}
+		%>
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -48,7 +54,7 @@
 										<p>모임게시판에 글을 작성해보세요.</p>
 									</div>
 								</header>
-								<form method="post" action="writeAction.jsp">
+								<form method="post" action="writeMeetingAction.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>">
 									<table>
 										<tr style="border:none;">
 											<td ><label for="title" style="font-weight: 500;">제목</label></td>
