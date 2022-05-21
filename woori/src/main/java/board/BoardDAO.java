@@ -121,28 +121,27 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getMtList(int pageNumber, String brdMt) {
-		String SQL = "SELECT * FROM board WHERE brdID - 1 > (SELECT MAX(brdID) - 1 FROM board) - ? AND brdID - 1 <= (SELECT MAX(brdID) - 1 FROM board) - ? AND brdMt = ? AND brdAvailable = 1 ORDER BY brdID DESC";
+		String SQL = "SELECT * FROM board WHERE brdAvailable = 1 AND brdMT = ? ORDER BY brdID DESC LIMIT ?, 10";
 		ArrayList<Board> mtlist = new ArrayList<Board>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, pageNumber * 10);
+			pstmt.setString(1, brdMt);
 			pstmt.setInt(2, (pageNumber - 1) * 10);
-			pstmt.setString(3, brdMt);
 			rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
 			while (rs.next()) {
-				Board brdmt = new Board(); // 인스턴스 생성
-				brdmt.setBrdID(rs.getInt(1)); // brd의 속성들
-				brdmt.setUserID(rs.getString(2)); 
-				brdmt.setBrdAddress(rs.getString(3)); 
-				brdmt.setBrdTitle(rs.getString(4)); 
-				brdmt.setBrdMt(rs.getString(5)); 
-				brdmt.setUserNickname(rs.getString(6));
-				brdmt.setBrdDate(rs.getString(7));
-				brdmt.setBrdContent(rs.getString(8));
-				brdmt.setBrdCount(rs.getInt(9));
-				brdmt.setBrdAvailable(rs.getInt(10));
-				brdmt.setCmtCount(rs.getInt(11));
-				mtlist.add(brdmt); // 리스트에 해당 인스턴스 반환
+				Board brd = new Board(); // 인스턴스 생성
+				brd.setBrdID(rs.getInt(1)); // brd의 속성들
+				brd.setUserID(rs.getString(2)); 
+				brd.setBrdAddress(rs.getString(3)); 
+				brd.setBrdTitle(rs.getString(4)); 
+				brd.setBrdMt(rs.getString(5)); 
+				brd.setUserNickname(rs.getString(6));
+				brd.setBrdDate(rs.getString(7));
+				brd.setBrdContent(rs.getString(8));
+				brd.setBrdCount(rs.getInt(9));
+				brd.setBrdAvailable(rs.getInt(10));
+				brd.setCmtCount(rs.getInt(11));
+				mtlist.add(brd); // 리스트에 해당 인스턴스 반환
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

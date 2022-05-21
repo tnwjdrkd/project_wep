@@ -122,7 +122,7 @@ public class MeetingDAO {
 	}
 	
 	public ArrayList<Meeting> getMeetingCategoryList(int pageNumber, String mtCategory) {
-		String SQL = "SELECT * FROM meeting WHERE mtCategory = ? ORDER BY mtNum DESC LIMIT ?, 5 ";
+		String SQL = "SELECT * FROM meeting WHERE mtCategory = ? ORDER BY mtNum DESC LIMIT ?, 5";
 		ArrayList<Meeting> list = new ArrayList<Meeting>();  // Board 클래스의 인스턴스 보관 리스트
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -146,20 +146,20 @@ public class MeetingDAO {
 		return list; // 뽑아온 게시글 리스트 출력
 	}
 	
-	public boolean nextPage(int pageNumber) { // 페이징 처리 위한 함수
-		String SQL = "SELECT * FROM meeting WHERE mtNum - 1 >= ?";
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, pageNumber * 5);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				return true;  // 다음 페이지로 넘어갈 수 있다고 알림.
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
+//	public boolean nextPage(int pageNumber) { // 페이징 처리 위한 함수
+//		String SQL = "SELECT * FROM meeting WHERE mtNum - 1 >= ?";
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(SQL);
+//			pstmt.setInt(1, pageNumber * 5);
+//			rs = pstmt.executeQuery();
+//			if (rs.next()) {
+//				return true;  // 다음 페이지로 넘어갈 수 있다고 알림.
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
 	
 	public int targetMeetingPage(int pageNumber) { // 페이징 처리 위한 함수
 		String SQL = "SELECT Count(mtNum - 1) FROM meeting WHERE mtNum - 1 > ?";

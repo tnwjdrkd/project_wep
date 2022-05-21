@@ -41,12 +41,12 @@ public class ReviewDAO {
 	}
 	
 	public ArrayList<Review> getRvList(int pageNumber, int rvRmeeting) {
-		String SQL = "SELECT * FROM review WHERE rvID < ? AND rvRmeeting = ? AND rvAvailable = 1 ORDER BY rvID DESC LIMIT 10";
+		String SQL = "SELECT * FROM review WHERE rvRmeeting = ? ORDER BY rvID DESC LIMIT ?, 5";
 		ArrayList<Review> list = new ArrayList<Review>(); 
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
-			pstmt.setInt(2, rvRmeeting);
+			pstmt.setInt(1, rvRmeeting);
+			pstmt.setInt(2, (pageNumber - 1) * 5);
 			rs = pstmt.executeQuery(); 
 			while (rs.next()) {
 				Review rv = new Review(); 
@@ -63,11 +63,27 @@ public class ReviewDAO {
 		return list;
 	}
 	
+	public int targetRvPage(int pageNumber, int rvRmeeting) { // 페이징 처리 위한 함수
+		String SQL = "SELECT Count(rvID - 1) FROM review WHERE rvID - 1 > ? AND rvRmeeting = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, (pageNumber - 1) * 5);
+			pstmt.setInt(2, rvRmeeting);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) / 5;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public boolean nextPage(int pageNumber, int rvRmeeting) {
 		String SQL = "SELECT * FROM review WHERE rvID < ? AND rvRmeeting = ? AND rvAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * 5);
 			pstmt.setInt(2, rvRmeeting);
 			rs = pstmt.executeQuery();
 			if (rs.next()) { 
@@ -78,6 +94,8 @@ public class ReviewDAO {
 		}
 		return false;
 	}
+	
+	
 	
 	public int rvWrite(int rvRmeeting, String rvUser, String rvContent) {
 		String SQL = "INSERT INTO review (rvID, rvRmeeting, rvUser, rvContent, rvAvailable) VALUES (?, ?, ?, ?, ?)";
