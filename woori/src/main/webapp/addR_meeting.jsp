@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="meeting.MeetingDAO" %>
+<%@ page import="meeting.Meeting" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE HTML>
@@ -25,6 +27,14 @@
 				script.println("<script>");
 				script.println("alert('존재하지 않는 모임입니다.')");      
 				script.println("location.href='main.jsp'");   
+				script.println("</script>");
+			}
+			Meeting mt = new MeetingDAO().getMeeting(mtID);
+			if(userID != mt.getMtLeader()) {   // 모임 존재시 모임 페이지 조회가능
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('모임 생성 권한" + userID + "이 없습니다.')");      
+				script.println("history.back()");   
 				script.println("</script>");
 			}
 		%>
@@ -60,7 +70,7 @@
 								<form method="post" action="addR_meetingAction.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>">
 	                                <li id="Rmeeting_date"><input id="date" type="date" name="rmtDate" style="width:100%; height:40px; margin-bottom:10px;"></li>
 	                                <li id="Rmeeting_time"><input id="time" type="time" name="rmtTime" style="width:100%; height:40px; margin-bottom:10px;" ></li>
-	                                <li id="Rmeeting_place"><input id="place" type="text" name="rmtPlace" style="margin-bottom:10px;" placeholder="정모 장소를 입력해주세요." onfocus="this.placeholder=''" onblur="this.placeholder='정모 장소를 입력해주세요.'"></li>
+	                                <li id="Rmeeting_place"><input id="place" type="text" name="rmtPlace" style="margin-bottom:10px;" onClick="addPopup()" placeholder="정모 장소를 입력해주세요." onfocus="this.placeholder=''" onblur="this.placeholder='정모 장소를 입력해주세요.'"></li>
 	                                <li id="Rmeeting_cost"><input id="cost" type="text" name="rmtCost" style="margin-bottom:15px;" placeholder="비용을 입력해주세요." onfocus="this.placeholder=''" onblur="this.placeholder='비용을 입력해주세요'"></li>
 	                                <input id="submit" type="submit" name="submit" value="등록" style="width:100%;">
                                 </form>
@@ -88,6 +98,11 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-
+			<script type="text/javascript">
+        		function addPopup(){
+        			const pop = window.open("${pageContext.request.contextPath}/meeting_location.jsp", "pop", "width=550, height=550, scrollbars=no, resizable=yes");
+        		}
+        	</script>
+        	
 	</body>
 </html>

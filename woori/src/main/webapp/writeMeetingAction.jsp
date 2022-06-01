@@ -28,7 +28,7 @@
 		String mtID = null;
 		if(request.getParameter("mtID") != null) {
 			mtID = (String)request.getParameter("mtID");
-		} else {
+		}
 			if(board.getBrdTitle() == null || board.getBrdContent() == null) {
 						PrintWriter script = response.getWriter();
 						script.println("<script>");
@@ -57,8 +57,6 @@
 							script.println("location.href = 'meeting.jsp?mtID=" + mtID + "'");
 							script.println("</script>");
 						}
-		}
-		
 		}
 	%>
 </body>

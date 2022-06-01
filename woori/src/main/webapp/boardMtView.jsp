@@ -8,6 +8,7 @@
 <%@ page import="comment.Comment" %>
 <%@ page import="comment.CommentDAO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -51,6 +52,10 @@
 				script.println("location.href='main.jsp'");   
 				script.println("</script>");
 			}
+			String mtID = null;
+			if(request.getParameter("mtID") != null) {
+				mtID = (String)request.getParameter("mtID");
+			}
 			Board brd = new BoardDAO().getBoard(brdID); // 게시글 조회 인스턴스 생성
 			BoardDAO brdDAO = new BoardDAO();
 			Comment cmt = new CommentDAO().getComment(brdID);
@@ -60,7 +65,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="main.jsp" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
+						<h1><a href="meeting.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8")%>" style="font-weight:500;">우리 동네 커뮤니케이션</a></h1>
 						<nav class="main">
 							<ul>
 								<li class="search">
@@ -149,7 +154,7 @@
 												location.href="deleteAction.jsp?brdID=<%= brdID %>";
 										}
 									</script>
-                                    <input type="button" id="modify" value="수정" style="width:80px; height:50px; float:right;" onClick="location.href='update.jsp?brdID=<%= brdID %>'">
+                                    <input type="button" id="modify" value="수정" style="width:80px; height:50px; float:right;" onClick="location.href='update.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>'">
                                     <%
 										}
 									%>
@@ -183,7 +188,7 @@
 				<!-- Sidebar -->
 					<section id="sidebar">
                             <section>
-                                <h1>게시판 목록</h1>
+                                <h1>모임 게시판 목록</h1>
                                 <table id="bulletinboard">
                                     <tr>
                                         <td class="bbline">제목</td>
@@ -192,11 +197,11 @@
                                         <td class="bbline">댓글수</td>
                                     </tr>
                                     	<%	
-											ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
+											ArrayList<Board> list = brdDAO.getMtList(pageNumber, mtID); // 리스트 생성.
 											for(int i = 0; i < list.size(); i++) { 
 										%>
                                     <tr>
-										<td class="bbline2" title="<%= list.get(i).getBrdTitle() %>"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+										<td class="bbline2" title="<%= list.get(i).getBrdTitle() %>"><a href="boardMtView.jsp?mtID=<%= mtID %>&brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
 										<td class="bbline2"><%= list.get(i).getUserNickname() %></td>
 										<td class="bbline2"><%= list.get(i).getBrdDate().substring(0, 11) %></td>
 										<td class="bbline2"><%= list.get(i).getCmtCount() %></td>
@@ -212,7 +217,7 @@
 		                        		int targetPage = new BoardDAO().targetPage(pageNumber);
 		                        		if(startPage != 1) {
 		                        	%>		
-		                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
+		                        		<li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
 		    						<%
 		    							} else {
 		                        	%>
@@ -221,7 +226,7 @@
 		    							}
 		                        		if(pageNumber != 1)	{
 									%>
-										<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
+										<li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= pageNumber - 1 %>">&lt;&nbsp;</a></li>
 									<%
 										} else {
 				                    %>
@@ -230,22 +235,22 @@
 			    						}
 		                        		for(int i = startPage; i < pageNumber; i++) {
 		                        	%>
-		                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= i %>"><%= i %></a></li>
+		                        		<li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= i %>"><%= i %></a></li>
 		                        	<%
 		                        		}
 		                        	%>
-		                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
+		                        		<li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= pageNumber %>"><%= pageNumber %></a></li>
 		                        	<%
 		                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
 		                        			if(i <startPage + 5) {
 		                        	%>
-		                                <li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= i %>"><%= i %></a></li>
+		                                <li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= i %>"><%= i %></a></li>
 		                            <%			
 		                        			}
 		                        		}
 		                        		if(pageNumber != targetPage + pageNumber)	{
 		    						%>
-		    							<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
+		    							<li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= pageNumber + 1 %>">&nbsp;&gt;</a></li>
 		    						<%
 		    							} else {
 		    		                %>
@@ -254,7 +259,7 @@
 		    	    					}
 		                        		if(targetPage + pageNumber > startPage + 4) {
 		                        	%>
-		                                <li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= startPage + 5 %>">&nbsp;&gt;&gt;</a></li>
+		                                <li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= startPage + 5 %>">&nbsp;&gt;&gt;</a></li>
 		                            <%	
 		                        		} else {
 		                        	%>

@@ -166,7 +166,7 @@
 											%>
 						                   	<tr>
 												<td class="bbline"><%= list.get(i).getBrdID() %></td>
-												<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
+												<td class="bbline"><a href="boardMtView.jsp?brdID=<%= list.get(i).getBrdID() %>&mtID=<%= mtID %>"><%= list.get(i).getBrdTitle() %></a></td>
 												<td class="bbline"><%= list.get(i).getUserNickname() %></td>
 												<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
 												<td class="bbline"><%= list.get(i).getCmtCount() %></td>

@@ -48,7 +48,7 @@
 				script.println("history.back()");  // 이전 페이지로_join.jsp
 				script.println("</script>");
 			} else {
-				session.setAttribute("userID", user.getUserID());  // 세션 부여
+				//session.setAttribute("userID", user.getUserID());  // 세션 부여
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('회원가입이 완료되었습니다.')");
