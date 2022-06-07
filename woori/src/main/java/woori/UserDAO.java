@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import board.Board;
 import encrypt.BCrypt;
 
 public class UserDAO {
@@ -104,5 +106,47 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 			return -1; // DB 오류
-		}	
+		}
+		
+		public User getUser(String userID) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
+			String SQL = "SELECT * FROM user WHERE userID = ?";
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				pstmt.setString(1, userID);
+				rs = pstmt.executeQuery(); // 실제로 실행했을때 결과를 가져올 수 있도록 한다.
+				if (rs.next()) {
+					User user = new User();
+					user.setUserID(rs.getString(1));
+					user.setUserPassword(rs.getString(2)); 
+					user.setUserName(rs.getString(3)); 
+					user.setUserBirth(rs.getString(4)); 
+					user.setUserPhone(rs.getString(5)); 
+					user.setUserAddress(rs.getString(6));
+					user.setUserNickname(rs.getString(7));
+					return user;
+				}
+			} catch (Exception e) {
+				e.printStackTrace(); // 해당 글이 존재하지 않는 경우
+			}
+			return null; // null 반환
+		}
+		
+		public int infoupdate(String userID, String userPassword, String userName, String userBirth, String userPhone, String userAddress, String userNickname) { // 글 수정을 위한 함수
+			String SQL = "UPDATE user SET userPassword = ?, userName = ?, userBirth = ?, userPhone = ?, userAddress = ?, userNickname = ? WHERE userID = ?";
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				User user = new UserDAO().getUser(userID);
+				pstmt.setString(1, BCrypt.hashpw(user.getUserPassword(), BCrypt.gensalt(10)));
+				pstmt.setString(2, userName);
+				pstmt.setString(3, userBirth);
+				pstmt.setString(4, userPhone);
+				pstmt.setString(5, userAddress);
+				pstmt.setString(6, userNickname);
+				pstmt.setString(7, userID);
+				return pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return -1; // DB 오류
+		}
 }
