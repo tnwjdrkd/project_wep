@@ -24,6 +24,12 @@
 						$("#join").hide();
 				});
 			});
+			$(function (){
+					$("#loginSubmit").click(function (){
+						$("#profile").show();
+						$("#login").hide();
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -62,11 +68,12 @@
 						<section id="login">
 							<li class="login"><input id="login_id" type="text" placeholder="아이디" style="margin-bottom: 5px;"></li>
 							<li class="login"><input id="login_pw" type="password" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
-							<li class="login"><input class="button big fit" type="submit" value="로그인"></li>
+							<li class="login"><input id="loginSubmit" class="button big fit" type="submit" value="로그인"></li>
 							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
 							<li id="loginBtn" style="float:right; cursor:pointer; font-size: 13px; display:none;">로그인</li>
 						</section>
 
+						<!-- 회원가입-->
 						<section id="join" style="display:none">
 							<form method="post">
 							<li><input id="id" type="text"placeholder="아이디" style="margin-bottom: 5px;"></li>
@@ -79,7 +86,23 @@
 							<li><input class="button big fit" type="submit" value="가입하기" onClick="alert('가입 완료되었습니다. 로그인 후 이용 가능합니다.')"></li>
 							</form>
 						</section>
-
+						<!-- 로그인 후 프로필-->
+						<section id="profile" style="border:none; display:none;">
+							<table style="border:none; text-align: center; font-size: 15px;">
+								<tr style="text-align: center;">
+									<td rowspan="4"  style="text-align: center; vertical-align: middle;"><img src="images/pic08.jpg" style="width:120px;"/></td>
+									<td style="font-size: 17px;">강수정님</td>
+								</tr>
+								<tr>
+									<td colspan="3"><img src="location.png" width="13")>경기도 안양시 만안구</td>
+								</tr>
+								<tr>
+									<td>알림</td>
+									<td>설정</td>
+									<td>로그아웃</td>
+								</tr>
+							</table>
+						</section>
 					</section> 
 
 				<!-- Main -->
