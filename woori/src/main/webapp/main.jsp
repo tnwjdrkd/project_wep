@@ -35,6 +35,20 @@
 						$("#join").hide();
 				});
 			});
+			$(function (){
+					$("#loginSubmit").click(function (){
+						$("#profile").show();
+						$("#login").hide();
+				});
+			});
+			$(function (){
+					$("#infoupdateBtn").click(function (){
+					 	 $("#infoupdate").show();
+				});
+					$("#updatecancelBtn").click(function (){
+						 $("#infoupdate").hide();
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -57,6 +71,7 @@
 				meetingPage = Integer.parseInt(request.getParameter("meetingPage")); 
 			}
 			String mtCategory = null;
+			User user = new UserDAO().getUser(userID);
 		%>
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -96,26 +111,58 @@
 							<form method="post" action="loginAction.jsp">
 							<li class="login"><input id="login_id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
 							<li class="login"><input id="login_pw" type="password" name="userPassword" placeholder="비밀번호" style="margin-bottom: 10px;"></li>
-							<li class="login"><input class="button big fit" type="submit" value="로그인"></li>
+							<li class="login"><input id="loginSubmit" class="button big fit" type="submit" value="로그인"></li>
 							<li id="joinBtn" style="float:right; cursor:pointer; font-size: 13px;">회원가입</li>
 							<li id="loginBtn" style="float:right; cursor:pointer; font-size: 13px; display:none;">로그인</li>
 							</form>
 							<%
 								} else {
 							%>
-							<div class="after_login"> <!-- 로그인 성공 시 before_login 대체-->
-								<h1>
-			                   		<%
-										out.println(nick + "님 환영합니다.</br>");
-			                    	%>                    	
-			                    </h1>
-			                    <a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a>
-			                </div>
+			               
+			                <!-- 로그인 후 프로필-->
+							<section id="profile" style="border:none;">
+								<table style="border:none; text-align: center; font-size: 15px;">
+									<tr style="text-align: center;">
+										<td rowspan="4"  style="text-align: center; vertical-align: middle;"><img src="images/pic08.jpg" style="width:120px;"/></td>
+										<td style="font-size: 17px;"><%= nick %> 님</td>
+									</tr>
+									<tr>
+										<td colspan="3"><img src="location.png" width="13")><%= user.getUserAddress().substring(0, 12) %></td>
+									</tr>
+									<tr>
+										<td>알림</td>
+										<td id="infoupdateBtn" style="cursor:pointer; font-size: 14px; text-decoration:none;">수정</td>
+										<td><a href=logoutAction.jsp style="font-size: 14px; text-align: right; text-decoration:none;" id="logout">로그아웃</a></td>
+									</tr>
+								</table>
+							</section>
+							
+							<section id="infoupdate" style="display:none">
+								<form method="post" action="infoupdateAction.jsp">
+								<li id="id" type="text" style="margin-bottom: 5px;"><%= user.getUserID() %></li>
+								<li><input id="pw" type="password" name="userPassword" placeholder="변경할 비밀번호 입력" style="margin-bottom: 5px;"></li>
+								<li><input id="name" type="text" name="userName" placeholder="이름" style="margin-bottom: 5px;" value="<%= user.getUserName() %>"></li>
+								<li><input id="birth" type="date" name="userBirth" placeholder="생년월일" style="margin-bottom: 5px; width:100%; border:1px soild #dddddd;" value="<%= user.getUserBirth() %>"></li>
+								<li><input id="phonenum" type="text" name="userPhone" placeholder="휴대폰 번호('-'제외 입력)" style="margin-bottom: 5px;" value="<%= user.getUserPhone() %>"></li>
+								<li><input id="address" type="text" name="userAddress" placeholder="주소" style="margin-bottom: 5px;" value="<%= user.getUserAddress() %>" onClick="addPopup()"><!-- 주소 입력창 클릭시 위치 인증 팝업으로-->
+									<script type="text/javascript">
+						        	function addPopup(){
+						        		const pop = window.open("${pageContext.request.contextPath}/location.jsp", "pop", "width=550, height=630, scrollbars=no, resizable=yes");
+						        	}
+						       		 </script>
+						        </li> 
+								<li><input id="nickname" type="text" name="userNickname" placeholder="닉네임" style="margin-bottom: 10px;" value="<%= user.getUserNickname() %>"></li>
+								<li><input class="button big fit" type="submit" value="수정하기"></li>
+								<li id="updatecancelBtn" style="float:right; cursor:pointer; font-size: 13px;">수정 취소</li>
+								</form>
+							</section>
+						
 			                 <%
 								}
 							%>
 						</section>
-
+						
+						<!-- 회원가입-->
 						<section id="join" style="display:none">
 							<form method="post" action="joinAction.jsp">
 							<li><input id="id" type="text" name="userID" placeholder="아이디" style="margin-bottom: 5px;"></li>
