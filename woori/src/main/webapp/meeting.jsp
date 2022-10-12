@@ -252,17 +252,17 @@
 									%>
 										<table>
 											<tr>
-												<td><img src="date.png" width="20")> <%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %></td> <!-- 정모 시간 -->
+												<td><img src="images/date.png" width="20")> <%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %></td> <!-- 정모 시간 -->
 												<td></td>
 												<td style="text-align: center; background: #f3f3f3;" width="120px" rowspan="3" input id="RmeetingReview"  type="button" onClick="location.href='review.jsp?mtID=<%= mtID %>&rmtID=<%= rmlist.get(i).getRmtID() %>'"><br><br>후기쓰기</td>
 												<td style="text-align: center; background: #f6fdfd;" width="120px" rowspan="3" input id="Rmeeting_join"  type="button" onClick="alert('참여 신청을 보냈습니다. 모임장 수락시 참여 가능합니다.')"><br><br>참여하기</td> <!-- 클릭시 알림창 생성-->
 											</tr>
 											<tr>
-												<td><img src="location.png" width="22")> <%= rmlist.get(i).getRmtPlace() %></td> <!-- 정모 장소-->
+												<td><img src="images/location.png" width="22")> <%= rmlist.get(i).getRmtPlace() %></td> <!-- 정모 장소-->
 												<td><input type="button" value="지도로 보기"></td>
 											</tr>
 											<tr>
-												<td><img src="money.png" width="20")> <%= rmlist.get(i).getRmtCost() %></td> <!-- 정모 비용 -->
+												<td><img src="images/money.png" width="20")> <%= rmlist.get(i).getRmtCost() %></td> <!-- 정모 비용 -->
 												<td></td>
 											</tr>
 										</table>
@@ -344,8 +344,8 @@
                             <section id="main-aside">
                                 <div class="inner-aside">
                                     <h2>모임</h2>
-                                        <li class="meeting_leader"><img src="leader.png" width="20")><a href="project_meminfo.html"> <%= mt.getMtLeader() %></a></li> <!-- 모임장(닉네임) -->
-                                        <li class="meeting_opendate"><img src="date.png" width="20")> <%= mt.getMtDate().substring(0, 4) + "년" + mt.getMtDate().substring(5, 7) + "월" + mt.getMtDate().substring(8, 10) + "일" %></li> <!-- 모임 생성 날짜 -->
+                                        <li class="meeting_leader"><img src="images/leader.png" width="20")><a href="project_meminfo.html"> <%= mt.getMtLeader() %></a></li> <!-- 모임장(닉네임) -->
+                                        <li class="meeting_opendate"><img src="images/date.png" width="20")> <%= mt.getMtDate().substring(0, 4) + "년" + mt.getMtDate().substring(5, 7) + "월" + mt.getMtDate().substring(8, 10) + "일" %></li> <!-- 모임 생성 날짜 -->
                                         <li class="meeting_introduction"><%= mt.getMtSummary() %></li> <!-- 모임 소개 -->
                                 </div>
                                 <div class="inner-aside">
@@ -355,7 +355,7 @@
 										ArrayList<Member> mblist = mbDAO.getMbList(mtID); // 리스트 생성.
 										for(int i = 0; i < mblist.size(); i++) { 
 									%>
-                                    <li><img src="people.png" width="18")><a href="project_meminfo.html"> <%= mblist.get(i).getMbUser() %></a></li> <!-- 모임에 가입된 회원 -->
+                                    <li><img src="images/people.png" width="18")><a href="project_meminfo.html"> <%= mblist.get(i).getMbUser() %></a></li> <!-- 모임에 가입된 회원 -->
 					                <%
 										}
 									%>

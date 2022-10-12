@@ -30,10 +30,10 @@
 				script.println("</script>");
 			}
 			Meeting mt = new MeetingDAO().getMeeting(mtID);
-			if(userID != mt.getMtLeader()) {   // 모임 존재시 모임 페이지 조회가능
+			if(userID == mt.getMtLeader()) {   // 모임 존재시 모임 페이지 조회가능
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
-				script.println("alert('모임 생성 권한" + userID + "이 없습니다.')");      
+				script.println("alert('모임 생성 권한이 없습니다.')");      
 				script.println("history.back()");   
 				script.println("</script>");
 			}

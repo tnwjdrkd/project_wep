@@ -68,15 +68,15 @@
                                 <form method="post" action="reviewAction.jsp?mtID=<%= mtID %>&rmtID=<%= rmtID %>">
                                     <table id="mymeeting">
                                         <tr style="border:none;">
-                                            <td><label for="RmeetingDate"><img src="date.png" width="25")></label></td>
+                                            <td><label for="RmeetingDate"><img src="images/date.png" width="25")></label></td>
                                             <td><input id="RmeetingDate" type="text" style="width:850px;" value=" <%= rmt.getRmtDate().substring(0, 4) + "년 " + rmt.getRmtDate().substring(5, 7) + "월 " + rmt.getRmtDate().substring(8, 10) + "일 " + rmt.getRmtTime() %>"></td>
                                         </tr>
                                         <tr style="border:none;">
-                                            <td><label for="Rmeetinglocation"><img src="location.png" width="29")></label></td>
+                                            <td><label for="Rmeetinglocation"><img src="images/location.png" width="29")></label></td>
                                             <td><input id="Rmeetinglocation" type="text" style="width:850px;" value=" <%= rmt.getRmtPlace() %>"></td>
                                         </tr>
                                         <tr style="border:none;">
-                                            <td><label for="Rmeetingreview"><img src="review.png" width="29")></label></td>
+                                            <td><label for="Rmeetingreview"><img src="images/review.png" width="29")></label></td>
                                             <td><textarea name="rvContent" style="width:850px;" placeholder="후기를 입력해주세요."></textarea></td>
                                         </tr>
 										<tr style="border:none;">

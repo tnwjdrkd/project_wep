@@ -86,9 +86,9 @@
 										</style>
                                 <div class="content">
                                     <ul class="Rmeeting<%= i %>" style="font-size:17px;">
-                                        <li><img src="date.png" width="23")> <%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %></li> <!-- 정모 시간 -->
-                                        <li><img src="location.png" width="23")> <%= rmlist.get(i).getRmtPlace() %></li> <!-- 정모 장소-->
-                                        <li><img src="money.png" width="23")> <%= rmlist.get(i).getRmtCost() %></li> <!-- 정모 장소-->
+                                        <li><img src="images/date.png" width="23")> <%= rmlist.get(i).getRmtDate().substring(0, 4) + "년 " + rmlist.get(i).getRmtDate().substring(5, 7) + "월 " + rmlist.get(i).getRmtDate().substring(8, 10) + "일 " + rmlist.get(i).getRmtTime() %></li> <!-- 정모 시간 -->
+                                        <li><img src="images/location.png" width="23")> <%= rmlist.get(i).getRmtPlace() %></li> <!-- 정모 장소-->
+                                        <li><img src="images/money.png" width="23")> <%= rmlist.get(i).getRmtCost() %></li> <!-- 정모 장소-->
                                     </ul>
                                     <ul class="review<%= i %>" style="display:none;">
                                     	<%
@@ -96,7 +96,7 @@
 												ArrayList<Review> rvlist = rvDAO.getRvList(reviewPage, rmlist.get(i).getRmtID());
 												for(int y = 0; y < rvlist.size(); y++) { 
 										%>
-                                        <li><img src="review.png" width="24")> <%= rvlist.get(y).getRvContent()%></li> <!-- 후기 내용 -->
+                                        <li><img src="images/review.png" width="24")> <%= rvlist.get(y).getRvContent()%></li> <!-- 후기 내용 -->
                                         <%
 											}
 										%>

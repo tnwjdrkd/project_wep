@@ -27,7 +27,7 @@
 			if(request.getParameter("userPassword") == null || request.getParameter("userName") == null || request.getParameter("userBirth") == null
 				|| request.getParameter("userPhone") == null || request.getParameter("userAddress") == null ||  request.getParameter("userPhone") == null
 					|| request.getParameter("userPassword").equals("") || request.getParameter("userName").equals("") || request.getParameter("userBirth").equals("")
-						|| request.getParameter("userPhone").equals("") || request.getParameter("userAddress").equals("") ||  request.getParameter("userPhone").equals("")) {
+						|| request.getParameter("userPhone").equals("") || request.getParameter("userAddress").equals("") ||  request.getParameter("userNickname").equals("")) {
 						PrintWriter script = response.getWriter();
 						script.println("<script>");
 						script.println("alert('빈 칸을 모두 입력해주세요.')");
@@ -36,7 +36,7 @@
 					} else {
 						UserDAO userDAO = new UserDAO();    // 데이터베이스 접근 객체 생성
 						int result = userDAO.infoupdate(userID, request.getParameter("userPassword"), request.getParameter("userName"), request.getParameter("userBirth")
-								, request.getParameter("userPhone"), request.getParameter("userAddress"), request.getParameter("userPhone"));
+								, request.getParameter("userPhone"), request.getParameter("userAddress"), request.getParameter("userNickname"));
 						if (result == -1) {    // DB 에러
 							PrintWriter script = response.getWriter();
 							script.println("<script>");

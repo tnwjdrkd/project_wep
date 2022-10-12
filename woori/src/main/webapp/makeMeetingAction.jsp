@@ -41,13 +41,7 @@
 						if (result == -1) {    // DB 에러
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
-							script.println("alert('모임 만들기 오류가 발생하였습니다.')");
-							script.println("history.back()");
-							script.println("</script>");
-						} else if (result == -2) {    // DB 에러
-							PrintWriter script = response.getWriter();
-							script.println("<script>");
-							script.println("alert('모임 만들기 오류2가 발생하였습니다.')");
+							script.println("alert('중복된 모임 이름이 존재합니다.')");
 							script.println("history.back()");
 							script.println("</script>");
 						} else {

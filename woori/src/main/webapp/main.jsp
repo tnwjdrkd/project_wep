@@ -127,7 +127,7 @@
 										<td style="font-size: 17px;"><%= nick %> 님</td>
 									</tr>
 									<tr>
-										<td colspan="3"><img src="location.png" width="13")><%= user.getUserAddress().substring(0, 12) %></td>
+										<td colspan="3"><img src="images/location.png" width="13")><%= user.getUserAddress().substring(0, 12) %></td>
 									</tr>
 									<tr>
 										<td>알림</td>
@@ -229,11 +229,11 @@
 										%>
 								</table>	
 								<ul class="number-menu">
-								<%
-	                        		int startPage = (pageNumber / 10) * 10 + 1;
-	                        		if(pageNumber % 10 == 0) startPage -= 10;
+								<%	// pagaNumber -> 내가 특정하는 pageNumber
+	                        		int startPage = (pageNumber / 10) * 10 + 1;    // 페이징의 시작 페이지 1
+	                        		if(pageNumber % 10 == 0) startPage -= 10;	   // 10단위 페이징의 경우 첫 시작 페이지 조절
 	                        		int targetPage = new BoardDAO().targetPage(pageNumber);
-	                        		if(startPage != 1) {
+	                        		if(startPage != 1) { // 1이 아니면 11에서 10으로 가게 하는 버튼(<<)을 활성화, 1이면 비활성화
 	                        	%>		
 	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage - 1 %>&meetingPage=<%= meetingPage %>#bulletinboard">&lt;&lt;&nbsp;</a></li>
 	    						<%
@@ -242,7 +242,7 @@
 	                        		<li class="inner-number">&lt;&lt;&nbsp;</li>
 	                        	<%
 	    							}
-	                        		if(pageNumber != 1)	{
+	                        		if(pageNumber != 1)	{   // 특정하는 pN이 1이 아니면 이전 p로 돌아갈 수 있게 버튼(<) 활성화 , 1이면 비활성
 								%>
 									<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber - 1 %>&meetingPage=<%= meetingPage %>#bulletinboard">&lt;&nbsp;</a></li>
 								<%
@@ -251,22 +251,22 @@
 		                        	<li class="inner-number">&lt;&nbsp;</li>
 		                        <%
 		    						}
-	                        		for(int i = startPage; i < pageNumber; i++) {
+	                        		for(int i = startPage; i < pageNumber; i++) { // sP ~ p 전까지 숫자 버튼 활성화
 	                        	%>
 	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>#bulletinboard"><%= i %></a></li>
 	                        	<%
-	                        		}
+	                        		} // 아래꺼는 해당 p 숫자 버튼 활성화
 	                        	%>
 	                        		<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber %>&meetingPage=<%= meetingPage %>#bulletinboard"><%= pageNumber %></a></li>
 	                        	<%
-	                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) {
-	                        			if(i <startPage + 10) {
+	                        		for (int i = pageNumber + 1; i <= targetPage + pageNumber; i++) { // p+1 ~ p+tp(최종 마지막 페이징)까지 반복 접근하는데,
+	                        			if(i <startPage + 10) {	// sp+10 전까지에 한하여 숫자버튼 활성화
 	                        	%>
 	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= i %>&meetingPage=<%= meetingPage %>#bulletinboard"><%= i %></a></li>
 	                            <%			
 	                        			}
 	                        		}
-	                        		if(pageNumber != targetPage + pageNumber)	{
+	                        		if(pageNumber != targetPage + pageNumber)	{ // 현재 p가 최종 마지막 페이징 숫자가 아니라면, 계속 다음 숫자페이징으로 이동할 수 있도록 버튼(>) 활성화
 	    						%>
 	    							<li class="inner-number"><a href="main.jsp?pageNumber=<%= pageNumber + 1 %>&meetingPage=<%= meetingPage %>#bulletinboard">&nbsp;&gt;</a></li>
 	    						<%
@@ -275,7 +275,7 @@
 	    	                        <li class="inner-number">&nbsp;&gt;</li>
 	    	                    <%
 	    	    					}
-	                        		if(targetPage + pageNumber > startPage + 9) {
+	                        		if(targetPage + pageNumber > startPage + 9) { // 마지막 숫자 페이징(10단위)보다 크다면 >> 활성화
 	                        	%>
 	                                <li class="inner-number"><a href="main.jsp?pageNumber=<%= startPage + 10 %>&meetingPage=<%= meetingPage %>#bulletinboard">&nbsp;&gt;&gt;</a></li>
 	                            <%	

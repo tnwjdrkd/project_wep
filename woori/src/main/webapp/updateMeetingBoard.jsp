@@ -52,6 +52,10 @@
 				script.println("location.href='main.jsp'");   
 				script.println("</script>");
 			}
+			String mtID = null;
+			if(request.getParameter("mtID") != null) {
+				mtID = (String)request.getParameter("mtID");
+			}
 		%>
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -82,7 +86,7 @@
 										<p>작성한 글을 수정해보세요.</p>
 									</div>
 								</header>
-								<form method="post" action="updateAction.jsp?brdID=<%= brdID %>">
+								<form method="post" action="updateAction.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>">
 									<table>
 										<tr style="border:none;">
 											<td ><label for="title" style="font-weight: 500;">제목</label></td>

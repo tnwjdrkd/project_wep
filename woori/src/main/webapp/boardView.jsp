@@ -135,7 +135,7 @@
 							<article class="post">
                                     <h1><%= brd.getBrdTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></h1>
                                     <li id="postinfo">
-                                        <ul><img src="people.png" width="13")> <%= brd.getUserNickname() %></ul> 
+                                        <ul><img src="images/people.png" width="13")> <%= brd.getUserNickname() %></ul> 
                                         <ul id="contentdate"><%= brd.getBrdDate().substring(0,16) %></ul> 
                                     </li>
                                     <p id="content"><%= brd.getBrdContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></p>
@@ -161,7 +161,7 @@
 										for(int i = 0; i < cmtlist.size(); i++) { 
 									%>
                                     <li>
-                                        <ul id="nickname"><img src="people.png" width="13")> <%= cmtlist.get(i).getUserNickname() %></ul>
+                                        <ul id="nickname"><img src="images/people.png" width="13")> <%= cmtlist.get(i).getUserNickname() %></ul>
                                         <ul id="cc"><%= cmtlist.get(i).getCmtContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></ul>
                                         <ul id="commentdate"><%=cmtlist.get(i).getCmtDate().substring(0,16) %></ul> <!-- 날짜 -->
                                     </li>
@@ -169,7 +169,7 @@
 										}
 									%>
 									<form method="post" action="commentAction.jsp?brdID=<%= brdID %>">
-										<ul id="nickname" style="margin-top:30px;"><img src="people.png" width="13")> <%= brdDAO.getuserNickname(userID) %></ul>
+										<ul id="nickname" style="margin-top:30px;"><img src="images/people.png" width="13")> <%= brdDAO.getuserNickname(userID) %></ul>
 	                                    <table>
 	                                        <tr style="border:none;  padding:0;">
 	                                            <td style="width:80%; padding:0;"><textarea style="height:70px;" name="cmtContent" placeholder="동네 이웃에게 따뜻한 댓글을 달아주세요."></textarea> </td>
