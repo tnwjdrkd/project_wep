@@ -320,8 +320,8 @@
 									MeetingDAO mtDAO = new MeetingDAO();
 									if(request.getParameter("mtCategory") != null) {
 									mtCategory = (String)request.getParameter("mtCategory");
-									ArrayList<Meeting> meetinglist = mtDAO.getMeetingCategoryList(meetingPage, mtCategory); // 리스트 생성.
-									for(int i = 0; i < meetinglist.size(); i++) { 
+										ArrayList<Meeting> meetinglist = mtDAO.getMeetingCategoryList(meetingPage, mtCategory); // 리스트 생성.
+										for(int i = 0; i < meetinglist.size(); i++) { 
 								%>
 								<ul class="posts">
 										<article style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: solid 1px #dddddd;" >

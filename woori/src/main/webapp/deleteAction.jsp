@@ -34,6 +34,10 @@
 			script.println("location.href='main.jsp'");   
 			script.println("</script>");
 		}
+		String mtID = null;
+		if(request.getParameter("mtID") != null) {
+			mtID = (String)request.getParameter("mtID");
+		}
 		Board brd = new BoardDAO().getBoard(brdID);  // brdID 값으로 해당 글을 가져온다.
 		if(!userID.equals(brd.getUserID())) {  // 글 작성자 확인
 			PrintWriter script = response.getWriter();
@@ -53,7 +57,8 @@
 				} else {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("location.href = 'main.jsp'");
+					if(mtID == null) script.println("location.href = 'main.jsp'");
+					else script.println("location.href = 'meeting.jsp?mtID=" + mtID + "'");
 					script.println("</script>");
 				}
 		}

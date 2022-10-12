@@ -29,6 +29,10 @@
 		if (request.getParameter("brdID") != null) {
 			brdID = Integer.parseInt(request.getParameter("brdID"));
 		}
+		String mtID = null;
+		if(request.getParameter("mtID") != null) {
+			mtID = (String)request.getParameter("mtID");
+		}
 		if(brdID == 0) {   // 글번호 존재시 특정 글 조회가능
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -62,7 +66,8 @@
 						} else {
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
-							script.println("location.href = 'boardView.jsp?brdID=" + brdID + "'");
+							if(mtID == null) script.println("location.href = 'boardView.jsp?brdID=" + brdID + "'");
+							else script.println("location.href = 'boardMtView.jsp?brdID=" + brdID + "&mtID=" + mtID + "'");
 							script.println("</script>");
 						}
 					}

@@ -39,72 +39,37 @@
 			mtID = (String)request.getParameter("mtID");
 		}
 		Board brd = new BoardDAO().getBoard(brdID);  // brdID 값으로 해당 글을 가져온다.
-		if(mtID == null) {
-			if(!userID.equals(brd.getUserID())) {  // 글 작성자 확인
-				PrintWriter script = response.getWriter();
-				script.println("<script>");
-				script.println("alert('수정 권한이 없습니다.')");      
-				script.println("location.href='main.jsp'");   
-				script.println("</script>");
-			} else {
-				if(request.getParameter("brdTitle") == null || request.getParameter("brdContent") == null
-						|| request.getParameter("brdTitle").equals("") || request.getParameter("brdContent").equals("")) {
-							PrintWriter script = response.getWriter();
-							script.println("<script>");
-							script.println("alert('빈 칸을 모두 입력해주세요.')");
-							script.println("history.back()");
-							script.println("</script>");
-						} else {
-							BoardDAO brdDAO = new BoardDAO();    // 데이터베이스 접근 객체 생성
-							int result = brdDAO.update(brdID, request.getParameter("brdTitle"), request.getParameter("brdContent"));
-							if (result == -1) {    // DB 에러
-								PrintWriter script = response.getWriter();
-								script.println("<script>");
-								script.println("alert('글 수정에 실패하였습니다.')");
-								script.println("history.back()");
-								script.println("</script>");
-							} else {
-								PrintWriter script = response.getWriter();
-								script.println("<script>");
-								script.println("location.href = 'boardView.jsp?brdID=" + brdID + "'");
-								script.println("</script>");
-							}
-				}
-			}
+		if(!userID.equals(brd.getUserID())) {  // 글 작성자 확인
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('수정 권한이 없습니다.')");      
+			script.println("location.href = 'meeting.jsp?mtID=" + mtID + "'");   
+			script.println("</script>");
 		} else {
-			if(!userID.equals(brd.getUserID())) {  // 글 작성자 확인
-				PrintWriter script = response.getWriter();
-				script.println("<script>");
-				script.println("alert('수정 권한이 없습니다.')");      
-				script.println("location.href = 'meeting.jsp?mtID=" + mtID + "'");   
-				script.println("</script>");
-			} else {
-				if(request.getParameter("brdTitle") == null || request.getParameter("brdContent") == null
-						|| request.getParameter("brdTitle").equals("") || request.getParameter("brdContent").equals("")) {
+			if(request.getParameter("brdTitle") == null || request.getParameter("brdContent") == null
+					|| request.getParameter("brdTitle").equals("") || request.getParameter("brdContent").equals("")) {
+						PrintWriter script = response.getWriter();
+						script.println("<script>");
+						script.println("alert('빈 칸을 모두 입력해주세요.')");
+						script.println("history.back()");
+						script.println("</script>");
+					} else {
+						BoardDAO brdDAO = new BoardDAO();    // 데이터베이스 접근 객체 생성
+						int result = brdDAO.update(brdID, request.getParameter("brdTitle"), request.getParameter("brdContent"));
+						if (result == -1) {    // DB 에러
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
-							script.println("alert('빈 칸을 모두 입력해주세요.')");
+							script.println("alert('글 수정에 실패하였습니다.')");
 							script.println("history.back()");
 							script.println("</script>");
 						} else {
-							BoardDAO brdDAO = new BoardDAO();    // 데이터베이스 접근 객체 생성
-							int result = brdDAO.update(brdID, request.getParameter("brdTitle"), request.getParameter("brdContent"));
-							if (result == -1) {    // DB 에러
-								PrintWriter script = response.getWriter();
-								script.println("<script>");
-								script.println("alert('글 수정에 실패하였습니다.')");
-								script.println("history.back()");
-								script.println("</script>");
-							} else {
-								PrintWriter script = response.getWriter();
-								script.println("<script>");
-								script.println("location.href = 'boardMtView.jsp?mtID=" + mtID + "&" + "brdID=" + brdID + "'");
-								script.println("</script>");
-							}
-				}
+							PrintWriter script = response.getWriter();
+							script.println("<script>");
+							script.println("location.href = 'boardMtView.jsp?mtID=" + mtID + "&" + "brdID=" + brdID + "'");
+							script.println("</script>");
+						}
 			}
 		}
-		
 	%>
 </body>
 </html>

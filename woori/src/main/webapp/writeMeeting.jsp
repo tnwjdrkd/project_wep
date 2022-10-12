@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="member.MemberDAO" %>
+<%@ page import="member.Member" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -20,9 +23,28 @@
 	</head>
 	<body>
 		<%
+			String userID = null;
+			if(session.getAttribute("userID") != null) {  // 세션 확인
+				userID = (String) session.getAttribute("userID"); // 세션이 존재하면 userID에 해당 세션 값 부여
+			}
+			if(userID == null) {  // 세션이 부여된 상태
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('로그인하세요.')");
+				script.println("location.href='main.jsp'");
+				script.println("</script>");
+			} 
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
+			}
+			MemberDAO mbr = new MemberDAO();  // brdID 값으로 해당 글을 가져온다.
+			if(!mtID.equals(mbr.checkMember(userID, mtID))) {  // 글 작성자 확인
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('모임에 가입되어있지 않습니다.')");      
+				script.println("history.back()");   
+				script.println("</script>");
 			}
 		%>
 		<!-- Wrapper -->

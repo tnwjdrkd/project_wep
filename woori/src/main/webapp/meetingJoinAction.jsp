@@ -46,16 +46,10 @@
 					} else {
 						MemberDAO mbDAO = new MemberDAO();    // 데이터베이스 접근 객체 생성
 						int result = mbDAO.memberjoin(mtID, member.getMbUser(), member.getMbGreet());
-						if (result == -1) {    // DB 에러
+						if (result == -1) {
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
-							script.println("alert('모임 가입 오류가 발생하였습니다.')");
-							script.println("history.back()");
-							script.println("</script>");
-						} else if (result == -2) {    // DB 에러
-							PrintWriter script = response.getWriter();
-							script.println("<script>");
-							script.println("alert('모임 가입 오류2가 발생하였습니다.')");
+							script.println("alert('이미 모임에 가입되어있습니다.')");
 							script.println("history.back()");
 							script.println("</script>");
 						} else {

@@ -151,10 +151,10 @@
                                     <script>
 										function dltbtnClick() {
 											if (confirm('정말로 삭제하시겠습니까?') == true)
-												location.href="deleteAction.jsp?brdID=<%= brdID %>";
+												location.href="deleteAction.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>";
 										}
 									</script>
-                                    <input type="button" id="modify" value="수정" style="width:80px; height:50px; float:right;" onClick="location.href='update.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>'">
+                                    <input type="button" id="modify" value="수정" style="width:80px; height:50px; float:right;" onClick="location.href='updateMeetingBoard.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>'">
                                     <%
 										}
 									%>
@@ -163,7 +163,7 @@
                                     <%
 										CommentDAO cmtDAO = new CommentDAO(); // 인스턴스 생성
 										ArrayList<Comment> cmtlist = cmtDAO.getList(brdID); // 리스트 생성.
-										for(int i = 0; i < cmtlist.size(); i++) { 
+										for(int i = 0; i < cmtlist.size(); i++) {
 									%>
                                     <li>
                                         <ul id="nickname"><img src="images/people.png" width="13")> <%= cmtlist.get(i).getUserNickname() %></ul>
@@ -173,7 +173,7 @@
                                     <%
 										}
 									%>
-									<form method="post" action="commentAction.jsp?brdID=<%= brdID %>">
+									<form method="post" action="commentAction.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>">
 										<ul id="nickname" style="margin-top:30px;"><img src="images/people.png" width="13")> <%= brdDAO.getuserNickname(userID) %></ul>
 	                                    <table>
 	                                        <tr style="border:none;  padding:0;">
@@ -197,7 +197,7 @@
                                         <td class="bbline">댓글수</td>
                                     </tr>
                                     	<%	
-											ArrayList<Board> list = brdDAO.getMtList(pageNumber, mtID); // 리스트 생성.
+											ArrayList<Board> list = brdDAO.getBoardMtViewList(pageNumber, mtID); // 리스트 생성.
 											for(int i = 0; i < list.size(); i++) { 
 										%>
                                     <tr>
@@ -214,7 +214,7 @@
 	                                <%
 		                        		int startPage = (pageNumber / 5) * 5 + 1;
 		                        		if(pageNumber % 5 == 0) startPage -= 5;
-		                        		int targetPage = new BoardDAO().targetPage(pageNumber);
+		                        		int targetPage = new BoardDAO().targetBoardMtViewPage(pageNumber, mtID);
 		                        		if(startPage != 1) {
 		                        	%>		
 		                        		<li class="inner-number"><a href="boardMtView.jsp?brdID=<%= brdID %>&mtID=<%= mtID %>&pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>

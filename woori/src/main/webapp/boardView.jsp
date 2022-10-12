@@ -192,7 +192,7 @@
                                         <td class="bbline">댓글수</td>
                                     </tr>
                                     	<%	
-											ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
+											ArrayList<Board> list = brdDAO.getBoardViewList(pageNumber); // 리스트 생성.
 											for(int i = 0; i < list.size(); i++) { 
 										%>
                                     <tr>
@@ -209,7 +209,7 @@
 	                                <%
 		                        		int startPage = (pageNumber / 5) * 5 + 1;
 		                        		if(pageNumber % 5 == 0) startPage -= 5;
-		                        		int targetPage = new BoardDAO().targetPage(pageNumber);
+		                        		int targetPage = new BoardDAO().targetBoardViewPage(pageNumber);
 		                        		if(startPage != 1) {
 		                        	%>		
 		                        		<li class="inner-number"><a href="boardView.jsp?brdID=<%= brdID %>&pageNumber=<%= startPage - 1 %>">&lt;&lt;&nbsp;</a></li>
