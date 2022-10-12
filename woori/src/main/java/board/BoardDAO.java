@@ -150,7 +150,7 @@ public class BoardDAO {
 	}
 	
 	public boolean nextPage(int pageNumber) { // 페이징 처리 위한 함수
-		String SQL = "SELECT * FROM board WHERE brdID - 1 >= ?";
+		String SQL = "SELECT * FROM board WHERE brdID >= ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, pageNumber * 10);
@@ -164,14 +164,18 @@ public class BoardDAO {
 		return false;
 	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
 	
-	public int targetPage(int pageNumber) { // 페이징 처리 위한 함수
-		String SQL = "SELECT Count(brdID - 1) FROM board WHERE brdID - 1 > ? AND brdAvailable = 1 AND brdMt is NULL";
+	public int targetPage(int pageNumber) { // 페이징 처리 위한 함수, pN 이후 식별되는 모든 페이지 
+//		String SQL = "SELECT Count(brdID) FROM board WHERE brdID > ? AND brdAvailable = 1 AND brdMt is null";
+//		String SQL = "SELECT Count(brdID) FROM (SELECT brdID FROM board WHERE brdAvailable = 1 AND brdMt is null)A WHERE brdID > ?";
+		String SQL = "SELECT COUNT(rowNum) FROM (SELECT @ROWNUM:=@ROWNUM+1 AS rowNum FROM (SELECT brdID FROM board WHERE brdAvailable = 1 AND brdMt is null)A, (SELECT @ROWNUM:=0) AS R)C WHERE rowNum > ?";
+//		String SQL = "SELECT @rownum:=@rownum+1, Count(@rownum) FROM (SELECT brdID FROM board WHERE brdAvailable = 1 AND brdMt is null ORDER BY brdID DESC) A WHERE (@rownum:=1) > ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, (pageNumber - 1) * 10);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				return rs.getInt(1) / 10;
+				if(rs.getInt(1) % 10 == 0) return rs.getInt(1) / 10 - 1;	// p 이후 남은 글의 개수가 10단위 개수이면 1을 줄여서 페이징 조절, 10단위가 아니면 낱개의 글들을 출력하기 위한 1페이지를 추가
+				else return rs.getInt(1) / 10;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

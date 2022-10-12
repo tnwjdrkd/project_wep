@@ -94,7 +94,7 @@ public class MeetingDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return -2; // DB오류.
+		return -1; // DB오류.
 	}
 	
 	public ArrayList<Meeting> getMeetingList(int pageNumber) {
