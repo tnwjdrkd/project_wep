@@ -161,7 +161,23 @@ public class MeetingDAO {
 //		return false;
 //	} // 특정한 페이지가 존재하는지 nextPage를 이용해서 물어볼 수 있다.
 	
-	public int targetMeetingPage(int pageNumber) { // 페이징 처리 위한 함수
+	public int targetMeetingPage(int pageNumber) {
+		String SQL = "SELECT COUNT(rowNum) FROM (SELECT @ROWNUM:=@ROWNUM+1 AS rowNum FROM (SELECT mtNum FROM meeting)A, (SELECT @ROWNUM:=0) AS R)C WHERE rowNum > ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, (pageNumber - 1) * 5);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if(rs.getInt(1) % 5 == 0) return rs.getInt(1) / 5 - 1;
+				else return rs.getInt(1) / 5;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int targetMeetingPage2(int pageNumber) { // 페이징 처리 위한 함수
 		String SQL = "SELECT Count(mtNum - 1) FROM meeting WHERE mtNum - 1 > ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -176,7 +192,24 @@ public class MeetingDAO {
 		return 0;
 	}
 	
-	public int targetMeetingCategoryPage(int pageNumber, String mtCategory) { // 페이징 처리 위한 함수
+	public int targetMeetingCategoryPage(int pageNumber, String mtCategory) {
+		String SQL = "SELECT COUNT(rowNum) FROM (SELECT @ROWNUM:=@ROWNUM+1 AS rowNum FROM (SELECT mtNum FROM meeting WHERE mtCategory = ?)A, (SELECT @ROWNUM:=0) AS R)C WHERE rowNum > ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, mtCategory);
+			pstmt.setInt(2, (pageNumber - 1) * 5);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if(rs.getInt(1) % 5 == 0) return rs.getInt(1) / 5 - 1;
+				else return rs.getInt(1) / 5;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int targetMeetingCategoryPage2(int pageNumber, String mtCategory) { // 페이징 처리 위한 함수
 		String SQL = "SELECT Count(mtNum - 1) FROM meeting WHERE mtNum - 1 > ? AND mtCategory = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);

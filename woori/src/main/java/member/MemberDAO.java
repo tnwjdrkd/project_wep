@@ -38,6 +38,26 @@ public class MemberDAO {
 		return -1; // DB 오류 경우.
 	}
 	
+	public String checkMember(String userID, String mbMeeting) {
+		String checkMeeting = null;
+		String SQL = "SELECT mbMeeting FROM member WHERE mbUser = ? AND mbMeeting = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, userID);
+			pstmt.setString(2, mbMeeting);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				checkMeeting = rs.getString(1);
+			}else {
+				checkMeeting = "false";
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return checkMeeting;
+	}
+	
 	public int memberjoin(String mbMeeting, String mbUser, String mbGreet) {
 		String SQL = "INSERT INTO member (mbID, mbMeeting, mbUser, mbGreet) VALUES (?, ?, ?, ?)";
 		try {
@@ -50,7 +70,7 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return -2; // DB오류.
+		return -1; // DB오류.
 	}
 	
 	public ArrayList<Member> getMbList(String mbMeeting) {

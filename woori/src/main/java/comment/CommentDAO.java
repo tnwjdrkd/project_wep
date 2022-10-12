@@ -89,7 +89,7 @@ public class CommentDAO {
 				cmt.setUserNickname(rs.getString(5));
 				cmt.setCmtDate(rs.getString(6));
 				cmt.setCmtContent(rs.getString(7));
-				cmt.setCmtAvailable(rs.getInt(10));
+				cmt.setCmtAvailable(rs.getInt(8));
 				return cmt;
 			}
 		} catch (Exception e) {
