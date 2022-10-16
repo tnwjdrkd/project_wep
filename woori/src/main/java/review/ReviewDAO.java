@@ -112,4 +112,21 @@ public class ReviewDAO {
 		}
 		return -2; // DB오류.
 	}
+	
+	public Boolean rvCheck(int rvRmeeting) {
+		Boolean checkValue = false;
+		String SQL = "SELECT COUNT(rvID) FROM review WHERE rvRmeeting = ? AND rvAvailable = 1";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, rvRmeeting);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(1) <= 0) checkValue = false;
+				else checkValue = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return checkValue;
+	}
 }

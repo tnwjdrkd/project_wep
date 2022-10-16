@@ -106,41 +106,16 @@ public class R_meetingDAO {
 		return list;
 	}
 	
-//	public ArrayList<R_meeting> getRmList(int pageNumber, String rmtGroup) {
-//		String SQL = "SELECT * FROM r_meeting WHERE rmtID - 1 > (SELECT MAX(rmtID) - 1 FROM r_meeting) - ? AND rmtID - 1 <= (SELECT MAX(rmtID) - 1 FROM r_meeting) - ? AND rmtAvailable = 1 AND rmtGroup = ? ORDER BY rmtID DESC";
-//		ArrayList<R_meeting> list = new ArrayList<R_meeting>(); 
-//		try {
-//			PreparedStatement pstmt = conn.prepareStatement(SQL);
-//			pstmt.setInt(1, pageNumber * 6);
-//			pstmt.setInt(2, (pageNumber - 1) * 6);
-//			pstmt.setString(3, rmtGroup);
-//			rs = pstmt.executeQuery(); 
-//			while (rs.next()) {
-//				R_meeting rmt = new R_meeting();
-//				rmt.setRmtID(rs.getInt(1));
-//				rmt.setRmtGroup(rs.getString(2)); 
-//				rmt.setRmtDate(rs.getString(3));
-//				rmt.setRmtTime(rs.getString(4));
-//				rmt.setRmtPlace(rs.getString(5)); 
-//				rmt.setRmtCost(rs.getString(6)); 
-//				rmt.setRmtAvailable(rs.getInt(7));
-//				list.add(rmt); 
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return list;
-//	}
-	
 	public int targetR_meetingPage(int pageNumber, String rmtGroup) { // 페이징 처리 위한 함수
-		String SQL = "SELECT Count(rmtID - 1) FROM r_meeting WHERE rmtID - 1 > ? AND rmtGroup = ?";
+		String SQL = "SELECT COUNT(rowNum) FROM (SELECT @ROWNUM:=@ROWNUM+1 AS rowNum FROM (SELECT rmtID FROM r_meeting WHERE rmtAvailable = 1 AND rmtGroup = ?)A, (SELECT @ROWNUM:=0) AS R)C WHERE rowNum > ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, (pageNumber - 1) * 6);
-			pstmt.setString(2, rmtGroup);
+			pstmt.setString(1, rmtGroup);
+			pstmt.setInt(2, (pageNumber - 1) * 6);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				return rs.getInt(1) / 6;
+				if(rs.getInt(1) % 6 == 0) return rs.getInt(1) / 6 - 1;	// p 이후 남은 글의 개수가 10단위 개수이면 1을 줄여서 페이징 조절, 10단위가 아니면 낱개의 글들을 출력하기 위한 1페이지를 추가
+				else return rs.getInt(1) / 6;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

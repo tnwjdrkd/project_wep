@@ -123,6 +123,21 @@ public class CommentDAO {
 		return list; 
 	}
 	
+	public int cmtCount(int brdID) {
+		String SQL = "SELECT COUNT(cmtID) FROM comments WHERE brdID = ? AND cmtAvailable = 1";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, brdID);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 	public int update(int cmtID,String cmtContent) { 
 		String SQL = "UPDATE comments SET cmtContent = ? WHERE cmtID = ?";
 		try {

@@ -56,7 +56,7 @@ public class MeetingDAO {
 		return ""; // 빈문자열 반환(DB 오류 발생)
 	}
 	
-	public Meeting getMeeting(String mtID) {  //  글 내용 조회(게시글 ID에 해당하는 게시글 가져옴)
+	public Meeting getMeeting(String mtID) {  //  글 내용 조회(각 모임에 해당하는 게시글 가져옴)
 		String SQL = "SELECT * FROM meeting WHERE mtID = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -223,5 +223,21 @@ public class MeetingDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public String checkMtLeader(String mtID) { // 정모를 추가하기 위한 권한 확인(모임장 확인)
+		String checkMtLeader = null;
+		String SQL = "SELECT mtLeader FROM meeting WHERE mtID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, mtID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				checkMtLeader = rs.getString(1);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return checkMtLeader;
 	}
 }
