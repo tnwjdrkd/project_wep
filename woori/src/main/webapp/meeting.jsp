@@ -9,6 +9,8 @@
 <%@ page import="meeting.Meeting" %>
 <%@ page import="member.MemberDAO" %>
 <%@ page import="member.Member" %>
+<%@ page import="comment.CommentDAO" %>
+<%@ page import="comment.Comment" %>
 <%@ page import="r_meeting.R_meetingDAO" %>
 <%@ page import="r_meeting.R_meeting" %>
 <%@ page import="java.util.ArrayList" %>
@@ -161,6 +163,7 @@
 											</tr>
 											<%
 												BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
+												CommentDAO cmtDAO = new CommentDAO();
 												ArrayList<Board> list = brdDAO.getMtList(mtbrdPage, mtID); // 리스트 생성.
 												for(int i = 0; i < list.size(); i++) { 
 											%>
@@ -169,7 +172,7 @@
 												<td class="bbline"><a href="boardMtView.jsp?brdID=<%= list.get(i).getBrdID() %>&mtID=<%= mtID %>"><%= list.get(i).getBrdTitle() %></a></td>
 												<td class="bbline"><%= list.get(i).getUserNickname() %></td>
 												<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
-												<td class="bbline"><%= list.get(i).getCmtCount() %></td>
+												<td class="bbline"><%= cmtDAO.cmtCount(list.get(i).getBrdID()) %></td>
 												<td class="bbline"><%= list.get(i).getBrdCount() %></td>
 											</tr>
 											<%
@@ -353,12 +356,16 @@
                                     <%
 										MemberDAO mbDAO = new MemberDAO(); // 인스턴스 생성
 										ArrayList<Member> mblist = mbDAO.getMbList(mtID); // 리스트 생성.
+									%>
+										<div style="overflow:auto; width:310px; height:180px;">
+									<%
 										for(int i = 0; i < mblist.size(); i++) { 
 									%>
                                     <li><img src="images/people.png" width="18")><a href="project_meminfo.html"> <%= mblist.get(i).getMbUser() %></a></li> <!-- 모임에 가입된 회원 -->
 					                <%
 										}
 									%>
+									</div>
                                 </div>
                                 <div class="meeting-aside">
                                     <input id="meeting-join"  type="button" value="모임 가입하기" style="font-size: 17px;" onClick="location.href='meetingJoin.jsp?mtID=<%= URLEncoder.encode(mtID, "UTF-8") %>'">

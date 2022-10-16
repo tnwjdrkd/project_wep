@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="meeting.MeetingDAO" %>
 <%@ page import="meeting.Meeting" %>
+<%@ page import="woori.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE HTML>
@@ -18,22 +19,23 @@
 			if(session.getAttribute("userID") != null) {
 				userID = (String)session.getAttribute("userID");
 			}
+			if(userID == null) {  // 세션이 부여된 상태
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('로그인하세요.')");
+				script.println("location.href='main.jsp'");
+				script.println("</script>");
+			} 
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
 			}
-			if(mtID == null) {   // 모임 존재시 모임 페이지 조회가능
+			MeetingDAO mt = new MeetingDAO();
+			UserDAO usr = new UserDAO();
+			if(!usr.nick(userID).equals(mt.checkMtLeader(mtID))) {  // 글 작성자 확인
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
-				script.println("alert('존재하지 않는 모임입니다.')");      
-				script.println("location.href='main.jsp'");   
-				script.println("</script>");
-			}
-			Meeting mt = new MeetingDAO().getMeeting(mtID);
-			if(userID == mt.getMtLeader()) {   // 모임 존재시 모임 페이지 조회가능
-				PrintWriter script = response.getWriter();
-				script.println("<script>");
-				script.println("alert('모임 생성 권한이 없습니다.')");      
+				script.println("alert('정모 생성 권한이 없습니다.')");      
 				script.println("history.back()");   
 				script.println("</script>");
 			}

@@ -7,6 +7,8 @@
 <%@ page import="board.Board" %>
 <%@ page import="meeting.MeetingDAO" %>
 <%@ page import="meeting.Meeting" %>
+<%@ page import="comment.CommentDAO" %>
+<%@ page import="comment.Comment" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE HTML>
@@ -213,6 +215,7 @@
 									</tr>
 										<%  // 게시글 출력 부분. 게시글을 뽑아올 수 있도록
 											BoardDAO brdDAO = new BoardDAO(); // 인스턴스 생성
+											CommentDAO cmtDAO = new CommentDAO();
 											ArrayList<Board> list = brdDAO.getList(pageNumber); // 리스트 생성.
 											for(int i = 0; i < list.size(); i++) { 
 										%>
@@ -221,7 +224,7 @@
 										<td class="bbline"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
 										<td class="bbline"><%= list.get(i).getUserNickname() %></td>
 										<td class="bbline"><%= list.get(i).getBrdDate().substring(0, 11)  + list.get(i).getBrdDate().substring(11, 13) + "시" + list.get(i).getBrdDate().substring(14,16) + "분" %></td>
-										<td class="bbline"><%= list.get(i).getCmtCount() %></td>
+										<td class="bbline"><%= cmtDAO.cmtCount(list.get(i).getBrdID()) %></td>
 										<td class="bbline"><%= list.get(i).getBrdCount() %></td>
 									</tr>
 										<%

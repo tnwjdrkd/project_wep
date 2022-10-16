@@ -4,6 +4,8 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="member.MemberDAO" %>
 <%@ page import="member.Member" %>
+<%@ page import="woori.User" %>
+<%@ page import="woori.UserDAO" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -38,8 +40,9 @@
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
 			}
-			MemberDAO mbr = new MemberDAO();  // brdID 값으로 해당 글을 가져온다.
-			if(!mtID.equals(mbr.checkMember(userID, mtID))) {  // 글 작성자 확인
+			MemberDAO mbr = new MemberDAO();
+			UserDAO usr = new UserDAO();
+			if(!mtID.equals(mbr.checkMember(usr.nick(userID), mtID))) {  // 글 작성자 확인
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('모임에 가입되어있지 않습니다.')");      

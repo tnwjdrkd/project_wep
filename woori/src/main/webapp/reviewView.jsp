@@ -2,8 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="r_meeting.R_meetingDAO" %>
 <%@ page import="r_meeting.R_meeting" %>
+<%@ page import="member.MemberDAO" %>
+<%@ page import="member.Member" %>
 <%@ page import="review.ReviewDAO" %>
 <%@ page import="review.Review" %>
+<%@ page import="woori.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
@@ -34,6 +37,15 @@
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
+			}
+			MemberDAO mbr = new MemberDAO();
+			UserDAO usr = new UserDAO();
+			if(!mtID.equals(mbr.checkMember(usr.nick(userID), mtID))) {  // 글 작성자 확인
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('모임에 가입되어있지 않습니다.')");      
+				script.println("history.back()");   
+				script.println("</script>");
 			}
 		%>
 		<!-- Wrapper -->
@@ -73,15 +85,20 @@
 										<style>
 										.Rmeeting<%= i %>{
 											border-bottom: 2px solid #dbdbdb;
-											padding:20px 5px 10px 5px;
+											padding:0px 5px 10px 5px;
 										}
 										.Rmeeting<%= i %>:hover {
 											background-color: #f5f5f5;
 											cursor: pointer;
 										}
 										.review<%= i %> li {
-											padding: 10px 5px 10px 5px;
+											padding: 20px 5px 10px 5px;
 											border-top: 1px solid #dbdbdb;
+										}
+										.no-review {
+											width:940px; height: 100px;
+											padding: 50px;
+											text-align: center;
 										}
 										</style>
                                 <div class="content">
@@ -91,26 +108,28 @@
                                         <li><img src="images/money.png" width="23")> <%= rmlist.get(i).getRmtCost() %></li> <!-- 정모 장소-->
                                     </ul>
                                     <ul class="review<%= i %>" style="display:none;">
-                                    	<%
-												ReviewDAO rvDAO = new ReviewDAO();
-												ArrayList<Review> rvlist = rvDAO.getRvList(reviewPage, rmlist.get(i).getRmtID());
-												for(int y = 0; y < rvlist.size(); y++) { 
+                                   		<%
+											ReviewDAO rvDAO = new ReviewDAO();
+											ArrayList<Review> rvlist = rvDAO.getRvList(reviewPage, rmlist.get(i).getRmtID());
+											if (rvDAO.rvCheck(rmlist.get(i).getRmtID())) {
 										%>
-                                        <li><img src="images/review.png" width="24")> <%= rvlist.get(y).getRvContent()%></li> <!-- 후기 내용 -->
-                                        <%
+											<div style="overflow:auto; width:940px; height:333px;">
+										<%
+												for(int y = 0; y < rvlist.size(); y++) {
+										%>
+                                    				<li><img src="images/review.png" width="24")>&nbsp; <%= rvlist.get(y).getRvContent()%></li> <!-- 후기 내용 -->
+                                       	<%
+												}
+										%>
+											</div>
+										<%
+											} else {
+										%>
+											<div class="no-review">후기가 존재하지 않습니다.</div>
+										<%
 											}
 										%>
-										<%  // 페이지를 보여주는 부분
-										if(reviewPage != 1)	{
-											%>
-												<a href="reviewView.jsp?mtID=<%= mtID %>&rmPage=<%= rmPage %>&reviewPage=<%=reviewPage - 1%>">이전</a>
-											<%
-												} if(rvDAO.nextPage(reviewPage + 1, rmlist.get(i).getRmtID())) {
-											%>
-												<a href="reviewView.jsp?mtID=<%= mtID %>&rmPage=<%= rmPage %>&reviewPage=<%=reviewPage + 1%>">다음</a>
-											<%
-												}
-											%>							
+                                   			
                                     </ul>
                                     <script>
 										$(function (){
@@ -172,7 +191,7 @@
 		    	    					}
 		                        		if(targetRmtPage + rmPage > startRmtPage + 4) {
 		                        	%>
-		                                <li class="inner-number"><a href="reviewView.jsp?mtID=<%= mtID %>&rmPagee=<%= startRmtPage + 5 %>&reviewPage=<%= reviewPage %>#content">&nbsp;&gt;&gt;</a></li>
+		                                <li class="inner-number"><a href="reviewView.jsp?mtID=<%= mtID %>&rmPage=<%= startRmtPage + 5 %>&reviewPage=<%= reviewPage %>#content">&nbsp;&gt;&gt;</a></li>
 		                            <%	
 		                        		} else {
 		                        	%>

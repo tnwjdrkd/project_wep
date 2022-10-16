@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="meeting.MeetingDAO" %>
 <%@ page import="board.BoardDAO" %>
+<%@ page import="member.MemberDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="meeting" class="meeting.Meeting" scope="page" />
@@ -36,8 +37,10 @@
 					} else {
 						MeetingDAO mtDAO = new MeetingDAO();
 						BoardDAO brdDAO = new BoardDAO();
+						MemberDAO mbrDAO = new MemberDAO();
 						int result = mtDAO.makeMeeting(meeting.getMtID(), meeting.getMtAddress(), meeting.getMtCategory()
 								, brdDAO.getuserNickname(userID), meeting.getMtSummary());
+						mbrDAO.memberjoin(meeting.getMtID(), brdDAO.getuserNickname(userID), "");
 						if (result == -1) {    // DB 에러
 							PrintWriter script = response.getWriter();
 							script.println("<script>");

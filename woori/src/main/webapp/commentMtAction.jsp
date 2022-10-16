@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="board.BoardDAO" %>  
+<%@ page import="member.MemberDAO" %>
 <%@ page import="comment.CommentDAO" %>
+<%@ page import="woori.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="comment" class="comment.Comment" scope="page" />
@@ -28,6 +30,19 @@
 		int brdID = 0;			// 글번호 매개변수 관리
 		if (request.getParameter("brdID") != null) {
 			brdID = Integer.parseInt(request.getParameter("brdID"));
+		}
+		String mtID = null;
+		if(request.getParameter("mtID") != null) {
+			mtID = (String)request.getParameter("mtID");
+		}
+		MemberDAO mbr = new MemberDAO();
+		UserDAO usr = new UserDAO();
+		if(!mtID.equals(mbr.checkMember(usr.nick(userID), mtID))) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('모임에 가입되어있지 않습니다.')");      
+			script.println("history.back()");   
+			script.println("</script>");
 		}
 		if(brdID == 0) {   // 글번호 존재시 특정 글 조회가능
 			PrintWriter script = response.getWriter();
@@ -62,7 +77,7 @@
 						} else {
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
-							script.println("location.href = 'boardView.jsp?brdID=" + brdID + "'");
+							script.println("location.href = 'boardMtView.jsp?brdID=" + brdID + "&mtID=" + mtID + "'");
 							script.println("</script>");
 						}
 					}

@@ -199,7 +199,7 @@
 										<td class="bbline2" title="<%= list.get(i).getBrdTitle() %>"><a href="boardView.jsp?brdID=<%= list.get(i).getBrdID() %>"><%= list.get(i).getBrdTitle() %></a></td>
 										<td class="bbline2"><%= list.get(i).getUserNickname() %></td>
 										<td class="bbline2"><%= list.get(i).getBrdDate().substring(0, 11) %></td>
-										<td class="bbline2"><%= list.get(i).getCmtCount() %></td>
+										<td class="bbline2"><%= cmtDAO.cmtCount(list.get(i).getBrdID()) %></td>
 									</tr>
 										<%
 											}

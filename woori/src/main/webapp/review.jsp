@@ -2,8 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="r_meeting.R_meetingDAO" %>
 <%@ page import="r_meeting.R_meeting" %>
+<%@ page import="member.MemberDAO" %>
+<%@ page import="member.Member" %>
 <%@ page import="review.ReviewDAO" %>
 <%@ page import="review.Review" %>
+<%@ page import="woori.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
@@ -28,6 +31,15 @@
 			String mtID = null;
 			if(request.getParameter("mtID") != null) {
 				mtID = (String)request.getParameter("mtID");
+			}
+			MemberDAO mbr = new MemberDAO();
+			UserDAO usr = new UserDAO();
+			if(!mtID.equals(mbr.checkMember(usr.nick(userID), mtID))) {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('모임에 가입되어있지 않습니다.')");      
+				script.println("history.back()");   
+				script.println("</script>");
 			}
 			int rmtID = 0;			// 글번호 매개변수 관리
 			if (request.getParameter("rmtID") != null) {
