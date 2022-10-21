@@ -261,8 +261,15 @@
 												<td style="text-align: center; background: #f6fdfd;" width="120px" rowspan="3" input id="Rmeeting_join"  type="button" onClick="alert('참여 신청을 보냈습니다. 모임장 수락시 참여 가능합니다.')"><br><br>참여하기</td> <!-- 클릭시 알림창 생성-->
 											</tr>
 											<tr>
-												<td><img src="images/location.png" width="22")> <%= rmlist.get(i).getRmtPlace() %></td> <!-- 정모 장소-->
-												<td><input type="button" value="지도로 보기"></td>
+												<td><img src="images/location.png" width="22") name="rmtPlace" id="rmtPlace"> <%= rmlist.get(i).getRmtPlace() %></td> <!-- 정모 장소-->
+												<td><input type="button" onClick="addPopup()" value="지도로 보기"></td>
+												<script type="text/javascript">
+													var rmtPlace = '<%= rmlist.get(i).getRmtPlace() %>';
+									        		function addPopup(){
+									        			const pop = window.open("${pageContext.request.contextPath}/location_Rmeeting.jsp", "pop", "width=550, height=550, scrollbars=no, resizable=yes");
+									        			window.document.getElementById("rmtPlace").value = rmtPlace;
+									        		}
+									        	</script>
 											</tr>
 											<tr>
 												<td><img src="images/money.png" width="20")> <%= rmlist.get(i).getRmtCost() %></td> <!-- 정모 비용 -->
@@ -384,6 +391,6 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-
+		
 	</body>
 </html>
